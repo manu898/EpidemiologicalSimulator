@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Cella {
 	//accesso?
-	ArrayList<Persona> fila = new ArrayList<>();
+	public ArrayList<Persona> fila = new ArrayList<>();
 
-	public void remove throws PersonNotFoundException (int id) {
+	public void remove (int id) throws PersonNotFoundException {
 		for (int i = 0; i < fila.size(); i++) {
 			if ( fila.get(i).ID == id )
 				fila.remove(i);

@@ -1,7 +1,7 @@
 public class Coppia{
 
-    public int x;
     public int y;
+    public int x;
 
     public Coppia(int y, int x){
         this.y = y;

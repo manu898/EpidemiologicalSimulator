@@ -5,27 +5,31 @@ public class Persona {
 
     public int ID;
 
-    Coppia posizione;
+    public Coppia posizione;
 
-    public boolean movimento;
+    public boolean inMovimento;
+
+	public Stato stato = Stato.VERDE;
 
     public boolean inCura;
 
-    ArrayList<Persona> incontrate;
+    //public ArrayList<Persona> incontrate;
 
     public Persona(int ID, int y, int x){
         this.ID = ID;
         posizione = new Coppia(y, x);
-        incontrate = new ArrayList<Persona>();
+		inMovimento = true;
+		inCura = false;
+        //incontrate = new ArrayList<Persona>();
     }
 
     public void azzera(){
 
-        incontrate.clear();
+        //incontrate.clear();
 
     }
 
-    public int a;
+    //public int a;
 
 
 
