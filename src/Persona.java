@@ -11,7 +11,13 @@ public class Persona {
 
 	public Stato stato = Stato.VERDE;
 
+	public boolean inIncubazione;
+
+	public int periodoIncubazione;
+
     public boolean inCura;
+
+
 
     //public ArrayList<Persona> incontrate;
 
@@ -19,6 +25,8 @@ public class Persona {
         this.ID = ID;
         posizione = new Coppia(y, x);
 		inMovimento = true;
+		inIncubazione = false;
+		periodoIncubazione = -1;
 		inCura = false;
         //incontrate = new ArrayList<Persona>();
     }

@@ -1,5 +1,10 @@
 public class Prova {
+
+	static int I;
+
 	public static void main(String[] args) throws PersonNotFoundException{
+		I = Integer.parseInt(args[0]);
+		
 		Arena arena = new Arena(5,5);
 		
 		if (arena.matrice[0][0] == null) {
