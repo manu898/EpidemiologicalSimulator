@@ -59,13 +59,13 @@ public class Arena {
 	}
 
 	public int check_incontri(){
-		int n_incontrate;
+		int n_incontrate = 0;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
 				Cella c = matrice[i][j];
 				if (c.size() > 1) {
 					for (int k = 0; k < c.size(); k++) {
-						for (int z = k+1; z < c.size()) {
+						for (int z = k+1; z < c.size();z++) {
 							n_incontrate = n_incontrate + 2;
 							incontra(c.pos_get(k), c.pos_get(z));
 						}
