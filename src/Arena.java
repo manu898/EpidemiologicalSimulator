@@ -11,6 +11,7 @@ public class Arena {
 	//public ArrayList<Persona> persInCura;
 	//public ArrayList<Persona> persMorte;
 	//public ArrayList<Persona> persCurate;
+	public int prova;
 	public Random r;
 
 	public Arena (int altezza, int larghezza){
