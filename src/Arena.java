@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 //commento brutto, facciamo una prova
+//fai schifo
 public class Arena {
 
 	public int altezza;
