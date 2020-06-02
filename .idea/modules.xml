@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Progetto Java 2020.iml" filepath="$PROJECT_DIR$/.idea/Progetto Java 2020.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/EpidemiologicalSimulator.iml" filepath="$PROJECT_DIR$/.idea/EpidemiologicalSimulator.iml" />
     </modules>
   </component>
 </project>
