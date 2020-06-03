@@ -1,21 +1,18 @@
-import java.util.ArrayList;
-import java.util.Random;
-
 public class Persona {
 
-    public int ID;
+    private int ID;
 
-    public Coppia posizione;
+    private Coppia posizione;
 
-    public boolean inMovimento;
+    private boolean inMovimento;
 
-	public Stato stato = Stato.VERDE;
+	private StatoSalute stato = StatoSalute.VERDE;
 
-	public boolean inIncubazione;
+	private boolean inIncubazione;
 
-	public int periodoIncubazione;
+	private int periodoIncubazione;
 
-    public boolean inCura;
+    private boolean inCura;
 
 
 

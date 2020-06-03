@@ -41,7 +41,7 @@ public class Arena {
 				id++;
 			}
 		}
-		persInMov.get(0).stato = Stato.GIALLO;
+		persInMov.get(0).stato = StatoSalute.GIALLO;
 	}
 
 	public void move() throws PersonNotFoundException{
@@ -78,9 +78,9 @@ public class Arena {
 	}
 
 	public void incontra(Persona p1, Persona p2) {
-		Stato s1 = p1.stato;
-		Stato s2 = p2.stato;
-		if (s1 == Stato.VERDE && (s2 == Stato.GIALLO || s2 == Stato.ROSSO))  {
+		StatoSalute s1 = p1.stato;
+		StatoSalute s2 = p2.stato;
+		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
 			if (r.nextInt(100) < /*classe?*/Prova.I) {
 				if (!persInIncubazione.contains(p1)) {
 					persInIncubazione.add(p1);
@@ -88,7 +88,7 @@ public class Arena {
 				}
 			}
 		} else
-		if ((s1 == Stato.GIALLO || s1 == Stato.ROSSO) && s2 == Stato.VERDE) {
+		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
 			if (r.nextInt(100) < /*classe?*/Prova.I) {
 				if (!persInIncubazione.contains(p2)) {
 					persInIncubazione.add(p2);
