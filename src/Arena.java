@@ -41,19 +41,18 @@ public class Arena {
 				id++;
 			}
 		}
-		persInMov.get(0).stato = StatoSalute.GIALLO;
+		persInMov.get(0).setStato(StatoSalute.GIALLO);
 	}
 
 	public void move() throws PersonNotFoundException{
 		//Random r = new Random();
 		for (Persona p : persInMov) {
-			int y = p.posizione.getY();
-			int x = p.posizione.getX();
-			matrice[y][x].remove(p.ID);
+			int y = p.getPosizione().getY(); //aggiunto
+			int x = p.getPosizione().getX(); //aggiunto
+			matrice[y][x].remove(p.getID()); //aggiunto
 			int y_app = r.nextInt(altezza);
 			int x_app = r.nextInt(larghezza);
-			p.posizione.y = y_app;
-			p.posizione.x = x_app;
+			p.setPosizione(new Coppia(y_app, x_app)); //aggiunto
 			matrice[y_app][x_app].add(p);
 
 		}
@@ -78,8 +77,8 @@ public class Arena {
 	}
 
 	public void incontra(Persona p1, Persona p2) {
-		StatoSalute s1 = p1.stato;
-		StatoSalute s2 = p2.stato;
+		StatoSalute s1 = p1.getStato();
+		StatoSalute s2 = p2.getStato();
 		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
 			if (r.nextInt(100) < /*classe?*/Prova.I) {
 				if (!persInIncubazione.contains(p1)) {

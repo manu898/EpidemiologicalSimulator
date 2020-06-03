@@ -3,6 +3,7 @@ public class Prova {
 	static int I;
 
 	public static void main(String[] args) throws PersonNotFoundException{
+		/*
 		I = Integer.parseInt(args[0]);
 		
 		Arena arena = new Arena(5,5);
@@ -31,6 +32,6 @@ public class Prova {
 				}
 			}
 		}
-		
+		*/
 	}	
 }

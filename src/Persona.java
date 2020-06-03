@@ -14,9 +14,17 @@ public class Persona {
 
     private boolean inCura;
 
+    //getter
+    public StatoSalute getStato() { return stato;}
+    public Coppia getPosizione() { return posizione;}
+    public int getID() { return ID;}
 
+    //setter
+    public void setStato(StatoSalute stato) { this.stato = stato; }
+    public void setPosizione(Coppia c) { this.posizione = c;}
+    public void setID(int id) { this.ID = id; }
 
-    //public ArrayList<Persona> incontrate;
+//public ArrayList<Persona> incontrate;
 
     public Persona(int ID, int y, int x){
         this.ID = ID;

@@ -15,7 +15,7 @@ public class Cella {
 	public Persona id_get (int id) throws PersonNotFoundException {
 		for (int i = 0; i < fila.size(); i++) {
 			//sostituisci ID con getID()
-			if ( fila.get(i).ID == id )
+			if ( fila.get(i).getID() == id ) //aggiunto
 				return fila.get(i);
 		}
 		throw new PersonNotFoundException();	
@@ -26,7 +26,7 @@ public class Cella {
 	public void remove (int id) throws PersonNotFoundException {
 		for (int i = 0; i < fila.size(); i++) {
 			//sostituisci ID con getID()
-			if ( fila.get(i).ID == id )
+			if ( fila.get(i).getID() == id )
 				fila.remove(i);
 				return;
 		}
