@@ -1,7 +1,5 @@
 import java.util.Random;
 import java.util.ArrayList;
-//ole ole ole
-// Brutto coglioneeee
 public class Arena {
 
 	public int altezza;
