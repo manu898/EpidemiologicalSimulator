@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Virus {
 
     //parametri della simulazione
@@ -8,8 +10,45 @@ public class Virus {
     private static int DURATA;
 
     //campi dell'oggetto virus
+    private Random r;
+    private int giornoContagio;
     private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3)
-    private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno odierno+D
+    private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
+
+    public Virus() {
+        this.giornoContagio = Universo.getGiorno();
+        this.r = new Random();
+    }
+
+    public boolean isIncubazioneFinita() {
+        if (Universo.getGiorno() == giornoContagio + Virus.DURATA / 6)
+            return true;
+        return false;
+    }
+
+    public boolean isGiornoDadoS() {
+        if (Universo.getGiorno() == giornoDadoS)
+            return true;
+        return false;
+    }
+
+    public boolean isGiornoDadoM() {
+        if (Universo.getGiorno() == giornoDadoM)
+            return true;
+        return false;
+    }
+
+    public boolean dadoS() {
+        int x = r.nextInt(101);
+        if (x <= Virus.SINTOMATICITA) {
+            //controlla: valore giornoDadoM compreso tra giorno odierno e giorno contagio+D (escluso)
+            int bound = (giornoContagio + Virus.DURATA) - giornoDadoS;
+            giornoDadoM = Universo.getGiorno() + r.nextInt(bound);
+            return true;
+        }
+        return false;
+    }
+
 
     //static getter
     public static int getI() { return Virus.INFETTIVITA; }
@@ -27,4 +66,10 @@ public class Virus {
     public static void setL(int l) { Virus.LETALITA = l; }
     public static void setS(int s) { Virus.SINTOMATICITA = s; }
     public static void setD(int d) { Virus.DURATA = d; }
+
+    //setter
+    //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3)
+    public void setGiornoDadoS(int giornoDadoS) { this.giornoDadoS = giornoDadoS;} //necessario?
+    //controlla: valore compreso tra giorno odierno e giorno odierno+D
+    public void setGiornoDadoM(int giornoDadoM) { this.giornoDadoM = giornoDadoM;} //necessario?
 }
