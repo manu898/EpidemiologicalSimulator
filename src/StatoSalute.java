@@ -1,4 +1,4 @@
-public enum Stato {
+public enum StatoSalute {
         VERDE,
         GIALLO,
         ROSSO,
