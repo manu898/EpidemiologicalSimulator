@@ -52,7 +52,7 @@ public class Arena {
 			matrice[y][x].remove(p.getID()); //aggiunto
 			int y_app = r.nextInt(altezza);
 			int x_app = r.nextInt(larghezza);
-			p.setPosizione(new Coppia(y_app, x_app)); //aggiunto
+			p.setPosizione(y_app, x_app); //aggiunto
 			matrice[y_app][x_app].add(p);
 
 		}
