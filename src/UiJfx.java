@@ -1,17 +1,21 @@
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class UiJfx extends Application {
 
 
     @Override
-    public void start(Stage stage) {
-        initUi2(stage);
+    public void start(Stage stage) throws Exception {
+        initUi3(stage);
     }
 
 
@@ -73,6 +77,20 @@ public class UiJfx extends Application {
 
     }
 
+    private void initUi3(Stage stage) throws Exception{
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new URL("UiJfx.fxml"));  // può generare un eccezione
+        VBox vBox = loader.<VBox>load();
+
+        Scene scene = new Scene(vBox);
+        stage.setScene(scene);
+        stage.setTitle("Prova FXML");
+        stage.show();
+
+
+
+    }
     public static void main(String[] args) {
         launch(args);
     }
