@@ -1,7 +1,6 @@
 import java.util.Random;
 
 public class Virus {
-
     //parametri della simulazione
     //vanno aggiunti i controlli sulla correttezza dei parametri
     private static int INFETTIVITA;

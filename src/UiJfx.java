@@ -80,10 +80,15 @@ public class UiJfx extends Application {
     private void initUi3(Stage stage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("UiJfx.fxml"));  // può generare un eccezione
-        VBox vBox = loader.<VBox>load();
+        loader.setLocation(UiJfx.class.getResource("/UiJfx.fxml"));  // può generare un eccezione
+        Controller controller = loader.getController();
 
-        Scene scene = new Scene(vBox);
+        GridPane gridPane = loader.<GridPane>load();
+
+
+
+        Scene scene = new Scene(gridPane,1000,800);
+        scene.getStylesheets().add("stylesheet/styles.css");
         stage.setScene(scene);
         stage.setTitle("Prova FXML");
         stage.show();

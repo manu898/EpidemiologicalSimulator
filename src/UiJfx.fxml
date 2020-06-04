@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<GridPane stylesheets="stylesheet/styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<!-- xmlns:fx="http://javafx.com/fxml/1" is the namespace of the fxml file -->
 
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="103.0" prefWidth="328.0" vgap="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <Slider fx:id="slider" prefHeight="16.0" prefWidth="256.0" />
+    <Button fx:id="btn" alignment="CENTER" onAction="#buttonClicked" prefHeight="27.0" prefWidth="79.0" text="Click me !" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="16.0" minHeight="4.0" prefHeight="16.0" />
+      <RowConstraints maxHeight="12.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints />
+   </rowConstraints>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </GridPane>
