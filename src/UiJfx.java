@@ -83,11 +83,11 @@ public class UiJfx extends Application {
         loader.setLocation(UiJfx.class.getResource("/UiJfx.fxml"));  // può generare un eccezione
         Controller controller = loader.getController();
 
-        GridPane gridPane = loader.<GridPane>load();
+        VBox vBox = loader.<VBox>load();
 
 
 
-        Scene scene = new Scene(gridPane,1000,800);
+        Scene scene = new Scene(vBox,1000,800);
         scene.getStylesheets().add("stylesheet/styles.css");
         stage.setScene(scene);
         stage.setTitle("Prova FXML");

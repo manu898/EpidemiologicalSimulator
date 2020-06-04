@@ -6,18 +6,28 @@
 
 <!-- xmlns:fx="http://javafx.com/fxml/1" is the namespace of the fxml file -->
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="103.0" prefWidth="328.0" vgap="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-    <Slider fx:id="slider" prefHeight="16.0" prefWidth="256.0" />
-    <Button fx:id="btn" alignment="CENTER" onAction="#buttonClicked" prefHeight="27.0" prefWidth="79.0" text="Click me !" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints maxHeight="16.0" minHeight="4.0" prefHeight="16.0" />
-      <RowConstraints maxHeight="12.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints />
-   </rowConstraints>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</GridPane>
+<VBox alignment="CENTER" prefHeight="103.0" prefWidth="328.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <Label fx:id="infettivitaLabel" text="Infettività" />
+   <Slider fx:id="slider1" majorTickUnit="20.0" maxHeight="20" maxWidth="300">
+      <VBox.margin>
+         <Insets bottom="20.0" left="200.0" right="200.0" />
+      </VBox.margin>
+   </Slider>
+   <Label fx:id="sintomaticitaLabel" text="Sintomaticità" />
+   <Slider fx:id="slider2" majorTickUnit="20.0" maxHeight="20" maxWidth="300" VBox.vgrow="ALWAYS">
+      <VBox.margin>
+         <Insets bottom="20.0" left="200.0" right="200.0" />
+      </VBox.margin>
+   </Slider>
+   <Label fx:id="letalitaLabel" text="Letalità" />
+   <Slider fx:id="slider3" majorTickUnit="20.0" maxHeight="20" maxWidth="300">
+      <VBox.margin>
+         <Insets bottom="20.0" left="200.0" right="200.0" />
+      </VBox.margin>
+   </Slider>
+   <Button fx:id="btn" contentDisplay="CENTER" onAction="#buttonClicked" maxWidth="250.0" text="INIZIA SIMULAZIONE" textAlignment="CENTER" textFill="WHITE">
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+   </Button>
+</VBox>

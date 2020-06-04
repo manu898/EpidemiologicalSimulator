@@ -1,4 +1,11 @@
-#btn{
+#btn {
     -fx-background-color: green;
     -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+#infettivitaLabel, #sintomaticitaLabel, #letalitaLabel{
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
 }

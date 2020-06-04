@@ -10,22 +10,35 @@ public class Controller{
 
 
     @FXML
-    public Slider slider;
+    public Slider slider1;
+
+    @FXML
+    public Slider slider2;
+
+    @FXML
+    public Slider slider3;
+
+
+
 
 
     public Slider getSlider() {
-        return slider;
+        return slider1;
     }
 
     public void setSlider(Slider slider) {
-        this.slider = slider;
+        this.slider1 = slider;
     }
 
     @FXML
     public void buttonClicked(){
         // qui dentro andiamo a settare le variabili del virus
-        slider.setShowTickMarks(true);
-        slider.setShowTickLabels(true);
+        slider1.setShowTickMarks(true);
+        slider1.setShowTickLabels(true);
+        slider2.setShowTickMarks(true);
+        slider2.setShowTickLabels(true);
+        slider3.setShowTickMarks(true);
+        slider3.setShowTickLabels(true);
         System.out.println((int)getSlider().getValue());
         System.out.println("Button clicked ! ");
     }
