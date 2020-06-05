@@ -2,14 +2,14 @@ import java.util.Random;
 
 public class Virus {
     //parametri della simulazione
-    //vanno aggiunti i controlli sulla correttezza dei parametri
+    //vanno aggiunti i controlli sulla correttezza dei parametri (gestiti nel main?)
     private static int INFETTIVITA;
     private static int LETALITA;
     private static int SINTOMATICITA;
     private static int DURATA;
+    private static Random r = new Random();
 
     //campi dell'oggetto virus
-    private static Random r = new Random();
     private int giornoContagio;
     private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3)
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
@@ -82,6 +82,7 @@ public class Virus {
     //getter
     public int getGiornoDadoS() { return giornoDadoS; } //necessario?
     public int getGiornoDadoM() { return giornoDadoM; } //necessario?
+    public int getGiornoContagio() { return giornoContagio; } //necessario?
 
     //static setter
     //vanno aggiunti i controlli sulla correttezza dei parametri
@@ -95,4 +96,7 @@ public class Virus {
     public void setGiornoDadoS(int giornoDadoS) { this.giornoDadoS = giornoDadoS;} //necessario?
     //controlla: valore compreso tra giorno odierno e giorno odierno+D
     public void setGiornoDadoM(int giornoDadoM) { this.giornoDadoM = giornoDadoM;} //necessario?
+
+    public void setGiornoContagio(int g) { giornoContagio = g; } //necessario?
+
 }
