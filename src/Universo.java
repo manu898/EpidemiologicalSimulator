@@ -4,4 +4,7 @@ public class Universo {
 
     //getter
     public static int getGiorno() { return giorno; }
+
+    //setter
+    public static void setGiorno(int g) { giorno = g; }
 }
