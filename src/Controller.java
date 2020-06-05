@@ -1,5 +1,7 @@
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
@@ -10,15 +12,27 @@ public class Controller{
 
 
     @FXML
-    public Slider slider1;
+    public Slider slider1 = new Slider();
 
     @FXML
-    public Slider slider2;
+    public Slider slider2 = new Slider();
 
     @FXML
-    public Slider slider3;
+    public Slider slider3 = new Slider();
 
 
+    @FXML
+    public Button btn;
+
+
+    public Controller(){
+        slider1.setShowTickMarks(true);
+        slider1.setShowTickLabels(true);
+        slider2.setShowTickMarks(true);
+        slider2.setShowTickLabels(true);
+        slider3.setShowTickMarks(true);
+        slider3.setShowTickLabels(true);
+    }
 
 
 
@@ -30,17 +44,13 @@ public class Controller{
         this.slider1 = slider;
     }
 
+
     @FXML
-    public void buttonClicked(){
+    public void inviaDati(){
         // qui dentro andiamo a settare le variabili del virus
-        slider1.setShowTickMarks(true);
-        slider1.setShowTickLabels(true);
-        slider2.setShowTickMarks(true);
-        slider2.setShowTickLabels(true);
-        slider3.setShowTickMarks(true);
-        slider3.setShowTickLabels(true);
-        System.out.println((int)getSlider().getValue());
-        System.out.println("Button clicked ! ");
+        System.out.println("Sto inviando i parametri della simulazione ... ");
+        int infettivita = (int)getSlider().getValue();
+        System.out.println(infettivita);
     }
 
 }
