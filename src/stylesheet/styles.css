@@ -5,7 +5,7 @@
     -fx-font-weight: bold;
 }
 
-#infettivitaLabel, #sintomaticitaLabel, #letalitaLabel{
+#infettivitaLabel, #sintomaticitaLabel, #letalitaLabel, #risorseLabel, #popolazioneLabel, #velocitaLabel, #costoTamponeLabel, #durataLabel{
     -fx-font-weight: bold;
     -fx-font-size: 25px;
 }

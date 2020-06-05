@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
 import javafx.scene.Parent;
@@ -85,13 +87,33 @@ public class UiJfx extends Application {
 
         VBox vBox = loader.<VBox>load();
 
+        Alert alert = new Alert(Alert.AlertType.NONE);
 
+
+        EventHandler<ActionEvent> event = new
+                EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        // set alert type
+                        alert.setAlertType(Alert.AlertType.ERROR);
+
+                        alert.setTitle("Erroreeeeee");
+
+                        alert.setContentText("Porcozioooooo");
+
+                        // show the dialog
+                        alert.show();
+                    }
+                };
+
+        controller.btn.setOnAction(event);
 
         Scene scene = new Scene(vBox,1000,800);
         scene.getStylesheets().add("stylesheet/styles.css");
         stage.setScene(scene);
         stage.setTitle("Prova FXML");
         stage.show();
+
 
 
 

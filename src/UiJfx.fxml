@@ -3,10 +3,44 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <!-- xmlns:fx="http://javafx.com/fxml/1" is the namespace of the fxml file -->
 
 <VBox alignment="CENTER" prefHeight="103.0" prefWidth="328.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <Label fx:id="popolazioneLabel" text="Popolazione" />
+   <TextField fx:id="popolazione" maxWidth="50.0" alignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+   </TextField>
+   <Label fx:id="risorseLabel" text="Risorse" />
+   <TextField fx:id="risorse" maxWidth="50.0" alignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Label fx:id="durataLabel" text="Durata" />
+   <TextField fx:id="durata" maxWidth="50.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Label fx:id="velocitaLabel" text="Velocità" />
+   <TextField fx:id="velocita" maxWidth="50.0" alignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Label fx:id="costoTamponeLabel" text="Costo del tampone" />
+   <TextField fx:id="tampone" maxWidth="50.0" alignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
    <Label fx:id="infettivitaLabel" text="Infettività" />
    <Slider fx:id="slider1" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
       <VBox.margin>
