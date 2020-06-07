@@ -81,9 +81,9 @@ public class Controller{
     public void inviaDati() throws NumberFormatException{
         alert.setTitle("ERRORE");
         try{
-            double popolazione_value = Integer.parseInt(getPopolazione().getText());
+            int popolazione_value = Integer.parseInt(getPopolazione().getText());
             double velocita_value = Double.parseDouble(getVelocita().getText());
-            double risorse_value = Integer.parseInt(getRisorse().getText());
+            int risorse_value = Integer.parseInt(getRisorse().getText());
             int tampone_value = Integer.parseInt(getTampone().getText());
             int durata_value = Integer.parseInt(getDurata().getText());
             int infettivita_value = Integer.parseInt(getInfettivita().getText());
@@ -139,7 +139,7 @@ public class Controller{
 
 
         Universo.setPopolazione(Integer.parseInt(getPopolazione().getText()));
-        Universo.setVelocita(Integer.parseInt(getVelocita().getText()));
+        Universo.setVelocita(Double.parseDouble(getVelocita().getText()));
         Governo.setCosto_tampone(Integer.parseInt(getTampone().getText()));
         Governo.setRisorse(Integer.parseInt(getRisorse().getText()));
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
@@ -147,6 +147,8 @@ public class Controller{
         Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
 
+        System.out.println(Virus.getI());
+        System.out.println(Universo.getVelocita());
     }
 
 }
