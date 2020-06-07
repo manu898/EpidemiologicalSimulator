@@ -55,7 +55,7 @@ public class Persona {
         }
         else {
             if (vir.isMalattiaFinita()) {
-                if (stato == StatoSalute.ROSSO);
+                if (stato == StatoSalute.ROSSO) {}
                     //comunicaGuarigione()
                 stato = StatoSalute.BLU;
             }
