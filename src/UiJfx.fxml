@@ -42,19 +42,19 @@
       </font>
    </TextField>
    <Label fx:id="infettivitaLabel" text="Infettività" />
-   <Slider fx:id="slider1" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+   <Slider fx:id="infettivita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
       <VBox.margin>
          <Insets bottom="20.0" left="200.0" right="200.0" />
       </VBox.margin>
    </Slider>
    <Label fx:id="sintomaticitaLabel" text="Sintomaticità" />
-   <Slider fx:id="slider2" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
+   <Slider fx:id="sintomaticita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
       <VBox.margin>
          <Insets bottom="20.0" left="200.0" right="200.0" />
       </VBox.margin>
    </Slider>
    <Label fx:id="letalitaLabel" text="Letalità" />
-   <Slider fx:id="slider3" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+   <Slider fx:id="letalita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
       <VBox.margin>
          <Insets bottom="20.0" left="200.0" right="200.0" />
       </VBox.margin>

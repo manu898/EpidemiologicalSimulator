@@ -17,7 +17,7 @@ public class UiJfx extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        initUi3(stage);
+        initUi5(stage);
     }
 
 
@@ -79,6 +79,24 @@ public class UiJfx extends Application {
 
     }
 
+    private void initUi5(Stage stage) throws Exception{
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(UiJfx.class.getResource("/UiJfx.fxml"));  // può generare un eccezione
+        Controller controller = loader.getController();
+
+        VBox vBox = loader.<VBox>load();
+
+        Button button = new Button();
+
+        Scene scene = new Scene(vBox,1000,800);
+        scene.getStylesheets().add("stylesheet/styles.css");
+        stage.setScene(scene);
+        stage.setTitle("Prova FXML");
+        stage.show();
+
+    }
+
     private void initUi3(Stage stage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader();
@@ -86,6 +104,8 @@ public class UiJfx extends Application {
         Controller controller = loader.getController();
 
         VBox vBox = loader.<VBox>load();
+
+        Button button = new Button();
 
         Alert alert = new Alert(Alert.AlertType.NONE);
 
@@ -118,6 +138,53 @@ public class UiJfx extends Application {
 
 
     }
+
+    private void initUi4(Stage stage){
+
+        stage.setTitle("creating alerts");
+
+        // create a button
+        Button b = new Button("error alert");
+
+
+        // create a tile pane
+        TilePane r = new TilePane();
+
+        // create a alert
+        Alert a = new Alert(Alert.AlertType.NONE);
+
+
+        // action event
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        // set alert type
+                        a.setAlertType(Alert.AlertType.ERROR);
+
+                        // set content text
+                        a.setContentText("error Dialog");
+
+                        // show the dialog
+                        a.show();
+                    }
+        };
+
+        b.setOnAction(event);
+
+        // add button
+        r.getChildren().add(b);
+
+        // create a scene
+        Scene sc = new Scene(r, 200, 200);
+
+        // set the scene
+        stage.setScene(sc);
+
+        stage.show();
+
+
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
