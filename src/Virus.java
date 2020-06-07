@@ -29,7 +29,7 @@ public class Virus {
             int bound = (giornoContagio + DURATA / 3) - Universo.getGiorno();
             giornoDadoS = Universo.getGiorno() + r.nextInt(bound);
             if (giornoDadoS == Universo.getGiorno()) giornoDadoS++;
-            //e se il giornoDadoS risulta lo stesso del giorno di fine incubazione poiché r.nextInt(bound) ha tornato 0?
+            //in questo modo il giornoDadoS e il primo giorno in cui si e' infettivi non coincidono
             return true;
         }
         return false;
@@ -60,7 +60,8 @@ public class Virus {
             //controlla: valore giornoDadoM compreso tra giorno odierno(giornoDadoS) e giorno contagio+D (escluso)
             int bound = (giornoContagio + DURATA) - giornoDadoS;
             giornoDadoM = Universo.getGiorno() + r.nextInt(bound);
-            //e se il giornoDadoM risulta lo stesso del giornoDadoS poiché r.nextInt(bound) ha tornato 0?
+            if (giornoDadoM == Universo.getGiorno()) giornoDadoM++;
+            //in questo modo il giornoDadoM e il giornoDadoS non coincidono;
             return true;
         }
         return false;
