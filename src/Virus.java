@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Virus {
     //parametri della simulazione
-    //vanno aggiunti i controlli sulla correttezza dei parametri (gestiti nel main?)
+    //vanno aggiunti i controlli sulla correttezza dei parametri (gestiti nel main?--> gestiti nel Controller)
     private static int INFETTIVITA;
     private static int LETALITA;
     private static int SINTOMATICITA;
@@ -13,6 +13,7 @@ public class Virus {
     private int giornoContagio;
     private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno contagio+(D/3)
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
+    private boolean sameday;  // true se nello stesso giorno bisogna controllare piu' volte lo stato della persona (?)
 
     public Virus() {
         this.giornoContagio = Universo.getGiorno();
@@ -27,8 +28,8 @@ public class Virus {
     public boolean isIncubazioneFinita() {
         if (Universo.getGiorno() == giornoContagio + DURATA / 6) {
             int bound = (giornoContagio + DURATA / 3) - Universo.getGiorno();
-            giornoDadoS = Universo.getGiorno() + r.nextInt(bound);
-            if (giornoDadoS == Universo.getGiorno()) giornoDadoS++;
+            giornoDadoS = (bound == 0 ? Universo.getGiorno() : Universo.getGiorno() + r.nextInt(bound));
+            //if (giornoDadoS == Universo.getGiorno() && DURATA >= 6) giornoDadoS++;
             //in questo modo il giornoDadoS e il primo giorno in cui si e' infettivi non coincidono
             return true;
         }
@@ -59,8 +60,8 @@ public class Virus {
         if (x <= SINTOMATICITA) {
             //controlla: valore giornoDadoM compreso tra giorno odierno(giornoDadoS) e giorno contagio+D (escluso)
             int bound = (giornoContagio + DURATA) - giornoDadoS;
-            giornoDadoM = Universo.getGiorno() + r.nextInt(bound);
-            if (giornoDadoM == Universo.getGiorno()) giornoDadoM++;
+            giornoDadoM = (bound == 0 ? Universo.getGiorno() : Universo.getGiorno() + r.nextInt(bound));
+            //if (giornoDadoM == Universo.getGiorno()) giornoDadoM++;
             //in questo modo il giornoDadoM e il giornoDadoS non coincidono;
             return true;
         }
