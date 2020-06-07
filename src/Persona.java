@@ -27,23 +27,33 @@ public class Persona {
             switch (stato) {
                 case VERDE:
                     if (vir.isIncubazioneFinita())
+                    {
                         stato = StatoSalute.GIALLO;
-                    break;
+                        System.out.println("Sono GIALLO");  //CANCELLA
+                    }
+                    else
+                        break;
+                    //va in case GIALLO se e' GIALLO oppure se l'incubazione e' finita (quindi e' appena diventato GIALLO)
                 case GIALLO:
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
+                            System.out.println("Sono ROSSO"); //CANCELLA
                             //comunicaSintomaticita();
                         }
                         else
                             mustcheckvirus = false;
                     }
-                    break;
+                    else
+                        break;
+                    //va in case ROSSO se e' ROSSO, se e' appena diventato ROSSO o se lanciando il dadoS non e' diventato ROSSO
                 case ROSSO:
                     if (vir.isGiornoDadoM()) {
+                        System.out.println("E il giorno nero"); //CANCELLA
                         if (vir.dadoM()) {
                             //una persona morta diventa nera o scompare?
                             stato = StatoSalute.NERO;
+                            System.out.println("Sono NERO"); //CANCELLA
                             //comunicaMorte();
                             //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova)
                         }
