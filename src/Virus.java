@@ -11,7 +11,7 @@ public class Virus {
 
     //campi dell'oggetto virus
     private int giornoContagio;
-    private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3)
+    private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno contagio+(D/3)
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
 
     public Virus() {
@@ -28,6 +28,7 @@ public class Virus {
         if (Universo.getGiorno() == giornoContagio + DURATA / 6) {
             int bound = (giornoContagio + DURATA / 3) - Universo.getGiorno();
             giornoDadoS = Universo.getGiorno() + r.nextInt(bound);
+            if (giornoDadoS == Universo.getGiorno()) giornoDadoS++;
             //e se il giornoDadoS risulta lo stesso del giorno di fine incubazione poiché r.nextInt(bound) ha tornato 0?
             return true;
         }
