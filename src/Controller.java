@@ -1,3 +1,5 @@
+import com.sun.prism.Image;
+import com.sun.tools.attach.VirtualMachine;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -5,37 +7,38 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
+import java.lang.Character.UnicodeBlock;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller{
 
     @FXML
-    public TextField popolazione;
+    private TextField popolazione;
 
     @FXML
-    public TextField velocita;
+    private TextField velocita;
 
     @FXML
-    public TextField durata;
+    private TextField durata;
 
     @FXML
-    public TextField tampone;
+    private TextField tampone;
 
     @FXML
-    public TextField risorse;
+    private TextField risorse;
 
     @FXML
-    public Slider infettivita;
+    private TextField infettivita;
 
     @FXML
-    public Slider sintomaticita;
+    private TextField sintomaticita;
 
     @FXML
-    public Slider letalita;
+    private TextField letalita;
 
     @FXML
-    public Button btn;
+    private Button btn;
 
 
     public Alert alert = new Alert(AlertType.ERROR);
@@ -49,15 +52,15 @@ public class Controller{
         return durata;
     }
 
-    public Slider getInfettivita() {
+    public TextField getInfettivita() {
         return infettivita;
     }
 
-    public Slider getSintomaticita() {
+    public TextField getSintomaticita() {
         return sintomaticita;
     }
 
-    public Slider getLetalita() {
+    public TextField getLetalita() {
         return letalita;
     }
 
@@ -78,11 +81,14 @@ public class Controller{
     public void inviaDati() throws NumberFormatException{
         alert.setTitle("ERRORE");
         try{
-            double popolazione_value = Double.parseDouble(getPopolazione().getText());
+            double popolazione_value = Integer.parseInt(getPopolazione().getText());
             double velocita_value = Double.parseDouble(getVelocita().getText());
-            double risorse_value = Double.parseDouble(getRisorse().getText());
+            double risorse_value = Integer.parseInt(getRisorse().getText());
             int tampone_value = Integer.parseInt(getTampone().getText());
             int durata_value = Integer.parseInt(getDurata().getText());
+            int infettivita_value = Integer.parseInt(getInfettivita().getText());
+            int sintomaticita_value = Integer.parseInt(getSintomaticita().getText());
+            int letalita_value = Integer.parseInt(getLetalita().getText());
 
             //  vincoli sulla popolazione
             if(popolazione_value <= 0){
@@ -105,6 +111,25 @@ public class Controller{
             // vincoli sul costo del tampone
             if(tampone_value < 0){
                 alert.setContentText("Il tampone non può costare meno di 0 risorse");
+                alert.show();
+            }
+
+            if(durata_value < 3){
+                alert.setContentText("Il virus deve durare almeno 3 giorni");
+                alert.show();
+            }
+
+            if(infettivita_value < 0 | infettivita_value > 100){
+                alert.setContentText("L'infettività non va bene");
+                alert.show();
+            }
+
+            if(sintomaticita_value < 0 | sintomaticita_value > 100 ){
+                alert.setContentText("La sintomaticità non va bene");
+            }
+
+            if(letalita_value > 0 | letalita_value > 100){
+                alert.setContentText("La letalità non va bene");
             }
 
 
@@ -113,13 +138,15 @@ public class Controller{
             alert.show();
         }
 
-        Virus.setI((int) getInfettivita().getValue());
-        Virus.setS((int) getSintomaticita().getValue());
-        Virus.setL((int) getLetalita().getValue());
+
+        Universo.setPopolazione(Integer.parseInt(getPopolazione().getText()));
+        Universo.setVelocita(Integer.parseInt(getVelocita().getText()));
+        Governo.setCosto_tampone(Integer.parseInt(getTampone().getText()));
+        Governo.setRisorse(Integer.parseInt(getRisorse().getText()));
+        Virus.setI(Integer.parseInt(getInfettivita().getText()));
+        Virus.setL(Integer.parseInt(getLetalita().getText()));
+        Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
-
-        // assegnare popolazione, risorse, costo tampone, velocità
-
 
     }
 

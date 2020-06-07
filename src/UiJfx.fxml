@@ -9,59 +9,77 @@
 
 <VBox alignment="CENTER" prefHeight="103.0" prefWidth="328.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <Label fx:id="popolazioneLabel" text="Popolazione" />
-   <TextField fx:id="popolazione" maxWidth="50.0" alignment="CENTER">
+   <TextField fx:id="popolazione" alignment="CENTER" maxWidth="100.0">
       <font>
          <Font size="18.0" />
       </font>
       <VBox.margin>
-         <Insets />
+         <Insets bottom="20.0" left="20.0" right="20.0" />
       </VBox.margin>
    </TextField>
    <Label fx:id="risorseLabel" text="Risorse" />
-   <TextField fx:id="risorse" maxWidth="50.0" alignment="CENTER">
+   <TextField fx:id="risorse" alignment="CENTER" maxWidth="100.0">
       <font>
          <Font size="18.0" />
       </font>
+      <VBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" />
+      </VBox.margin>
    </TextField>
    <Label fx:id="durataLabel" text="Durata" />
-   <TextField fx:id="durata" maxWidth="50.0">
+   <TextField fx:id="durata" alignment="CENTER" maxWidth="100.0">
       <font>
          <Font size="18.0" />
       </font>
+      <VBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" />
+      </VBox.margin>
    </TextField>
    <Label fx:id="velocitaLabel" text="Velocità" />
-   <TextField fx:id="velocita" maxWidth="50.0" alignment="CENTER">
+   <TextField fx:id="velocita" alignment="CENTER" maxWidth="100.0">
       <font>
          <Font size="18.0" />
       </font>
+      <VBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" />
+      </VBox.margin>
    </TextField>
    <Label fx:id="costoTamponeLabel" text="Costo del tampone" />
-   <TextField fx:id="tampone" maxWidth="50.0" alignment="CENTER">
+   <TextField fx:id="tampone" alignment="CENTER" maxWidth="100.0">
       <font>
          <Font size="18.0" />
       </font>
+      <VBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" />
+      </VBox.margin>
    </TextField>
    <Label fx:id="infettivitaLabel" text="Infettività" />
-   <Slider fx:id="infettivita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+   <TextField fx:id="infettivita" alignment="CENTER" maxWidth="100.0">
+      <font>
+         <Font size="18.0" />
+      </font>
       <VBox.margin>
-         <Insets bottom="20.0" left="200.0" right="200.0" />
+         <Insets bottom="20.0" left="20.0" right="20.0" />
       </VBox.margin>
-   </Slider>
+   </TextField>
    <Label fx:id="sintomaticitaLabel" text="Sintomaticità" />
-   <Slider fx:id="sintomaticita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
+   <TextField fx:id="sintomaticita" alignment="CENTER" maxWidth="100.0">
+      <font>
+         <Font size="18.0" />
+      </font>
       <VBox.margin>
-         <Insets bottom="20.0" left="200.0" right="200.0" />
+         <Insets bottom="20.0" left="20.0" right="20.0" />
       </VBox.margin>
-   </Slider>
+   </TextField>
    <Label fx:id="letalitaLabel" text="Letalità" />
-   <Slider fx:id="letalita" majorTickUnit="20.0" maxHeight="20" maxWidth="300" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+   <TextField fx:id="letalita" alignment="CENTER" maxWidth="100.0">
+      <font>
+         <Font size="18.0" />
+      </font>
       <VBox.margin>
-         <Insets bottom="20.0" left="200.0" right="200.0" />
+         <Insets bottom="20.0" left="20.0" right="20.0" />
       </VBox.margin>
-   </Slider>
+   </TextField>
    <Button fx:id="btn" contentDisplay="CENTER" maxWidth="250.0" onAction="#inviaDati" text="INIZIA SIMULAZIONE" textAlignment="CENTER" textFill="WHITE">
-      <VBox.margin>
-         <Insets />
-      </VBox.margin>
    </Button>
 </VBox>
