@@ -119,19 +119,18 @@ public class Controller{
                 alert.show();
             }
 
-            if(infettivita_value < 0 | infettivita_value > 100){
+            if(infettivita_value <= 0 | infettivita_value > 100){
                 alert.setContentText("L'infettività non va bene");
                 alert.show();
             }
 
-            if(sintomaticita_value < 0 | sintomaticita_value > 100 ){
+            if(sintomaticita_value <= 0 | sintomaticita_value > 100 ){
                 alert.setContentText("La sintomaticità non va bene");
             }
 
-            if(letalita_value > 0 | letalita_value > 100){
+            if(letalita_value <= 0 | letalita_value > 100){
                 alert.setContentText("La letalità non va bene");
             }
-
 
         }catch (NumberFormatException e){
             alert.setContentText("Devi inserire valori numerici !!!");
