@@ -7,20 +7,33 @@ public class Persona {
     private boolean inMovimento;
     private StatoSalute stato = StatoSalute.VERDE;
     private Virus vir;
-    private boolean mustcheckvirus; //dove la inizializzo? dove la modifico?
-    //private Governo gov;
+    private boolean mustcheckvirus; //dove la inizializzo? dove la modifico? (init: dentro contatto, mod: dentro checkvirus)
+    private Governo gov;
 
-    public Persona(int ID, int y, int x){
+    public Persona(int ID, Governo gov){
         //ID della persona, non può essere negativo
         this.ID = ID;
-        //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
-        posizione = new Coppia(y, x);
+        this.gov = gov;
 		inMovimento = true;
     }
 
-    //public void comunicaSintomaticita() {}
-    //public void comunicaGuarigione() {}
-    //public void comunicaMorte() {}
+    public void comunicaSintomaticita() {
+        gov.add_sintomatico(this);
+    }
+    public void comunicaGuarigione() {
+        gov.add_guarito(this);
+    }
+
+    public void comunicaMorte() {
+        gov.add_morto(this);
+    }
+
+    public void contatto(Virus v) {
+        if ( v.dadoContagio() ) {
+            vir = new Virus();
+            mustcheckvirus = true;
+        }
+    }
 
     public void checkVirus() {
         if (mustcheckvirus) {
@@ -79,6 +92,7 @@ public class Persona {
     public StatoSalute getStato() { return stato;}
     public Virus getVir() { return vir; }
     public boolean getMustcheckvirus() { return mustcheckvirus; }
+    public Governo getGoverno() { return gov; }
 
     //setter
     //ID della persona, non può essere negativo
@@ -97,6 +111,8 @@ public class Persona {
     public void setVir(Virus v) { vir = v; }
 
     public void setMustcheckvirus(boolean b) { mustcheckvirus = b; }
+
+    public void setGoverno(Governo gov) { this.gov = gov; }
 
 
 
