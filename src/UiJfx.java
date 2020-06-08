@@ -1,16 +1,11 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class UiJfx extends Application {
 
@@ -79,11 +74,8 @@ public class UiJfx extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(UiJfx.class.getResource("/UiJfx.fxml"));  // può generare un eccezione
-        Controller controller = loader.getController();
 
         VBox vBox = loader.<VBox>load();
-
-        Button button = new Button();
 
         Scene scene = new Scene(vBox,1000,800);
         scene.getStylesheets().add("stylesheet/styles.css");

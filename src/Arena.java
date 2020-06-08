@@ -5,21 +5,14 @@ public class Arena {
 	public int altezza;
 	public int larghezza;
 	public Cella[][] matrice;
-	public ArrayList<Persona> persInMov;
-	public ArrayList<Persona> persInIncubazione;
-	//public ArrayList<Persona> persInCura;
-	//public ArrayList<Persona> persMorte;
-	//public ArrayList<Persona> persCurate;
-	public int prova;
-	public int prova4;
 	public Random r;
+	public int spostamentoMax = 10;
 
 	public Arena (int altezza, int larghezza){
 		r = new Random();
 		this.altezza = altezza;
 		this.larghezza = larghezza;
-		matrice = new Cella[altezza][larghezza];
-		persInMov = new ArrayList<Persona>();
+		matrice = new Cella[altezza][larghezza];  // creo la matrice
 		
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
@@ -28,37 +21,53 @@ public class Arena {
 		}
 	}
 
-	public void init(int persone) {
-		//Random r = new Random();
-		int id = 0;
-		while (id < persone) {
+	// Andiamo a distribuire le persone (le abbiamo già generate in universo). In una cella possono anche esserci più persone inizialmente
+	public void distribuisciPersone(ArrayList<Persona> persone){
+
+		// Per ogni persona nell'arrayList scegliamo una cella randomicamente in cui andremo a posizionarla
+		for (Persona persona: persone) {
+
 			int x = r.nextInt(larghezza);
 			int y = r.nextInt(altezza);
-			if (matrice[y][x].size() == 0) {
-				Persona p = new Persona(id, y, x);
-				matrice[y][x].add(p);
-				persInMov.add(p);
-				id++;
+
+			matrice[y][x].add(persona);
+			persona.setPosizione(y,x);
+
+		}
+
+
+	}
+
+	public void move(ArrayList<Persona> persone) throws PersonNotFoundException{
+
+		for(Persona persona : persone ){
+			if(persona.getMovimento()){
+				int y = persona.getPosizione().getY();
+				int x = persona.getPosizione().getX();
+
+				// in ogni cella abbiamo una lista di Persone
+				matrice[y][x].remove(persona.getID());   // io devo andare ad eliminare la persona (è un oggetto)
+
+				if(altezza - y < spostamentoMax){
+					y = r.nextInt(altezza - y);
+				}else{
+					y = r.nextInt(spostamentoMax);
+				}
+
+				if(larghezza - x < spostamentoMax){
+					x = r.nextInt(larghezza - x);
+				}else{
+					x = r.nextInt(spostamentoMax);
+				}
+
+				matrice[y][x].add(persona);
+				persona.setPosizione(y,x);
+
 			}
 		}
-		persInMov.get(0).setStato(StatoSalute.GIALLO);
 	}
 
-	public void move() throws PersonNotFoundException{
-		//Random r = new Random();
-		for (Persona p : persInMov) {
-			int y = p.getPosizione().getY(); //aggiunto
-			int x = p.getPosizione().getX(); //aggiunto
-			matrice[y][x].remove(p.getID()); //aggiunto
-			int y_app = r.nextInt(altezza);
-			int x_app = r.nextInt(larghezza);
-			p.setPosizione(y_app, x_app); //aggiunto
-			matrice[y_app][x_app].add(p);
-
-		}
-	}
-
-	public int check_incontri(){
+	/*public int check_incontri(){
 		int n_incontrate = 0;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
@@ -80,21 +89,19 @@ public class Arena {
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
 		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
-			if (r.nextInt(100) < /*classe?*/Prova.I) {
+			if (r.nextInt(100) < Prova.I) {
 				if (!persInIncubazione.contains(p1)) {
 					persInIncubazione.add(p1);
-					//p1.periodoIncubazione = Prova.D / 6;
 				}
 			}
 		} else
 		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
-			if (r.nextInt(100) < /*classe?*/Prova.I) {
+			if (r.nextInt(100) < Prova.I) {
 				if (!persInIncubazione.contains(p2)) {
 					persInIncubazione.add(p2);
-					//p2.periodoIncubazione = Prova.D / 6;
 				}
 			}
 		}
 
-	}
+	}*/
 }
