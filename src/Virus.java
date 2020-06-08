@@ -18,7 +18,7 @@ public class Virus {
         this.giornoContagio = Universo.getGiorno();
     }
 
-    public static boolean dadoContagio() {
+    public boolean dadoContagio() {
         if ( r.nextInt(101) <= INFETTIVITA)
             return true;
         return false;

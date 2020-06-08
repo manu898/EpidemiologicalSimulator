@@ -2,7 +2,7 @@ public class Universo {
     //giorno non può essere negativo
     private static int giorno = 1;
     private static double velocita;
-    private static double popolazione;
+    private static int popolazione;
 
 
     //getter
@@ -19,12 +19,12 @@ public class Universo {
     //setter
     public static void setGiorno(int g) { giorno = g; }
 
-    public static void setPopolazione(double popolazione) {
-        Universo.popolazione = popolazione;
+    public static void setPopolazione(int popolazione) {
+        popolazione = popolazione;
     }
 
     public static void setVelocita(double velocita) {
-        Universo.velocita = velocita;
+        velocita = velocita;
     }
 
 }
