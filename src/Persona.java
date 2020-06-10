@@ -108,8 +108,12 @@ public class Persona {
 
     //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
     public void setPosizione(int y, int x) {
-        posizione.setY(y);
-        posizione.setX(x);
+        if (posizione != null) {
+            posizione.setY(y);
+            posizione.setX(x);
+        }
+        else
+            posizione = new Coppia(y,x);
     }
 
     public void setMovimento(boolean b) { inMovimento = b; }
