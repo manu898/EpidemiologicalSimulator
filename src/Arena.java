@@ -47,20 +47,27 @@ public class Arena {
 				int x = persona.getPosizione().getX();
 
 				// in ogni cella abbiamo una lista di Persone
-				matrice[y][x].remove(persona.getID());   // io devo andare ad eliminare la persona (è un oggetto)
+				matrice[y][x].remove(persona.getID());
 
-				if(altezza - y < spostamentoMax){
-					y = r.nextInt(altezza - y);
+				if(y >= spostamentoMax && altezza - y >= spostamentoMax){
+					int low = - spostamentoMax;
+					int high = spostamentoMax;
+					int result = r.nextInt(high - low) + low;
+					// terzo caso
+				}else if(y < spostamentoMax && altezza - y >= spostamentoMax){
+					int low = - y;
+					int high = spostamentoMax;
+					int result = r.nextInt(high - low) + low;
+				}else if(y >= spostamentoMax && altezza - y < spostamentoMax){
+					int low = spostamentoMax;
+					int high = altezza - y;
+					int result = r.nextInt(high - low) + low;
 				}else{
-					y = r.nextInt(spostamentoMax);
-				}
+					int low = - y;
+					int high = altezza - y;
+					int result = r.nextInt(high - low) + low;
 
-				if(larghezza - x < spostamentoMax){
-					x = r.nextInt(larghezza - x);
-				}else{
-					x = r.nextInt(spostamentoMax);
 				}
-
 				matrice[y][x].add(persona);
 				persona.setPosizione(y,x);
 
@@ -68,7 +75,9 @@ public class Arena {
 		}
 	}
 
-	/*public int check_incontri(){
+
+
+	public int check_incontri(){
 		int n_incontrate = 0;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
@@ -77,7 +86,8 @@ public class Arena {
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
 							n_incontrate = n_incontrate + 2;
-							incontra(c.pos_get(k), c.pos_get(z));
+							// qui andiamo ad inserire l'incontro in questione nelle liste incontri di entrambe le persone
+							incontra(c.pos_get(k), c.pos_get(z)); // prendo le due persone scelte dalla fila e le faccio incontrare
 						}
 					}
 				}
@@ -86,23 +96,16 @@ public class Arena {
 		return n_incontrate;
 	}
 
+	// qui andiamo a testare l'infettività
 	public void incontra(Persona p1, Persona p2) {
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
 		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
-			if (r.nextInt(100) < Prova.I) {
-				if (!persInIncubazione.contains(p1)) {
-					persInIncubazione.add(p1);
-				}
-			}
+			p1.contatto(p2.getVir());
 		} else
 		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
-			if (r.nextInt(100) < Prova.I) {
-				if (!persInIncubazione.contains(p2)) {
-					persInIncubazione.add(p2);
-				}
-			}
+			p2.contatto(p1.getVir());
 		}
 
-	}*/
+	}
 }
