@@ -7,6 +7,7 @@ public class Arena {
 	public Cella[][] matrice;
 	public Random r;
 	public int spostamentoMax = 10;
+	public int prova;
 
 	public Arena (int altezza, int larghezza){
 		r = new Random();
