@@ -1,25 +1,38 @@
+import java.util.Hashtable;  //questa e non HashMap poiche' non puo' contenere valori nulli
+import java.util.ArrayList;
+
 public class Persona {
 
     //ID della persona, non può essere negativo
     private int ID;
+
     //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
     private Coppia posizione;
+
     //variabile che ci dice se una persona e' in movimento o e' ferma
     private boolean inMovimento;
+
     //stato della persona
     private StatoSalute stato = StatoSalute.VERDE;
+
     //il virus presente nella persona
     private Virus vir;
+
     //variabile che permette di capire se vanno fatti i controlli sul virus per verificare se va cambiato lo stato della persona
     private boolean mustcheckvirus; //dove la inizializzo? dove la modifico? (init: dentro contatto, mod: dentro checkvirus)
+
     //governo al quale appartiene la persona
     private Governo gov;
+
+    //lista delle persone incontrate giorno per giorno
+    Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
 
     public Persona(int ID, Governo gov){
         //ID della persona, non può essere negativo
         this.ID = ID;
         this.gov = gov;
 		inMovimento = true;
+		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
     }
 
     //comunica al governo che si sono sviluppati i sintomi
@@ -93,6 +106,24 @@ public class Persona {
         }
 
     }
+
+    //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
+    public void addPersona_incontrata( Persona p ) {  //TEST
+        ArrayList<Persona> app = persone_incontrate.get(Universo.getGiorno());
+        if ( app != null ) {
+            app.add(p);
+        }
+        else {
+            app = new ArrayList<Persona>();
+            app.add(p);
+            persone_incontrate.put(Universo.getGiorno(), app);
+        }
+    }
+
+    //per prendere le persone dalla hastable controlliamo cosa serve nelle altre classi e facciamo dei metodi appositi
+    //così da non usare il metodo getPersone_incontrate e fornire dunque libero accesso alle altre classi
+
+
     //getter
     public int getID() { return ID;}
     public Coppia getPosizione() { return posizione;}
@@ -101,6 +132,7 @@ public class Persona {
     public Virus getVir() { return vir; }
     public boolean getMustcheckvirus() { return mustcheckvirus; }
     public Governo getGoverno() { return gov; }
+    public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
 
     //setter
     //ID della persona, non può essere negativo
@@ -126,7 +158,7 @@ public class Persona {
 
     public void setGoverno(Governo gov) { this.gov = gov; }
 
-
-
-
+    public void setPersone_incontrate(Hashtable<Integer, ArrayList<Persona>> persone_incontrate) {
+        this.persone_incontrate = persone_incontrate;
+    }
 }
