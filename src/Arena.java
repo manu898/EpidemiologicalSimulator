@@ -53,7 +53,6 @@ public class Arena {
 					int low = - spostamentoMax;
 					int high = spostamentoMax;
 					int result = r.nextInt(high - low) + low;
-					// terzo caso
 				}else if(y < spostamentoMax && altezza - y >= spostamentoMax){
 					int low = - y;
 					int high = spostamentoMax;
@@ -68,6 +67,26 @@ public class Arena {
 					int result = r.nextInt(high - low) + low;
 
 				}
+
+				if(x >= spostamentoMax && larghezza - x >= spostamentoMax){
+					int low = - spostamentoMax;
+					int high = spostamentoMax;
+					int result = r.nextInt(high - low) + low;
+				}else if(x < spostamentoMax && larghezza - x >= spostamentoMax){
+					int low = - x;
+					int high = spostamentoMax;
+					int result = r.nextInt(high - low) + low;
+				}else if(x >= spostamentoMax && larghezza - x < spostamentoMax){
+					int low = spostamentoMax;
+					int high = larghezza - x;
+					int result = r.nextInt(high - low) + low;
+				}else{
+					int low = - x;
+					int high = altezza - x;
+					int result = r.nextInt(high - low) + low;
+				}
+
+
 				matrice[y][x].add(persona);
 				persona.setPosizione(y,x);
 
