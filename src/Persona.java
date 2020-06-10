@@ -4,10 +4,15 @@ public class Persona {
     private int ID;
     //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
     private Coppia posizione;
+    //variabile che ci dice se una persona e' in movimento o e' ferma
     private boolean inMovimento;
+    //stato della persona
     private StatoSalute stato = StatoSalute.VERDE;
+    //il virus presente nella persona
     private Virus vir;
+    //variabile che permette di capire se vanno fatti i controlli sul virus per verificare se va cambiato lo stato della persona
     private boolean mustcheckvirus; //dove la inizializzo? dove la modifico? (init: dentro contatto, mod: dentro checkvirus)
+    //governo al quale appartiene la persona
     private Governo gov;
 
     public Persona(int ID, Governo gov){
@@ -17,17 +22,22 @@ public class Persona {
 		inMovimento = true;
     }
 
+    //comunica al governo che si sono sviluppati i sintomi
     public void comunicaSintomaticita() {
         gov.add_sintomatico(this);
     }
+
+    //comunica al governo che si e' guariti
     public void comunicaGuarigione() {
         gov.add_guarito(this);
     }
 
+    //comunica al governo la propria morte
     public void comunicaMorte() {
         gov.add_morto(this);
     }
 
+    //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
         if ( v.dadoContagio() ) {
             vir = new Virus();
@@ -35,6 +45,7 @@ public class Persona {
         }
     }
 
+    //controlla lo stato del virus e dunque se lo stato della persona deve cambiare
     public void checkVirus() {
         if (mustcheckvirus) {
             switch (stato) {
@@ -51,8 +62,7 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
-                            System.out.println("Sono ROSSO"); //CANCELLA
-                            //comunicaSintomaticita();
+                            comunicaSintomaticita();
                         }
                         else
                             mustcheckvirus = false;
@@ -62,12 +72,10 @@ public class Persona {
                     //va in case ROSSO se e' ROSSO, se e' appena diventato ROSSO o se lanciando il dadoS non e' diventato ROSSO
                 case ROSSO:
                     if (vir.isGiornoDadoM()) {
-                        System.out.println("E il giorno nero"); //CANCELLA
                         if (vir.dadoM()) {
-                            //una persona morta diventa nera o scompare?
+                            //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
-                            System.out.println("Sono NERO"); //CANCELLA
-                            //comunicaMorte();
+                            comunicaMorte();
                             //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova)
                         }
                         else
@@ -78,8 +86,8 @@ public class Persona {
         }
         else {
             if (vir.isMalattiaFinita()) {
-                if (stato == StatoSalute.ROSSO) {}
-                    //comunicaGuarigione()
+                if (stato == StatoSalute.ROSSO)
+                    comunicaGuarigione();
                 stato = StatoSalute.BLU;
             }
         }

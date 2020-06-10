@@ -2,9 +2,37 @@ import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) {
-        Persona p = new Persona(1, 2,2);
-        p.setVir(new Virus());
+        Governo papuasia = new Governo();
+        Persona p = new Persona(1, papuasia);
+        Persona p2 = new Persona(2,papuasia);
+        //p.setVir(new Virus());
 
+        Virus.setI(100);
+        System.out.println( p.getVir()==null );
+        p.contatto(new Virus());
+        p.setStato(StatoSalute.NERO);
+        p.comunicaMorte();
+        p2.contatto(p.getVir());
+        p2.setStato(StatoSalute.NERO);
+        p2.comunicaMorte();
+        for (Persona pers: papuasia.getNuovi_sintomatici()) {
+            System.out.println(pers.getID());
+            System.out.println(pers.getVir() == null);
+        }
+        for (Persona pers: papuasia.getNuovi_guariti()) {
+            System.out.println(pers.getID());
+            System.out.println( pers.getVir() == null );
+        }
+        for (Persona pers: papuasia.getNuovi_morti()) {
+            System.out.println(pers.getID());
+            System.out.println(pers.getVir() == null);
+        }
+
+
+
+
+        /*
+        CONTROLLA che checkVirus e le funzioni di Virus funzionino bene
         Virus.setD(6);
         Virus.setI(1);
         Virus.setS(100);
@@ -18,7 +46,7 @@ public class Test {
         Universo.setGiorno(2);
         p.checkVirus();
         System.out.println(p.getStato());
-
+        */
 
 
         /*
