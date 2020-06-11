@@ -59,36 +59,36 @@ public class Arena {
 					if(altezza - y >= spostamentoMax){
 						high = spostamentoMax;
 					}else{
-						high = altezza - y;
+						high = altezza - y - 1;
 					}
-					newY = r.nextInt(high - low) + low + y;
+					newY = r.nextInt(high - low + 1) + low + y;
 				}else{
 					low = -y;
 					if (altezza - y >= spostamentoMax) {
 						high = spostamentoMax;
 					} else {
-						high = altezza - y;
+						high = altezza - y - 1;
 					}
-					newY = r.nextInt(high - low) + low + y;
+					newY = r.nextInt(high - low + 1) + low + y;
 				}
 
 
 				if(x >= spostamentoMax){
 					low = - spostamentoMax;
-					if(altezza - x >= spostamentoMax){
+					if(larghezza - x >= spostamentoMax){
 						high = spostamentoMax;
 					}else{
-						high = altezza - x;
+						high = larghezza - x - 1;
 					}
-					newX = r.nextInt(high - low) + low + x;
+					newX = r.nextInt(high - low + 1) + low + x;
 				}else{
 					low = - x;
-					if (altezza - x >= spostamentoMax) {
+					if (larghezza - x >= spostamentoMax) {
 						high = spostamentoMax;
 					} else {
-						high = altezza - x;
+						high = larghezza - x - 1;
 					}
-					newX = r.nextInt(high - low) + low + x;
+					newX = r.nextInt(high - low + 1) + low + x;
 				}
 
 				/*
@@ -148,12 +148,8 @@ public class Arena {
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
 							n_incontrate = n_incontrate + 2;
-							Persona p1 = c.pos_get(k);
-							Persona p2 = c.pos_get(z);
 							// qui andiamo ad inserire l'incontro in questione nelle liste incontri di entrambe le persone
-							p1.addPersona_incontrata(p2);
-							p2.addPersona_incontrata(p1);
-							incontra(p1, p2); // prendo le due persone scelte dalla fila e le faccio incontrare
+							incontra(c.pos_get(k), c.pos_get(z)); // prendo le due persone scelte dalla fila e le faccio incontrare
 						}
 					}
 				}
