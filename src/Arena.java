@@ -7,7 +7,6 @@ public class Arena {
 	private Cella[][] matrice;
 	private Random r;
 	private int spostamentoMax = 10;
-	private int prova;
 
 	public Arena (int altezza, int larghezza){
 		r = new Random();
@@ -170,4 +169,43 @@ public class Arena {
 		}
 
 	}
+
+	// setter
+
+	public void setAltezza(int altezza) {
+		this.altezza = altezza;
+	}
+
+	public void setLarghezza(int larghezza) {
+		this.larghezza = larghezza;
+	}
+
+	public void setMatrice(Cella[][] matrice) {
+		this.matrice = matrice;
+	}
+
+	public void setSpostamentoMax(int spostamentoMax) {
+		this.spostamentoMax = spostamentoMax;
+	}
+
+
+	// getter
+
+	public Cella[][] getMatrice() {
+		return matrice;
+	}
+
+	public int getAltezza() {
+		return altezza;
+	}
+
+	public int getLarghezza() {
+		return larghezza;
+	}
+
+	public int getSpostamentoMax() {
+		return spostamentoMax;
+	}
+
+
 }
