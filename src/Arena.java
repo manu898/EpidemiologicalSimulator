@@ -57,38 +57,38 @@ public class Arena {
 				if(y >= spostamentoMax && altezza - y >= spostamentoMax){
 					low = - spostamentoMax;
 					high = spostamentoMax;
-					newY = r.nextInt(high - low) + low;
+					newY = r.nextInt(high - low) + low + y;
 				}else if(y < spostamentoMax && altezza - y >= spostamentoMax){
 					low = - y;
 					high = spostamentoMax;
-					newY = r.nextInt(high - low) + low;
+					newY = r.nextInt(high - low) + low + y;
 				}else if(y >= spostamentoMax && altezza - y < spostamentoMax){
 					low = - spostamentoMax;
 					high = altezza - y;
-					newY = r.nextInt(high - low) + low;
+					newY = r.nextInt(high - low) + low + y;
 				}else{
 					low = - y;
 					high = altezza - y;
-					newY = r.nextInt(high - low) + low;
+					newY = r.nextInt(high - low) + low + y;
 
 				}
 
 				if(x >= spostamentoMax && larghezza - x >= spostamentoMax){
 					low = - spostamentoMax;
 					high = spostamentoMax;
-					newX = r.nextInt(high - low) + low;
+					newX = r.nextInt(high - low) + low + x;
 				}else if(x < spostamentoMax && larghezza - x >= spostamentoMax){
 					low = - x;
 					high = spostamentoMax;
-					newX = r.nextInt(high - low) + low;
+					newX = r.nextInt(high - low) + low + x;
 				}else if(x >= spostamentoMax && larghezza - x < spostamentoMax){
 					low = - spostamentoMax;
 					high = larghezza - x;
-					newX = r.nextInt(high - low) + low;
+					newX = r.nextInt(high - low) + low + x;
 				}else{
 					low = - x;
 					high = altezza - x;
-					newX = r.nextInt(high - low) + low;
+					newX = r.nextInt(high - low) + low + x;
 				}
 
 
