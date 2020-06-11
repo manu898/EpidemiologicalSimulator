@@ -6,7 +6,7 @@ public class Arena {
 	private int larghezza;
 	private Cella[][] matrice;
 	private Random r;
-	private int spostamentoMax = 10;
+	private final int spostamentoMax = 10;
 
 	public Arena (int altezza, int larghezza){
 		r = new Random();
@@ -184,10 +184,6 @@ public class Arena {
 		this.matrice = matrice;
 	}
 
-	public void setSpostamentoMax(int spostamentoMax) {
-		this.spostamentoMax = spostamentoMax;
-	}
-
 
 	// getter
 
@@ -201,10 +197,6 @@ public class Arena {
 
 	public int getLarghezza() {
 		return larghezza;
-	}
-
-	public int getSpostamentoMax() {
-		return spostamentoMax;
 	}
 
 
