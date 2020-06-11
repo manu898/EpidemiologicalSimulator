@@ -1,12 +1,38 @@
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class Test {
     public static void main(String[] args) {
         Governo papuasia = new Governo();
         Persona p = new Persona(1, papuasia);
         Persona p2 = new Persona(2,papuasia);
+        Persona p3 = new Persona(3, papuasia);
+        Persona p4 = new Persona(4, papuasia);
         //p.setVir(new Virus());
 
+        p.addPersona_incontrata(p2);
+        Hashtable<Integer,ArrayList<Persona>> hash = p.getPersone_incontrate();
+        ArrayList<Persona> a = hash.get(1);
+        Enumeration<Integer> en = hash.keys();
+        p.addPersona_incontrata(p3);
+        Universo.setGiorno(2);
+        p.addPersona_incontrata(p4);
+        ArrayList<Persona> b = hash.get(2);
+        en.asIterator().forEachRemaining(i -> System.out.println("chiave " + i));
+        for(Persona pers : a) {
+            System.out.println("persona " + pers.getID());
+        }
+        for(Persona pers : b) {
+            System.out.println("persona " + pers.getID());
+        }
+
+
+
+
+
+        /*
+        CONTROLLA che i metodi per aggiornare i sintomatici, i guariti, i morti funzionano bene
         Virus.setI(100);
         System.out.println( p.getVir()==null );
         p.contatto(new Virus());
@@ -27,7 +53,7 @@ public class Test {
             System.out.println(pers.getID());
             System.out.println(pers.getVir() == null);
         }
-
+        */
 
 
 

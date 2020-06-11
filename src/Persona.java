@@ -108,7 +108,7 @@ public class Persona {
     }
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
-    public void addPersona_incontrata( Persona p ) {  //TEST
+    public void addPersona_incontrata( Persona p ) {
         ArrayList<Persona> app = persone_incontrate.get(Universo.getGiorno());
         if ( app != null ) {
             app.add(p);
@@ -126,12 +126,19 @@ public class Persona {
 
     //getter
     public int getID() { return ID;}
+
     public Coppia getPosizione() { return posizione;}
+
     public boolean getMovimento() { return inMovimento; }
+
     public StatoSalute getStato() { return stato;}
+
     public Virus getVir() { return vir; }
+
     public boolean getMustcheckvirus() { return mustcheckvirus; }
+
     public Governo getGoverno() { return gov; }
+
     public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
 
     //setter
