@@ -43,6 +43,11 @@ public class Arena {
 
 		for(Persona persona : persone ){
 			if(persona.getMovimento()){
+				int low;
+				int high;
+				int newY;
+				int newX;
+
 				int y = persona.getPosizione().getY();
 				int x = persona.getPosizione().getX();
 
@@ -50,45 +55,45 @@ public class Arena {
 				matrice[y][x].remove(persona.getID());
 
 				if(y >= spostamentoMax && altezza - y >= spostamentoMax){
-					int low = - spostamentoMax;
-					int high = spostamentoMax;
-					int result = r.nextInt(high - low) + low;
+					low = - spostamentoMax;
+					high = spostamentoMax;
+					newY = r.nextInt(high - low) + low;
 				}else if(y < spostamentoMax && altezza - y >= spostamentoMax){
-					int low = - y;
-					int high = spostamentoMax;
-					int result = r.nextInt(high - low) + low;
+					low = - y;
+					high = spostamentoMax;
+					newY = r.nextInt(high - low) + low;
 				}else if(y >= spostamentoMax && altezza - y < spostamentoMax){
-					int low = spostamentoMax;
-					int high = altezza - y;
-					int result = r.nextInt(high - low) + low;
+					low = - spostamentoMax;
+					high = altezza - y;
+					newY = r.nextInt(high - low) + low;
 				}else{
-					int low = - y;
-					int high = altezza - y;
-					int result = r.nextInt(high - low) + low;
+					low = - y;
+					high = altezza - y;
+					newY = r.nextInt(high - low) + low;
 
 				}
 
 				if(x >= spostamentoMax && larghezza - x >= spostamentoMax){
-					int low = - spostamentoMax;
-					int high = spostamentoMax;
-					int result = r.nextInt(high - low) + low;
+					low = - spostamentoMax;
+					high = spostamentoMax;
+					newX = r.nextInt(high - low) + low;
 				}else if(x < spostamentoMax && larghezza - x >= spostamentoMax){
-					int low = - x;
-					int high = spostamentoMax;
-					int result = r.nextInt(high - low) + low;
+					low = - x;
+					high = spostamentoMax;
+					newX = r.nextInt(high - low) + low;
 				}else if(x >= spostamentoMax && larghezza - x < spostamentoMax){
-					int low = - spostamentoMax;
-					int high = larghezza - x;
-					int result = r.nextInt(high - low) + low;
+					low = - spostamentoMax;
+					high = larghezza - x;
+					newX = r.nextInt(high - low) + low;
 				}else{
-					int low = - x;
-					int high = altezza - x;
-					int result = r.nextInt(high - low) + low;
+					low = - x;
+					high = altezza - x;
+					newX = r.nextInt(high - low) + low;
 				}
 
 
-				matrice[y][x].add(persona);
-				persona.setPosizione(y,x);
+				matrice[newY][newX].add(persona);
+				persona.setPosizione(newY,newX);
 
 			}
 		}

@@ -23,6 +23,8 @@ public class Test2 {
 
         arena.move(persone);
 
+        System.out.println("Qui faccio il movimento delle persone ");
+
 
         for (Persona persona : persone) {
             System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + "(" +  persona.getPosizione().getY() + "," + persona.getPosizione().getX() + ")");
