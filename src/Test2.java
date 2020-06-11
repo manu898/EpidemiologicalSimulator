@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Test2 {
 
-    public static void main(String[] args) {
-        int popolazione = 100;
+    public static void main(String[] args) throws PersonNotFoundException {
+        int popolazione = 10;
         int largezza = 80;
         int altezza = 50;
         ArrayList<Persona> persone = new ArrayList<>(popolazione);
@@ -17,8 +17,17 @@ public class Test2 {
         arena.distribuisciPersone(persone);
 
         for (Persona persona : persone) {
-            System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + persona.getPosizione());
+            System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + "(" +  persona.getPosizione().getY() + "," + persona.getPosizione().getX() + ")");
         }
+
+
+        arena.move(persone);
+
+
+        for (Persona persona : persone) {
+            System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + "(" +  persona.getPosizione().getY() + "," + persona.getPosizione().getX() + ")");
+        }
+
 
 
     }

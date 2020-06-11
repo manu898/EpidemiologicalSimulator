@@ -77,7 +77,7 @@ public class Arena {
 					int high = spostamentoMax;
 					int result = r.nextInt(high - low) + low;
 				}else if(x >= spostamentoMax && larghezza - x < spostamentoMax){
-					int low = spostamentoMax;
+					int low = - spostamentoMax;
 					int high = larghezza - x;
 					int result = r.nextInt(high - low) + low;
 				}else{
