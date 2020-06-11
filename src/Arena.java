@@ -2,12 +2,12 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Arena {
 
-	public int altezza;
-	public int larghezza;
-	public Cella[][] matrice;
-	public Random r;
-	public int spostamentoMax = 10;
-	public int prova;
+	private int altezza;
+	private int larghezza;
+	private Cella[][] matrice;
+	private Random r;
+	private int spostamentoMax = 10;
+	private int prova;
 
 	public Arena (int altezza, int larghezza){
 		r = new Random();
@@ -54,6 +54,44 @@ public class Arena {
 				// in ogni cella abbiamo una lista di Persone
 				matrice[y][x].remove(persona.getID());
 
+				if(y >= spostamentoMax){
+					low = - spostamentoMax;
+					if(altezza - y >= spostamentoMax){
+						high = spostamentoMax;
+					}else{
+						high = altezza - y;
+					}
+					newY = r.nextInt(high - low) + low + y;
+				}else{
+					low = -y;
+					if (altezza - y >= spostamentoMax) {
+						high = spostamentoMax;
+					} else {
+						high = altezza - y;
+					}
+					newY = r.nextInt(high - low) + low + y;
+				}
+
+
+				if(x >= spostamentoMax){
+					low = - spostamentoMax;
+					if(altezza - x >= spostamentoMax){
+						high = spostamentoMax;
+					}else{
+						high = altezza - x;
+					}
+					newX = r.nextInt(high - low) + low + x;
+				}else{
+					low = - x;
+					if (altezza - x >= spostamentoMax) {
+						high = spostamentoMax;
+					} else {
+						high = altezza - x;
+					}
+					newX = r.nextInt(high - low) + low + x;
+				}
+
+				/*
 				if(y >= spostamentoMax && altezza - y >= spostamentoMax){
 					low = - spostamentoMax;
 					high = spostamentoMax;
@@ -89,7 +127,7 @@ public class Arena {
 					low = - x;
 					high = altezza - x;
 					newX = r.nextInt(high - low) + low + x;
-				}
+				}*/
 
 
 				matrice[newY][newX].add(persona);

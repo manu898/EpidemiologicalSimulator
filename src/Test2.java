@@ -20,9 +20,7 @@ public class Test2 {
             System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + "(" +  persona.getPosizione().getY() + "," + persona.getPosizione().getX() + ")");
         }
 
-        for(int i = 0; i < 10 ;i++){
-            arena.move(persone);
-        }
+        arena.move(persone);
 
         System.out.println("Qui faccio il movimento delle persone ");
 
