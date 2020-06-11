@@ -52,7 +52,7 @@ public class Persona {
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
-        if ( v.dadoContagio() ) {
+        if ( vir == null && v.dadoContagio() ) {
             vir = new Virus();
             mustcheckvirus = true;
         }

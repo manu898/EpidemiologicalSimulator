@@ -148,8 +148,12 @@ public class Arena {
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
 							n_incontrate = n_incontrate + 2;
+							Persona p1 = c.pos_get(k);
+							Persona p2 = c.pos_get(z);
 							// qui andiamo ad inserire l'incontro in questione nelle liste incontri di entrambe le persone
-							incontra(c.pos_get(k), c.pos_get(z)); // prendo le due persone scelte dalla fila e le faccio incontrare
+							p1.addPersona_incontrata(p2);
+							p2.addPersona_incontrata(p1);
+							incontra(p1, p2); // prendo le due persone scelte dalla fila e le faccio incontrare
 						}
 					}
 				}
