@@ -114,8 +114,8 @@ public class Controller{
                 alert.show();
             }
 
-            if(durata_value < 3){
-                alert.setContentText("Il virus deve durare almeno 3 giorni");
+            if(durata_value <= 0){
+                alert.setContentText("Il virus deve durare almeno 1 giorno");
                 alert.show();
             }
 
