@@ -107,7 +107,6 @@ public class Arena {
 					low = - y;
 					high = altezza - y;
 					newY = r.nextInt(high - low) + low + y;
-
 				}
 
 				if(x >= spostamentoMax && larghezza - x >= spostamentoMax){
