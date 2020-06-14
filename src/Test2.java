@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Test2 {
 
     public static void main(String[] args) throws PersonNotFoundException {
+        /*
         int popolazione = 100;
         int largezza = 8;
         int altezza = 5;
@@ -42,7 +43,7 @@ public class Test2 {
         for (Persona persona : persone) {
             System.out.println("La persona con ID = " + persona.getID() + " si trova in posizione " + "(" +  persona.getPosizione().getY() + "," + persona.getPosizione().getX() + ") e virus è settato  a " + persona.getVir() + " ed ha stato " + persona.getStato());
         }
-
+*/
 
 
     }

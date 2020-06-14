@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 public class Test {
     public static void main(String[] args) {
+        /*
         Governo papuasia = new Governo();
         Persona p = new Persona(1, papuasia);
         Persona p2 = new Persona(2,papuasia);
