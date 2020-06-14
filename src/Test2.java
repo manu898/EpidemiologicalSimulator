@@ -1,3 +1,5 @@
+/*
+
 import java.util.ArrayList;
 
 public class Test2 {
@@ -21,6 +23,7 @@ public class Test2 {
         }
 
         arena.move(persone);
+
 
         System.out.println("Qui faccio il movimento delle persone ");
 
@@ -46,4 +49,4 @@ public class Test2 {
 
 
     }
-}
+}*/

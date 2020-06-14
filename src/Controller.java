@@ -7,11 +7,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
+import java.awt.geom.Area;
 import java.lang.Character.UnicodeBlock;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller{
+
+    Simulazione simulazione = null;
+
+
+    @FXML
+    private TextField arenaH;
+
+    @FXML
+    private TextField arenaL;
+
 
     @FXML
     private TextField popolazione;
@@ -43,6 +54,21 @@ public class Controller{
 
     public Alert alert = new Alert(AlertType.ERROR);
 
+    public void setSimulazione(Simulazione simulazione) {
+        this.simulazione = simulazione;
+    }
+
+    public Simulazione getSimulazione() {
+        return simulazione;
+    }
+
+    public TextField getArenaH() {
+        return arenaH;
+    }
+
+    public TextField getArenaL() {
+        return arenaL;
+    }
 
     public TextField getPopolazione() {
         return popolazione;
@@ -138,17 +164,19 @@ public class Controller{
         }
 
 
-        Universo.setPopolazione(Integer.parseInt(getPopolazione().getText()));
-        Universo.setVelocita(Double.parseDouble(getVelocita().getText()));
-        Governo.setCosto_tampone(Integer.parseInt(getTampone().getText()));
-        Governo.setRisorse(Integer.parseInt(getRisorse().getText()));
+        Governo governo = new Governo(Integer.parseInt(getRisorse().getText()), Integer.parseInt(getTampone().getText()));
+
+        simulazione = new Simulazione(governo,
+                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText())),
+                Integer.parseInt(getPopolazione().getText()),
+                Double.parseDouble(getVelocita().getText()));
+
+        UiJfx.setSimulazione(simulazione);
+
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
         Virus.setL(Integer.parseInt(getLetalita().getText()));
         Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
-
-        System.out.println(Virus.getI());
-        System.out.println(Universo.getVelocita());
     }
 
 }

@@ -8,6 +8,7 @@ public class Simulazione {
     private Governo governo;
     private Arena arena;
 
+
     public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
         giorno = 1;
         this.governo = governo;

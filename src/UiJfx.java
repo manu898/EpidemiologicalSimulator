@@ -9,10 +9,29 @@ import javafx.stage.Stage;
 
 public class UiJfx extends Application {
 
+    private static Controller controller = null;
+    private static Simulazione simulazioneA = null;
+
+    public static void setSimulazione(Simulazione simulazione) {
+        simulazioneA = simulazione;
+    }
+
+    public Simulazione getSimulazione() {
+        return simulazioneA;
+    }
+
+
+    public static void setController(Controller controller) {
+        UiJfx.controller = controller;
+    }
+
+    public static Controller getController() {
+        return controller;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
-        initUi(stage);
+        initUi(stage); // una volta che ha finito di avviare la scena esce dal metodo 'start'
     }
 
     private void initUi2(Stage stage){
@@ -70,13 +89,14 @@ public class UiJfx extends Application {
 
     }
 
+
     private void initUi(Stage stage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(UiJfx.class.getResource("/UiJfx.fxml"));  // può generare un eccezione
 
         VBox vBox = loader.<VBox>load();
-
+        setController(loader.getController());
         Scene scene = new Scene(vBox,1000,800);
         scene.getStylesheets().add("stylesheet/styles.css");
         stage.setScene(scene);
@@ -86,7 +106,7 @@ public class UiJfx extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch(args); // come termino launch()
     }
 
 }
