@@ -137,7 +137,7 @@ public class Controller{
             alert.show();
         }
 
-
+        /*
         Universo.setPopolazione(Integer.parseInt(getPopolazione().getText()));
         Universo.setVelocita(Double.parseDouble(getVelocita().getText()));
         Governo.setCosto_tampone(Integer.parseInt(getTampone().getText()));
@@ -149,6 +149,8 @@ public class Controller{
 
         System.out.println(Virus.getI());
         System.out.println(Universo.getVelocita());
+
+         */
     }
 
 }
