@@ -18,13 +18,13 @@ public class Simulazione {
         this.velocita = velocita;
     }
 
-    private void init_persone(int popolazione) {   //TEST
+    private void init_persone(int popolazione) {
         for (int i = 0; i < popolazione; i++) {
             persone.add(new Persona(i, governo, this));
         }
     }
 
-    public int getPopolazione() {  //TEST
+    public int getPopolazione() {
         return persone.size();
     }
 
