@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Governo {
 
     //le risorse del governo
-    private static int risorse;
+    private int risorse;
 
     //il costo del tampone
-    private static int costo_tampone;
+    private int costo_tampone;
 
     //variabile di riferimento al database del governo
     private DBGoverno database;
@@ -21,7 +21,9 @@ public class Governo {
     //le persone morte giorno per giorno
     private ArrayList<Persona> nuovi_morti;
 
-    public Governo() {
+    public Governo(int risorse, int costo_tampone) {
+        this.risorse = risorse;
+        this.costo_tampone = costo_tampone;
         database = new DBGoverno();
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
@@ -50,29 +52,21 @@ public class Governo {
     }
 
 
-    //static getter
-    public static int getCosto_tampone() {
+    //getter
+    public int getCosto_tampone() {
         return costo_tampone;
     }
-    public static int getRisorse() {
+    public int getRisorse() {
         return risorse;
     }
-
-    //getter
     public DBGoverno getDatabase() { return database; }
     public ArrayList<Persona> getNuovi_sintomatici() { return nuovi_sintomatici;}
     public ArrayList<Persona> getNuovi_guariti() { return nuovi_guariti; }
     public ArrayList<Persona> getNuovi_morti() { return nuovi_morti; }
 
-    //static setter
-    public static void setCosto_tampone(int costo_tampone) {
-        Governo.costo_tampone = costo_tampone;
-    }
-    public static void setRisorse(int risorse) {
-        Governo.risorse = risorse;
-    }
-
     //setter
+    public void setCosto_tampone(int costo_tampone) { this.costo_tampone = costo_tampone; }
+    public void setRisorse(int risorse) { this.risorse = risorse; }
     public void setDatabase(DBGoverno database) { this.database = database; }
     public void setNuovi_sintomatici(ArrayList<Persona> ns ) {
         for (Persona p: ns){
