@@ -8,7 +8,7 @@ public class Simulazione {
     private Governo governo;
     private Arena arena;
 
-    public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
+    public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) { //TEST
         giorno = 1;
         this.governo = governo;
         this.arena = arena;
@@ -18,13 +18,13 @@ public class Simulazione {
         this.velocita = velocita;
     }
 
-    private void init_persone(int popolazione) {
+    private void init_persone(int popolazione) {   //TEST
         for (int i = 0; i < popolazione; i++) {
             persone.add(new Persona(i, governo, this));
         }
     }
 
-    public int getPopolazione() {
+    public int getPopolazione() {  //TEST
         return persone.size();
     }
 

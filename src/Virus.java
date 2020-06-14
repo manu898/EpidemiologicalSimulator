@@ -11,13 +11,19 @@ public class Virus {
     private static int SINTOMATICITA;
     //durata della malattia
     private static int DURATA;
-    //variabile di tipo random per determinare gli esiti dei contatti tra persone, gli esiti dei lanci dei dadi
+
+    //variabile di tipo random per determinare gli esiti dei lanci dei dadi del contagio, della sintomaticita', della mortalita'
+    //e per stabilire i giorni in cui gli ultimi due vanno lanciati
     private static Random r = new Random();
 
     //campi dell'oggetto virus
+    //il giorno in cui questo oggetto "entra" nella persona
     private int giornoContagio;
+    //il giorno in cui va lanciato il dado della sintomaticita'
     private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno contagio+(D/3)
+    //il giorno in cui va lanciato il dado della mortalita'
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
+    //reference alla simulazione a cui appartiene questo oggetto
     private Simulazione simulazione;
 
     public Virus(Simulazione sim) {
@@ -25,12 +31,15 @@ public class Virus {
         giornoContagio = sim.getGiorno();
     }
 
+    //determina l'esito del lancio del dado del contagio (invocato quando c'e' un contatto tra due persone)
     public boolean dadoContagio() {
         if ( r.nextInt(101) <= INFETTIVITA)
             return true;
         return false;
     }
 
+    //controlla se il periodo di incubazione e' terminato, se si stabilisce anche il giorno in cui va lanciato
+    //il dado della sintomaticita'
     public boolean isIncubazioneFinita() {
         if (simulazione.getGiorno() == giornoContagio + DURATA / 6) {
             int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
@@ -40,18 +49,21 @@ public class Virus {
         return false;
     }
 
+    //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della sintomaticita'
     public boolean isGiornoDadoS() {
         if (simulazione.getGiorno() == giornoDadoS)
             return true;
         return false;
     }
 
+    //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della mortalita'
     public boolean isGiornoDadoM() {
         if (simulazione.getGiorno() == giornoDadoM)
             return true;
         return false;
     }
 
+    //controlla se il giorno della simulazione e' quello in cui la malattia termina
     public boolean isMalattiaFinita() {
         if (simulazione.getGiorno() == giornoContagio + DURATA)
             return true;
@@ -59,6 +71,8 @@ public class Virus {
     }
 
 
+    //determina l'esito del lancio del dado della sintomaticita', se positivo stabilisce il giorno in cui va lanciato
+    //il dado della mortalita'
     public boolean dadoS() {
         int x = r.nextInt(101);
         if (x <= SINTOMATICITA) {
@@ -70,6 +84,7 @@ public class Virus {
         return false;
     }
 
+    //determina l'esito del lancio del dado della mortalita'
     public boolean dadoM() {
         int x = r.nextInt(101);
         if (x <= LETALITA)

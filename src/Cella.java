@@ -10,25 +10,23 @@ public class Cella {
 		return fila.get(pos);
 	}
 
-	//si potrebbe fare come input la persona stessa invece del suo ID?
 	//prendi la persona dalla fila in base al suo ID
-	public Persona id_get (int id) throws PersonNotFoundException {
+	public Persona id_get (int id) {
 		for (int i = 0; i < fila.size(); i++) {
 			if ( fila.get(i).getID() == id )
 				return fila.get(i);
 		}
-		throw new PersonNotFoundException();	
+		throw new PersonNotFoundException("la persona con l'id indicato non esiste nella cella");
 	}
 
-	//si potrebbe fare come input la persona stessa invece del suo ID?
-	// rimuovi la persona dalla fila in base al suo id
-	public void remove (int id) throws PersonNotFoundException {
+	// rimuovi la persona dalla fila
+	public void remove (Persona p) {
 		for (int i = 0; i < fila.size(); i++) {
-			if ( fila.get(i).getID() == id )
+			if ( fila.get(i) == p )
 				fila.remove(i);
 				return;
 		}
-		throw new PersonNotFoundException();
+		throw new PersonNotFoundException("la persona indicata non esiste nella cella");
 	}
 
 	//aggiungi in fondo alla fila una persona
