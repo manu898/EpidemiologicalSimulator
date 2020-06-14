@@ -13,9 +13,11 @@ public class Virus {
     private int giornoContagio;
     private int giornoDadoS;  //controlla: valore compreso tra giorno odierno e giorno contagio+(D/3)
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
+    private Simulazione simulazione;
 
-    public Virus() {
-        this.giornoContagio = Universo.getGiorno();
+    public Virus(Simulazione sim) {
+        this.simulazione = sim;
+        giornoContagio = sim.getGiorno();
     }
 
     public boolean dadoContagio() {
@@ -81,6 +83,7 @@ public class Virus {
     public int getGiornoDadoS() { return giornoDadoS; } //necessario?
     public int getGiornoDadoM() { return giornoDadoM; } //necessario?
     public int getGiornoContagio() { return giornoContagio; } //necessario?
+    public Simulazione getSimulazione() { return simulazione; }
 
     //static setter
     //vanno aggiunti i controlli sulla correttezza dei parametri
@@ -96,5 +99,7 @@ public class Virus {
     public void setGiornoDadoM(int giornoDadoM) { this.giornoDadoM = giornoDadoM;} //necessario?
 
     public void setGiornoContagio(int g) { giornoContagio = g; } //necessario?
+
+    public void setSimulazione(Simulazione sim) { this.simulazione = sim; }
 
 }

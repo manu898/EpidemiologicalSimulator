@@ -27,7 +27,7 @@ public class Persona {
     //lista delle persone incontrate giorno per giorno
     Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
 
-    public Persona(int ID, Governo gov){
+    public Persona(int ID, Governo gov, Simulazione simulazione){
         //ID della persona, non può essere negativo
         this.ID = ID;
         this.gov = gov;
