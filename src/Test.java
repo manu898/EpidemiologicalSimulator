@@ -5,6 +5,19 @@ import java.util.Hashtable;
 
 public class Test {
     public static void main(String[] args) {
+        Governo g = new Governo(40, 2);
+        Arena a = new Arena(100,100);
+        Simulazione sim = new Simulazione(g, a, 100, 1);
+        System.out.println(sim.getGiorno());
+        System.out.println(sim.getVelocita());
+        System.out.println(sim.getGoverno());
+        System.out.println(sim.getGoverno().getCosto_tampone());
+        System.out.println(sim.getGoverno().getRisorse());
+        System.out.println(sim.getPopolazione());
+        System.out.println(sim.getArena());
+        for (Persona p: sim.getPersone())
+            System.out.println(p.getID());
+        /*
         Governo papuasia = new Governo();
         Persona p = new Persona(1, papuasia);
         Persona p2 = new Persona(2,papuasia);
