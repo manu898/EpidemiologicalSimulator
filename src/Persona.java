@@ -25,12 +25,16 @@ public class Persona {
     private Governo gov;
 
     //lista delle persone incontrate giorno per giorno
-    Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
+    private Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
+
+    //la simulazione a cui appartiene la persona
+    private Simulazione simulazione;
 
     public Persona(int ID, Governo gov, Simulazione simulazione){
         //ID della persona, non può essere negativo
         this.ID = ID;
         this.gov = gov;
+        this.simulazione = simulazione;
 		inMovimento = true;
 		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
     }
@@ -53,7 +57,7 @@ public class Persona {
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
         if ( vir == null && v.dadoContagio() ) {
-            vir = new Virus();
+            vir = new Virus(simulazione);
             mustcheckvirus = true;
         }
     }
@@ -109,14 +113,14 @@ public class Persona {
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
     public void addPersona_incontrata( Persona p ) {
-        ArrayList<Persona> app = persone_incontrate.get(Universo.getGiorno());
+        ArrayList<Persona> app = persone_incontrate.get(simulazione.getGiorno());
         if ( app != null ) {
             app.add(p);
         }
         else {
             app = new ArrayList<Persona>();
             app.add(p);
-            persone_incontrate.put(Universo.getGiorno(), app);
+            persone_incontrate.put(simulazione.getGiorno(), app);
         }
     }
 
@@ -140,6 +144,8 @@ public class Persona {
     public Governo getGoverno() { return gov; }
 
     public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
+
+    public Simulazione getSimulazione() { return simulazione; }
 
     //setter
     //ID della persona, non può essere negativo
@@ -168,4 +174,6 @@ public class Persona {
     public void setPersone_incontrate(Hashtable<Integer, ArrayList<Persona>> persone_incontrate) {
         this.persone_incontrate = persone_incontrate;
     }
+
+    public void setSimulazione(Simulazione simulazione) { this.simulazione = simulazione; }
 }

@@ -3,10 +3,15 @@ import java.util.Random;
 public class Virus {
     //parametri della simulazione
     //vanno aggiunti i controlli sulla correttezza dei parametri (gestiti nel main?--> gestiti nel Controller)
+    //infettivita' del virus
     private static int INFETTIVITA;
+    //letalita' del virus
     private static int LETALITA;
+    //sintomaticita' del virus
     private static int SINTOMATICITA;
+    //durata della malattia
     private static int DURATA;
+    //variabile di tipo random per determinare gli esiti dei contatti tra persone, gli esiti dei lanci dei dadi
     private static Random r = new Random();
 
     //campi dell'oggetto virus
@@ -27,28 +32,28 @@ public class Virus {
     }
 
     public boolean isIncubazioneFinita() {
-        if (Universo.getGiorno() == giornoContagio + DURATA / 6) {
-            int bound = (giornoContagio + DURATA / 3) - Universo.getGiorno();
-            giornoDadoS = (bound == 0 ? Universo.getGiorno() : Universo.getGiorno() + r.nextInt(bound));
+        if (simulazione.getGiorno() == giornoContagio + DURATA / 6) {
+            int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
+            giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
         }
         return false;
     }
 
     public boolean isGiornoDadoS() {
-        if (Universo.getGiorno() == giornoDadoS)
+        if (simulazione.getGiorno() == giornoDadoS)
             return true;
         return false;
     }
 
     public boolean isGiornoDadoM() {
-        if (Universo.getGiorno() == giornoDadoM)
+        if (simulazione.getGiorno() == giornoDadoM)
             return true;
         return false;
     }
 
     public boolean isMalattiaFinita() {
-        if (Universo.getGiorno() == giornoContagio + DURATA)
+        if (simulazione.getGiorno() == giornoContagio + DURATA)
             return true;
         return false;
     }
@@ -59,7 +64,7 @@ public class Virus {
         if (x <= SINTOMATICITA) {
             //controlla: valore giornoDadoM compreso tra giorno odierno(giornoDadoS) e giorno contagio+D (escluso)
             int bound = (giornoContagio + DURATA) - giornoDadoS;
-            giornoDadoM = (bound == 0 ? Universo.getGiorno() : Universo.getGiorno() + r.nextInt(bound));
+            giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
         }
         return false;
