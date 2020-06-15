@@ -71,7 +71,7 @@ public class Persona {
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
-                        System.out.println("Sono GIALLO");  //CANCELLA
+                        vir.calcola_giornoDadoS(); //TEST
                     }
                     else
                         break;
@@ -80,6 +80,7 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
+                            vir.calcola_giornoDadoM();   //TEST
                             comunicaSintomaticita();
                         }
                         else

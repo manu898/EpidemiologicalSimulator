@@ -41,9 +41,10 @@ public class Virus {
     //controlla se il periodo di incubazione e' terminato, se si stabilisce anche il giorno in cui va lanciato
     //il dado della sintomaticita'
     public boolean isIncubazioneFinita() {
-        if (simulazione.getGiorno() == giornoContagio + DURATA / 6) {
-            int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
-            giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
+        if (simulazione.getGiorno() == giornoContagio + DURATA / 6) {   //TEST
+            //in persona setta il giornoDadoS TODO
+            //int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
+            //giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
         }
         return false;
@@ -70,15 +71,24 @@ public class Virus {
         return false;
     }
 
+    public void calcola_giornoDadoS() {
+        int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
+        giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
+    }
+
+    public void calcola_giornoDadoM() {
+        int bound = (giornoContagio + DURATA) - giornoDadoS;
+        giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
+    }
 
     //determina l'esito del lancio del dado della sintomaticita', se positivo stabilisce il giorno in cui va lanciato
     //il dado della mortalita'
     public boolean dadoS() {
         int x = r.nextInt(101);
-        if (x <= SINTOMATICITA) {
-            //controlla: valore giornoDadoM compreso tra giorno odierno(giornoDadoS) e giorno contagio+D (escluso)
-            int bound = (giornoContagio + DURATA) - giornoDadoS;
-            giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
+        if (x <= SINTOMATICITA) {    //TEST
+            //in persona calcola il giornoDadoM TODO
+            //int bound = (giornoContagio + DURATA) - giornoDadoS;
+            //giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
         }
         return false;

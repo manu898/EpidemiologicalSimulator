@@ -7,6 +7,7 @@ public class Simulazione {
     private ArrayList<Persona> persone;
     private Governo governo;
     private Arena arena;
+    private double R0;
 
 
     public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
@@ -15,9 +16,20 @@ public class Simulazione {
         this.arena = arena;
         this.persone = new ArrayList<Persona>(popolazione);
         init_persone(popolazione);
+        //scelgo la prima persona gialla
+        //TEST
+        Persona primo_giallo = persone.get(0);
+        primo_giallo.setVir(new Virus(this));
+        primo_giallo.setStato(StatoSalute.GIALLO);
+        primo_giallo.setMustcheckvirus(true);
+        primo_giallo.getVir().calcola_giornoDadoS();
+        //TEST
         arena.distribuisciPersone(persone);
         this.velocita = velocita;
+        R0 = velocita * Virus.getD() * Virus.getI();
     }
+
+    //public boolean run() {} TODO
 
     private void init_persone(int popolazione) {
         for (int i = 0; i < popolazione; i++) {
@@ -43,6 +55,7 @@ public class Simulazione {
 
     public Arena getArena() { return arena; }
 
+    public double getR0() { return R0; }
     //setter
     public void setGiorno(int g) { giorno = g; }
 
@@ -55,4 +68,6 @@ public class Simulazione {
     public void setGoverno(Governo governo) { this.governo = governo; }
 
     public void setArena(Arena arena) { this.arena = arena; }
+
+    public void setR0(double R0) { this.R0 = R0; }
 }
