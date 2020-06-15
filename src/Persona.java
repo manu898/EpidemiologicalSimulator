@@ -52,6 +52,7 @@ public class Persona {
     //comunica al governo la propria morte
     public void comunicaMorte() {
         gov.add_morto(this);
+
     }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this

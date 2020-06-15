@@ -12,6 +12,8 @@ public class UiJfx extends Application {
     private static Controller controller = null;
     private static Simulazione simulazioneA = null;
 
+
+
     public static void setSimulazione(Simulazione simulazione) {
         simulazioneA = simulazione;
     }
@@ -32,6 +34,7 @@ public class UiJfx extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         initUi(stage); // una volta che ha finito di avviare la scena esce dal metodo 'start'
+        System.out.println("ciao");
     }
 
     private void initUi2(Stage stage){

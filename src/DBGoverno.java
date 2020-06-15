@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class DBGoverno {
+
+    private ArrayList<Persona> asintomatici;
     //la lista di tutti i sintomatici durante la simulazione
     private ArrayList<Persona> sintomatici;
     //il numero di tutti i morti durante la simulazione
@@ -11,14 +13,21 @@ public class DBGoverno {
 
     public DBGoverno() {
         sintomatici = new ArrayList<Persona>();
+        asintomatici = new ArrayList<Persona>();
         morti = 0;
         guariti = 0;
+    }
+
+    public void add_asintomatici(ArrayList<Persona> ps){
+        asintomatici.addAll(ps);
     }
 
     //aggiorna la lista dei sintomatici (assume che ps sia di soli sintomatici)
     public void add_sintomatici(ArrayList<Persona> ps){  //TEST
         sintomatici.addAll(ps);
     }
+
+    public void remove_asintomatico(Persona p){ asintomatici.remove(p);}
     //rimuovi una persona dalla lista dei sintomatici (assume che p sia sintomatico e quindi si trova nella lista)
     public void remove_sintomatico(Persona p) {  //TEST
         sintomatici.remove(p);
@@ -29,6 +38,10 @@ public class DBGoverno {
     public void add_guariti(int n) { guariti = guariti + n;}  //TEST
 
     //getter
+
+    public ArrayList<Persona> getAsintomatici() {
+        return asintomatici;
+    }
     public ArrayList<Persona> getSintomatici() { return sintomatici; }
     public int getMorti() { return morti; }
     public int getGuariti() { return guariti; }

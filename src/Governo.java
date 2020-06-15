@@ -11,6 +11,8 @@ public class Governo {
     //variabile di riferimento al database del governo
     private DBGoverno database;
 
+    private ArrayList<Persona> nuovi_asintomatici;
+
     //le persone diventate sintomatiche giorno per giorno
     private ArrayList<Persona> nuovi_sintomatici;
 
@@ -25,6 +27,7 @@ public class Governo {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
         database = new DBGoverno();
+        nuovi_asintomatici = new ArrayList<>();
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
@@ -34,20 +37,23 @@ public class Governo {
     //aggiunge un sintomatico alla lista dei nuovi_sintomatici per il giorno corrente (assume che p non sia null)
     public void add_sintomatico( Persona p ) {
         if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona asintomatica ai nuovi_sintomatici");
+        nuovi_asintomatici.remove(p);
         nuovi_sintomatici.add(p);
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
-    //la persona va tolta da qualche lista? Dei nuovi_sintomatici  o dei sintomatici in DBGoverno?  TODO
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
+        nuovi_sintomatici.remove(p);
+        nuovi_asintomatici.remove(p);
         nuovi_guariti.add(p);
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
-    //la persona va tolta da qualche lista? Dei nuovi_sintomatici  o dei sintomatici in DBGoverno?   TODO
+
     public void add_morto ( Persona p ) {
         if ( p.getStato() != StatoSalute.NERO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non morta ai nuovi_morti");
+        nuovi_sintomatici.remove(p);
         nuovi_morti.add(p);
     }
 
@@ -66,24 +72,63 @@ public class Governo {
 
     //setter
     public void setCosto_tampone(int costo_tampone) { this.costo_tampone = costo_tampone; }
+
+
     public void setRisorse(int risorse) { this.risorse = risorse; }
+
+
     public void setDatabase(DBGoverno database) { this.database = database; }
+
+
     public void setNuovi_sintomatici(ArrayList<Persona> ns ) {
         for (Persona p: ns){
             if (p.getStato() != StatoSalute.ROSSO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono sintomatiche");
         }
         nuovi_sintomatici = ns;
     }
+
+
     public void setNuovi_guariti(ArrayList<Persona> ng) {
         for (Persona p: ng){
             if (p.getStato() != StatoSalute.BLU) throw new IllegalArgumentException("Non tutte le persone aggiunte sono guarite");
         }
         nuovi_guariti = ng;
     }
+
+
     public void setNuovi_morti(ArrayList<Persona> nm) {
         for (Persona p: nm){
             if (p.getStato() != StatoSalute.NERO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono morte");
         }
         nuovi_morti = nm;
+    }
+
+    public void aggiornamento(){
+
+        int numeroSintomatici = database.getSintomatici().size();
+        // servono le persone ferme e le persone morte ... aggiungo ... sei un uomo morto TODO
+        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
+
+        for(Persona persona : nuovi_sintomatici){
+            database.remove_asintomatico(persona);
+        }
+
+        for(Persona persona : nuovi_guariti){
+            database.remove_asintomatico(persona); // se sta cosa genera eccezzioni va dato un PUGNO a qualcuno che non faccio nome TODO
+            database.remove_sintomatico(persona);
+        }
+
+
+        for(Persona persona : nuovi_morti){
+            database.remove_sintomatico(persona);
+        }
+
+        database.add_asintomatici(nuovi_asintomatici);
+        database.add_sintomatici(nuovi_sintomatici);
+        database.add_guariti(nuovi_guariti.size());
+        database.add_morti(nuovi_morti.size());
+
+
+
     }
 }

@@ -23,7 +23,6 @@ public class Controller{
     @FXML
     private TextField arenaL;
 
-
     @FXML
     private TextField popolazione;
 
@@ -173,10 +172,15 @@ public class Controller{
 
         UiJfx.setSimulazione(simulazione);
 
+
+        Prova.setSimulazione(getSimulazione());
+
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
         Virus.setL(Integer.parseInt(getLetalita().getText()));
         Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
+
+        Prova.main(null);
     }
 
 }
