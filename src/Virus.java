@@ -24,10 +24,10 @@ public class Virus {
     //il giorno in cui va lanciato il dado della mortalita'
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
     //reference alla simulazione a cui appartiene questo oggetto
-    private Simulazione simulazione;
+    private Simulazione simulazione;  //TEST
 
     public Virus(Simulazione sim) {
-        this.simulazione = sim;
+        this.simulazione = sim;  //TEST
         giornoContagio = sim.getGiorno();
     }
 
@@ -42,7 +42,7 @@ public class Virus {
     //il dado della sintomaticita'
     public boolean isIncubazioneFinita() {
         if (simulazione.getGiorno() == giornoContagio + DURATA / 6) {   //TEST
-            //in persona setta il giornoDadoS TODO
+            //in persona setta il giornoDadoS TODO (fatto)
             //int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
             //giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
@@ -71,12 +71,14 @@ public class Virus {
         return false;
     }
 
-    public void calcola_giornoDadoS() {
+    //calcola il giorno in cui va lanciato il dado della sintomaticita'
+    public void calcola_giornoDadoS() {  //TEST
         int bound = (giornoContagio + DURATA / 3) - simulazione.getGiorno();
         giornoDadoS = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
     }
 
-    public void calcola_giornoDadoM() {
+    //calcola il giorno in cui va lanciato il dado della mortalita'
+    public void calcola_giornoDadoM() {  //TEST
         int bound = (giornoContagio + DURATA) - giornoDadoS;
         giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
     }
@@ -86,7 +88,7 @@ public class Virus {
     public boolean dadoS() {
         int x = r.nextInt(101);
         if (x <= SINTOMATICITA) {    //TEST
-            //in persona calcola il giornoDadoM TODO
+            //in persona calcola il giornoDadoM TODO (fatto)
             //int bound = (giornoContagio + DURATA) - giornoDadoS;
             //giornoDadoM = (bound == 0 ? simulazione.getGiorno() : simulazione.getGiorno() + r.nextInt(bound));
             return true;
@@ -110,9 +112,9 @@ public class Virus {
     public static int getD() { return DURATA; }
 
     //getter
-    public int getGiornoDadoS() { return giornoDadoS; } //necessario?
-    public int getGiornoDadoM() { return giornoDadoM; } //necessario?
-    public int getGiornoContagio() { return giornoContagio; } //necessario?
+    public int getGiornoDadoS() { return giornoDadoS; }
+    public int getGiornoDadoM() { return giornoDadoM; }
+    public int getGiornoContagio() { return giornoContagio; }
     public Simulazione getSimulazione() { return simulazione; }
 
     //static setter
@@ -123,12 +125,12 @@ public class Virus {
     public static void setD(int d) { DURATA = d; }
 
     //setter
-    //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3)
-    public void setGiornoDadoS(int giornoDadoS) { this.giornoDadoS = giornoDadoS;} //necessario?
-    //controlla: valore compreso tra giorno odierno e giorno odierno+D
-    public void setGiornoDadoM(int giornoDadoM) { this.giornoDadoM = giornoDadoM;} //necessario?
+    //controlla: valore compreso tra giorno odierno e giorno odierno+(D/3) (in generale non deve essere prima di giornocontagio)
+    public void setGiornoDadoS(int giornoDadoS) { this.giornoDadoS = giornoDadoS;}
+    //controlla: valore compreso tra giorno odierno e giorno odierno+D  (in generale non deve essere prima di giornoDadoS)
+    public void setGiornoDadoM(int giornoDadoM) { this.giornoDadoM = giornoDadoM;}
 
-    public void setGiornoContagio(int g) { giornoContagio = g; } //necessario?
+    public void setGiornoContagio(int g) { giornoContagio = g; }
 
     public void setSimulazione(Simulazione sim) { this.simulazione = sim; }
 

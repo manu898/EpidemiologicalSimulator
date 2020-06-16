@@ -50,14 +50,11 @@ public class Persona {
     }
 
     //comunica al governo la propria morte
-    public void comunicaMorte() {
-        gov.add_morto(this);
-
-    }
+    public void comunicaMorte() { gov.add_morto(this); }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
-        if ( vir == null && v.dadoContagio() ) {
+        if ( vir == null && v.dadoContagio() ) { //TEST vir==null
             vir = new Virus(simulazione);
             mustcheckvirus = true;
         }

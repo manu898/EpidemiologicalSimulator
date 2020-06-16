@@ -1,20 +1,32 @@
 import java.util.ArrayList;
 
 public class Simulazione {
-    //giorno non può essere negativo
+    //il giorno della simulazione
     private int giorno;
+    //la velocita delle persone (numero medio di incontri in un giorno)
     private double velocita;
+    //la lista di tutte le persone
     private ArrayList<Persona> persone;
+    //il governo che agisce nella simulazione
     private Governo governo;
+    //l'arena in cui si muovo e vivono le persone
     private Arena arena;
+    //il fattore di contagiosita' R0
     private double R0;
 
+    //la percentuale di persone da incontrare rispettando il valore velocita, calcolata sulle persone in movimento
     private double perc_mov;
+
     //potrebbero essere solo variabili locali nel metodo run
+    //il numero di persone verdi e che non hanno contratto il virus
     private int verdi_sani;
+    //il numero di asintomatici
     private int gialli;
+    //il numero di sintomatici
     private int rossi;
+    //il numero di morti
     private int neri;
+    //il numero di guariti
     private int blu;
 
 
@@ -38,6 +50,7 @@ public class Simulazione {
         perc_mov = velocita * 100 / popolazione;   //TEST
     }
 
+    //esegui la simulazione per 'giorni' giorni
     public boolean run(int giorni) {     //TEST
         for (int i = 0; i < giorni ; i++) {
             verdi_sani = 0;
@@ -67,14 +80,17 @@ public class Simulazione {
         return true;
     }
 
+    //verifica se la malattia ha vinto
     public boolean vittoria_malattia() {   //TEST
         return (neri == getPopolazione());
     }
 
+    //verifica se sono finite le risorse
     public boolean risorse_finite() {     //TEST
         return (governo.getRisorse() <= 0);
     }
 
+    //controlla lo StatoSalute di una persona e aumenta il contatore relativo
     private void check_stato(Persona p) {  //TEST
         switch (p.getStato()) {
             case VERDE:
@@ -96,12 +112,14 @@ public class Simulazione {
         }
     }
 
+    //crea le persone
     private void init_persone(int popolazione) {
         for (int i = 0; i < popolazione; i++) {
             persone.add(new Persona(i, governo, this));
         }
     }
 
+    //fornisce il numero di persone della simulazione
     public int getPopolazione() {
         return persone.size();
     }
