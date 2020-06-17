@@ -2,10 +2,19 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Arena {
 
+	//altezza della matrice
 	private int altezza;
+
+	//larghezza della matrice
 	private int larghezza;
+
+	//la matrice di celle in cui possono andare le persone
 	private Cella[][] matrice;
+
+	//variabile di tipo Random per calcolare lo spostamento
 	private Random r;
+
+	//massimo spostamento di una persona nella matrice
 	private final int spostamentoMax = 10;
 
 	public Arena (int altezza, int larghezza){
@@ -38,24 +47,28 @@ public class Arena {
 
 	}
 
+	//fai spostare le persone all'interno dell'arena
 	public void move(ArrayList<Persona> persone) {
 
 		for(Persona persona : persone ){
 			if(persona.getMovimento()){
+				//spostamento max a sx o in alto
 				int low;
+				//spostamento max a dx o in basso
 				int high;
+				//la nuova coordinata y in cui andra' la persona
 				int newY;
+				//la nuova coordinata x in cui andra' la persona
 				int newX;
 
 				int y = persona.getPosizione().getY();
 				int x = persona.getPosizione().getX();
 
-				// in ogni cella abbiamo una lista di Persone
 				matrice[y][x].remove(persona);
 
 				if(y >= spostamentoMax){
 					low = - spostamentoMax;
-					if(altezza - y >= spostamentoMax){
+					if(altezza - y > spostamentoMax){
 						high = spostamentoMax;
 					}else{
 						high = altezza - y - 1;
@@ -63,7 +76,7 @@ public class Arena {
 					newY = r.nextInt(high - low + 1) + low + y;
 				}else{
 					low = -y;
-					if (altezza - y >= spostamentoMax) {
+					if (altezza - y > spostamentoMax) {
 						high = spostamentoMax;
 					} else {
 						high = altezza - y - 1;
@@ -74,7 +87,7 @@ public class Arena {
 
 				if(x >= spostamentoMax){
 					low = - spostamentoMax;
-					if(larghezza - x >= spostamentoMax){
+					if(larghezza - x > spostamentoMax){
 						high = spostamentoMax;
 					}else{
 						high = larghezza - x - 1;
@@ -82,7 +95,7 @@ public class Arena {
 					newX = r.nextInt(high - low + 1) + low + x;
 				}else{
 					low = - x;
-					if (larghezza - x >= spostamentoMax) {
+					if (larghezza - x > spostamentoMax) {
 						high = spostamentoMax;
 					} else {
 						high = larghezza - x - 1;

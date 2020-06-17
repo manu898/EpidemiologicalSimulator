@@ -46,8 +46,8 @@ public class Simulazione {
         //TEST
         arena.distribuisciPersone(persone);
         this.velocita = velocita;
-        R0 = velocita * Virus.getD() * Virus.getI(); //TEST
-        perc_mov = velocita * 100 / popolazione;   //TEST
+        R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
+        perc_mov = velocita * 100 / popolazione;   //TEST OK
     }
 
     //esegui la simulazione per 'giorni' giorni
@@ -58,24 +58,26 @@ public class Simulazione {
             rossi = 0;
             neri = 0;
             blu = 0;
-            int in_movimento = 0;
+            int in_movimento = 0;        //TEST OK
             for (Persona p : persone) {
                 if (p.getMovimento())
                     in_movimento++;
             }
-            velocita = in_movimento * perc_mov / 100;
+            velocita = in_movimento * perc_mov / 100;    //TEST OK
+            R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
             int n_incontrate = 0;
-            while (n_incontrate / in_movimento < velocita) {
+            while (n_incontrate / in_movimento < velocita) { //TEST, controlla prima move di arena e check_incontri
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
             }
-            for (Persona p: persone) {
+            for (Persona p: persone) { //TEST  OK
                 p.checkVirus();
                 check_stato(p);
             }
             //governo.controlla()
-            if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )
+            if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
+            giorno++;
         }
         return true;
     }
@@ -83,30 +85,30 @@ public class Simulazione {
     //verifica se la malattia ha vinto
     public boolean vittoria_malattia() {   //TEST
         return (neri == getPopolazione());
-    }
+    } //TEST OK
 
     //verifica se sono finite le risorse
     public boolean risorse_finite() {     //TEST
         return (governo.getRisorse() <= 0);
-    }
+    }  //TEST OK
 
     //controlla lo StatoSalute di una persona e aumenta il contatore relativo
-    private void check_stato(Persona p) {  //TEST
+    public void check_stato(Persona p) {  //TEST OK
         switch (p.getStato()) {
             case VERDE:
-                if (p.getVir() != null)
+                if (p.getVir() == null)
                     verdi_sani++;
                 break;
-            case GIALLO:
+            case GIALLO:  //assume che le persone abbiano il virus
                 gialli++;
                 break;
-            case ROSSO:
+            case ROSSO:   //assume che le persone abbiano il virus
                 rossi++;
                 break;
-            case NERO:
+            case NERO:    //assume che le persone abbiano il virus
                 neri++;
                 break;
-            case BLU:
+            case BLU:     //assume che le persone abbiano avuto il virus
                 blu++;
                 break;
         }
@@ -153,11 +155,9 @@ public class Simulazione {
     public int getBlu() { return blu; }
 
     //setter
-    public void setGiorno(int g) { giorno = g; }
+    public void setGiorno(int giorno) { this.giorno = giorno; }
 
-    public void setVelocita(double velocita) {
-        velocita = velocita;
-    }
+    public void setVelocita(double velocita) { this.velocita = velocita; }
 
     public void setPersone(ArrayList<Persona> persone) { this.persone = persone; }
 

@@ -101,9 +101,11 @@ public class Persona {
             }
         }
         else {
-            if (vir.isMalattiaFinita()) {
-                if (stato == StatoSalute.ROSSO)
+            if ( vir != null && vir.isMalattiaFinita()) {
+                if (stato == StatoSalute.ROSSO) {
+                    stato = StatoSalute.BLU;
                     comunicaGuarigione();
+                }
                 stato = StatoSalute.BLU;
             }
         }
