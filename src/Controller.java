@@ -50,7 +50,6 @@ public class Controller{
     @FXML
     private Button btn;
 
-
     public Alert alert = new Alert(AlertType.ERROR);
 
     public void setSimulazione(Simulazione simulazione) {
@@ -101,6 +100,9 @@ public class Controller{
         return velocita;
     }
 
+    public Button getBtn() {
+        return btn;
+    }
 
     @FXML
     public void inviaDati() throws NumberFormatException{
@@ -172,15 +174,17 @@ public class Controller{
 
         UiJfx.setSimulazione(simulazione);
 
+        System.out.println("Quello che sta dentro controller " + simulazione);
 
-        Prova.setSimulazione(getSimulazione());
 
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
         Virus.setL(Integer.parseInt(getLetalita().getText()));
         Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
 
-        Prova.main(null);
+        System.out.println(Virus.getI());
+
+        //UiJfx.button = true; comuniciamo che abbiamo cliccato il bottone di inizio simulazione
     }
 
 }
