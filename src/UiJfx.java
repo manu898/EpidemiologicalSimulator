@@ -139,7 +139,6 @@ public class UiJfx extends Application {
 
     XYChart.Series guariti = new XYChart.Series();
 
-
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
@@ -157,14 +156,15 @@ public class UiJfx extends Application {
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
-                inviaDati();
-                while (ret){
-                    ret = simulazioneVera.run(1);
+                Boolean bool;
+                bool = inviaDati();
+                if(bool){
+                    while (ret) {
+                        ret = simulazioneVera.run(1);
+                    }
+                    window.setScene(sceneChart);
+                    window.setFullScreen(true);
                 }
-                window.setScene(sceneChart);
-                window.setFullScreen(true);
-
             }
         });
 
@@ -242,7 +242,7 @@ public class UiJfx extends Application {
         }
     }
 
-    public void inviaDati() throws NumberFormatException{
+    public boolean inviaDati() throws NumberFormatException{
         alert.setTitle("ERRORE");
         try{
             int arenaH_value = Integer.parseInt(getArenaH().getText());
@@ -260,53 +260,65 @@ public class UiJfx extends Application {
             if(arenaH_value <= 0 || arenaL_value <= 0){
                 alert.setContentText("La grandezza dell'arena non va bene");
                 alert.show();
+                return false;
             }
 
             //  vincoli sulla popolazione
             if(popolazione_value <= 0){
                 alert.setContentText("Almeno un abitante deve esistere ");
                 alert.show();
+                return false;
             }
 
             // vincoli sulle risorse
             if(risorse_value < 0 | risorse_value > 10 * tampone_value * popolazione_value | risorse_value > popolazione_value * durata_value){
                 alert.setContentText("Le risorse non rispettano i vincoli, cambia il numero di risorse");
                 alert.show();
+                return false;
             }
 
             // vincoli sulla velocità
             if(velocita_value <= 0){
                 alert.setContentText("La velocità deve essere maggiore di 0");
                 alert.show();
+                return false;
             }
 
             // vincoli sul costo del tampone
             if(tampone_value < 0){
                 alert.setContentText("Il tampone non può costare meno di 0 risorse");
                 alert.show();
+                return false;
             }
 
             if(durata_value <= 0){
                 alert.setContentText("Il virus deve durare almeno 1 giorno");
                 alert.show();
+                return false;
             }
 
             if(infettivita_value <= 0 | infettivita_value > 100){
                 alert.setContentText("L'infettività non va bene");
                 alert.show();
+                return false;
             }
 
             if(sintomaticita_value <= 0 | sintomaticita_value > 100 ){
                 alert.setContentText("La sintomaticità non va bene");
+                alert.show();
+                return false;
             }
 
             if(letalita_value <= 0 | letalita_value > 100){
                 alert.setContentText("La letalità non va bene");
+                alert.show();
+                return false;
             }
 
         }catch (NumberFormatException e){
             alert.setContentText("Devi inserire valori numerici !!!");
             alert.show();
+            return false;
         }
 
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
@@ -321,6 +333,7 @@ public class UiJfx extends Application {
                 Integer.parseInt(getPopolazione().getText()),
                 Double.parseDouble(getVelocita().getText()));
 
+        return true;
     }
 
 
