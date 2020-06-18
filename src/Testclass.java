@@ -7,7 +7,7 @@
 public class Testclass {
     public static void main(String[] args) {
         Governo g = new Governo(100, 5);
-        Arena a = new Arena(100,100);
+        Arena a = new Arena(100,100, 10);
         Virus.setD(6);
         Virus.setI(100);
         Virus.setS(100);

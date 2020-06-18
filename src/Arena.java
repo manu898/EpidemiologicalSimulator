@@ -15,10 +15,11 @@ public class Arena {
 	private Random r;
 
 	//massimo spostamento di una persona nella matrice
-	private final int spostamentoMax = 10;
+	private int spostamentoMax;
 
-	public Arena (int altezza, int larghezza){
+	public Arena (int altezza, int larghezza, int spostamentoMax){
 		r = new Random();
+		setSpostamentoMax(spostamentoMax);
 		this.altezza = altezza;
 		this.larghezza = larghezza;
 		matrice = new Cella[altezza][larghezza];  // creo la matrice
@@ -200,6 +201,11 @@ public class Arena {
 		this.matrice = matrice;
 	}
 
+	public void setSpostamentoMax(int spostamentoMax) {
+		if ( spostamentoMax < 1) throw new IllegalArgumentException("Lo spostamento deve essere almeno di 1");
+		this.spostamentoMax = spostamentoMax;
+	}
+
 
 	// getter
 
@@ -214,6 +220,8 @@ public class Arena {
 	public int getLarghezza() {
 		return larghezza;
 	}
+
+	public int getSpostamentoMax() { return spostamentoMax; }
 
 
 }
