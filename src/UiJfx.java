@@ -68,13 +68,14 @@ public class UiJfx extends Application {
     private TextField letalita = new TextField();
     private HBox letalitaBox = new HBox(letalitaLabel,letalita);
 
+
+
+    ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
     private RadioButton strg2 = new RadioButton("Strategia 2");
     private RadioButton strg3 = new RadioButton("Strategia 3");
     private RadioButton strg4 = new RadioButton("Strategia 4");
-    private RadioButton selected = null;
-
-    ToggleGroup toggleGroup = new ToggleGroup();
+    private RadioButton selectedRadioButton = null;
 
     private HBox strategieBox = new HBox();
 
@@ -125,11 +126,6 @@ public class UiJfx extends Application {
     private Scene sceneIniziale = null;
 
     private VBox vBox = new VBox();
-
-    private final FlowPane container = new FlowPane();
-
-    private ScrollPane sc = new ScrollPane();
-
 
 
 
@@ -190,13 +186,32 @@ public class UiJfx extends Application {
         // scena iniziale - Inserimento parametri
 
 
-        btnInvia.setTooltip(tooltipRisorse);
+        String stylesInviaBtn = "-fx-background-color : dodgerblue;" +
+                "-fx-font-size: 20;" +
+                "-fx-max-width: 200;" +
+                "-fx-text-fill : white;";
+        String stylesInterrompiBtn = "-fx-background-color : red;" +
+                "-fx-font-size: 20;" +
+                "-fx-max-width: 200;" +
+                "-fx-text-fill: white";
+        String stylesFinaleBtn = "-fx-background-color: limegreen;" +
+                "-fx-font-size: 20;" +
+                "-fx-max-width: 200;" +
+                "-fx-text-fill: white;";
 
 
-        setFont(20.0, arenaHLabel,arenaLLabel,popolazioneLabel,
-                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel);
+        btnInvia.setStyle(stylesInviaBtn);
+        btnInterrompi.setStyle(stylesInterrompiBtn);
+        btnFinale.setStyle(stylesFinaleBtn);
 
-        setWidth(arenaH,arenaL,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,btnInvia);
+
+        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,popolazioneLabel,
+                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
+
+
+
+
+        setWidth(arenaH,arenaL,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
 
         strg1.setToggleGroup(toggleGroup);
         strg2.setToggleGroup(toggleGroup);
@@ -345,21 +360,24 @@ public class UiJfx extends Application {
 
     }
 
-    public  void setFont(double fontsize, Label... labels){
-        for(Label label : labels)
-            label.setFont(new Font(20.0));
+    public  void setFontAndPadding(double fontsize, Labeled... labels){
+        for(Labeled labeled : labels) {
+            labeled.setFont(new Font(20.0));
+            labeled.setPadding(new Insets(20.0));
+        }
     }
 
-    public void setWidth(Region... element){
-        for(Region node : element){
+    public void setWidth(TextField... element){
+        for(TextField node : element){
             node.setMaxWidth(100.0);
+            node.setFont(new Font(16));
+            node.setAlignment(Pos.CENTER);
         }
     }
 
     public void setPosAndMargin(HBox... elements){
         for(HBox element : elements){
             element.setAlignment(Pos.CENTER);
-            VBox.setMargin(element, new Insets(10.0));
         }
     }
 
@@ -387,7 +405,7 @@ public class UiJfx extends Application {
             int sintomaticita_value = Integer.parseInt(getSintomaticita().getText());
             int letalita_value = Integer.parseInt(getLetalita().getText());
 
-            selected = (RadioButton) toggleGroup.getSelectedToggle();
+            selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
 
 
             // vincoli sull'arena
@@ -467,7 +485,7 @@ public class UiJfx extends Application {
                 Integer.parseInt(getPopolazione().getText()),
                 Double.parseDouble(getVelocita().getText()));
 
-        System.out.println(selected);
+        System.out.println(selectedRadioButton);
 
         return true;
 
