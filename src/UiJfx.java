@@ -463,7 +463,7 @@ public class UiJfx extends Application {
         Governo governo = new Governo(Integer.parseInt(getRisorse().getText()), Integer.parseInt(getTampone().getText()));
 
         simulazioneVera = new Simulazione(governo,
-                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText())),
+                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText()),/*togli*/10),
                 Integer.parseInt(getPopolazione().getText()),
                 Double.parseDouble(getVelocita().getText()));
 
