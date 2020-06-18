@@ -13,24 +13,10 @@ import java.util.ArrayList;
 
 public class UiJfx extends Application {
 
-    private Scene scene = null;
-
-    private VBox vBox = new VBox();
-
-    private Scene sceneChart = null;
-
-    private VBox vBoxChart = null;
-
-    private Scene sceneMid = null;
-
-    private VBox vBoxMid = null;
-    private static Simulazione simulazioneVera = null;
 
     public Stage window;
 
-    private boolean ret = true;
-
-    // scene
+    // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
     private TextField arenaH = new TextField();
@@ -64,6 +50,7 @@ public class UiJfx extends Application {
     private Label letalitaLabel = new Label("Letalità");
     private TextField letalita = new TextField();
 
+    private static Simulazione simulazioneVera = null;
 
     public TextField getArenaH() {
         return arenaH;
@@ -115,6 +102,10 @@ public class UiJfx extends Application {
 
     public Alert alert = new Alert(Alert.AlertType.ERROR);
 
+    private Scene scene = null;
+
+    private VBox vBox = null;
+
 
 
     // sceneChart
@@ -133,26 +124,48 @@ public class UiJfx extends Application {
 
     XYChart.Series guariti = new XYChart.Series();
 
+    private Scene sceneChart = null;
 
-    // scena intermedia
+    private VBox vBoxChart = null;
 
-    private Label frase = new Label(" Sto simulando ...");
 
-    private Button btnSimulazione = new Button("Interrompi simulazione");
+    // scena intermedia - interrompi
+
+    private Label fraseMid = new Label(" Sto simulando ...");
+
+    private Button btnInterrompi = new Button("Interrompi simulazione");
+
+    private Scene sceneMid = null;
+
+    private VBox vBoxMid = null;
+
+    // scena intermedia - finale
+
+    private Label fraseFinale = new Label("Simulazione finita ! Vedi le statistiche ");
+
+    private Button btnFinale = new Button("Vedi statistiche");
+
+    private Scene sceneFinale = null;
+
+    private VBox vBoxFinale = null;
+
 
 
     @Override
     public void start(Stage stage) throws Exception {
+
         window = stage;
 
-        vBoxMid = new VBox();
-        vBoxMid.setAlignment(Pos.CENTER);
-        sceneMid = new Scene(vBoxMid);
+        // scena iniziale - Inserimento parametri
 
+        vBox = new VBox();
 
-        // fare un setStyleSheet riferito direttamente ai TF
+        vBox.setAlignment(Pos.CENTER);
 
-        arenaHLabel.setFont(new Font(20));
+        scene = new Scene(vBox);
+
+        setFont(20.0, arenaHLabel,arenaHLabel,popolazioneLabel,
+                velocitaLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel);
 
         setWidthAndMargin(arenaH,arenaL,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,btnInvia);
 
@@ -163,23 +176,39 @@ public class UiJfx extends Application {
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 boolean bool;
+
                 bool = inviaDati();
+
                 window.setScene(sceneMid);
+
                 window.setFullScreen(true);
+
+                boolean ret = true;
+
                 if(bool){
                     while (ret) {
                         ret = simulazioneVera.run(1);
                     }
-
-                    // window.setScene(scenaFinale);
-                    //frase.setText("Simulazione terminata!");
-                    //btnSimulazione.setText("Vedi statistiche");
+                    window.setScene(sceneFinale);
+                    window.setFullScreen(true);
                 }
             }
         });
 
-        btnSimulazione.setOnAction(new EventHandler<ActionEvent>() {
+
+
+
+        // scene intermedia - Interrompi
+
+        vBoxMid = new VBox();
+
+        vBoxMid.setAlignment(Pos.CENTER);
+
+        sceneMid = new Scene(vBoxMid);
+
+        btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 window.setScene(sceneChart);
@@ -188,10 +217,34 @@ public class UiJfx extends Application {
         });
 
 
-        vBox.setAlignment(Pos.CENTER);
-        scene = new Scene(vBox);
 
-        // sceneChart
+
+        // scena intermedia - Finale
+
+        vBoxFinale = new VBox();
+
+        vBoxFinale.setAlignment(Pos.CENTER);
+
+        sceneFinale = new Scene(vBoxFinale);
+
+        btnFinale.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                window.setScene(sceneChart);
+                window.setFullScreen(true);
+            }
+        });
+
+
+
+
+        // scena finale - Chart
+
+        vBoxChart = new VBox(stackedAreaChart);
+
+        vBoxChart.setAlignment(Pos.CENTER);
+
+        sceneChart = new Scene(vBoxChart);
 
         xAxis.setLabel("Time");
         yAxis.setLabel("Total");
@@ -232,20 +285,20 @@ public class UiJfx extends Application {
         stackedAreaChart.getData().addAll(morti,asintomatici,sintomatici,guariti);
 
 
-        vBoxChart = new VBox(stackedAreaChart);
-
-        vBoxChart.setAlignment(Pos.CENTER);
-        sceneChart = new Scene(vBoxChart);
-
+        // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì
 
         stage.setFullScreen(true);
         stage.setScene(scene);
-        stage.setTitle("Prova bella");
+        stage.setTitle("Epidemiological simulator");
         stage.show();
 
 
     }
 
+    public  void setFont(double fontsize, Label... labels){
+        for(Label label : labels)
+            label.setFont(new Font(20.0));
+    }
 
     public void setWidthAndMargin(Region... element){
         for(Region node : element){
