@@ -1,23 +1,15 @@
 import javafx.application.Application;
-import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class UiJfx extends Application {
 
@@ -29,10 +21,12 @@ public class UiJfx extends Application {
 
     private VBox vBoxChart = null;
 
+    private Scene sceneMid = null;
+
+    private VBox vBoxMid = null;
     private static Simulazione simulazioneVera = null;
 
     public Stage window;
-
 
     private boolean ret = true;
 
@@ -139,9 +133,22 @@ public class UiJfx extends Application {
 
     XYChart.Series guariti = new XYChart.Series();
 
+
+    // scena intermedia
+
+    private Label frase = new Label(" Sto simulando ...");
+
+    private Button btnSimulazione = new Button("Interrompi simulazione");
+
+
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
+
+        vBoxMid = new VBox();
+        vBoxMid.setAlignment(Pos.CENTER);
+        sceneMid = new Scene(vBoxMid);
+
 
         // fare un setStyleSheet riferito direttamente ai TF
 
@@ -156,18 +163,29 @@ public class UiJfx extends Application {
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Boolean bool;
+                boolean bool;
                 bool = inviaDati();
+                window.setScene(sceneMid);
+                window.setFullScreen(true);
                 if(bool){
                     while (ret) {
                         ret = simulazioneVera.run(1);
                     }
-                    window.setScene(sceneChart);
-                    window.setFullScreen(true);
+
+                    // window.setScene(scenaFinale);
+                    //frase.setText("Simulazione terminata!");
+                    //btnSimulazione.setText("Vedi statistiche");
                 }
             }
         });
 
+        btnSimulazione.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                window.setScene(sceneChart);
+                window.setFullScreen(true);
+            }
+        });
 
 
         vBox.setAlignment(Pos.CENTER);
