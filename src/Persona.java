@@ -54,7 +54,7 @@ public class Persona {
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
-        if ( vir == null && v.dadoContagio() ) { //TEST vir==null
+        if ( vir == null && v.dadoContagio() ) { //TEST vir==null  OK
             vir = new Virus(simulazione);
             mustcheckvirus = true;
         }
@@ -68,7 +68,7 @@ public class Persona {
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
-                        vir.calcola_giornoDadoS(); //TEST
+                        vir.calcola_giornoDadoS(); //TEST OK
                     }
                     else
                         break;
@@ -77,7 +77,7 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
-                            vir.calcola_giornoDadoM();   //TEST
+                            vir.calcola_giornoDadoM();   //TEST OK
                             comunicaSintomaticita();
                         }
                         else
@@ -92,7 +92,7 @@ public class Persona {
                             //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
                             comunicaMorte();
-                            //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova)
+                            //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova) (vedi Governo e DBGoverno)
                         }
                         else
                             mustcheckvirus = false;

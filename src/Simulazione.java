@@ -3,14 +3,19 @@ import java.util.ArrayList;
 public class Simulazione {
     //il giorno della simulazione
     private int giorno;
+
     //la velocita delle persone (numero medio di incontri in un giorno)
     private double velocita;
+
     //la lista di tutte le persone
     private ArrayList<Persona> persone;
+
     //il governo che agisce nella simulazione
     private Governo governo;
+
     //l'arena in cui si muovo e vivono le persone
     private Arena arena;
+
     //il fattore di contagiosita' R0
     private double R0;
 
@@ -20,12 +25,16 @@ public class Simulazione {
     //potrebbero essere solo variabili locali nel metodo run
     //il numero di persone verdi e che non hanno contratto il virus
     private int verdi_sani;
+
     //il numero di asintomatici
     private int gialli;
+
     //il numero di sintomatici
     private int rossi;
+
     //il numero di morti
     private int neri;
+
     //il numero di guariti
     private int blu;
 
@@ -37,13 +46,13 @@ public class Simulazione {
         this.persone = new ArrayList<Persona>(popolazione);
         init_persone(popolazione);
         //scelgo la prima persona gialla
-        //TEST
+        //TEST OK
         Persona primo_giallo = persone.get(0);
         primo_giallo.setVir(new Virus(this));
         primo_giallo.setStato(StatoSalute.GIALLO);
         primo_giallo.setMustcheckvirus(true);
         primo_giallo.getVir().calcola_giornoDadoS();
-        //TEST
+        //TEST OK
         arena.distribuisciPersone(persone);
         this.velocita = velocita;
         R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
@@ -63,12 +72,12 @@ public class Simulazione {
                 if (p.getMovimento())
                     in_movimento++;
             }
-            velocita = in_movimento * perc_mov / 100;    //TEST OK
+            setVelocita(in_movimento * perc_mov / 100);  //TEST OK
             R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
             int n_incontrate = 0;
             while (n_incontrate / in_movimento < velocita) { //TEST, controlla prima move di arena e check_incontri
-                arena.move(persone);
-                n_incontrate += arena.check_incontri();
+                arena.move(persone);    //TEST
+                n_incontrate += arena.check_incontri(); //TEST
             }
             for (Persona p: persone) { //TEST  OK
                 p.checkVirus();
@@ -93,7 +102,7 @@ public class Simulazione {
     }  //TEST OK
 
     //controlla lo StatoSalute di una persona e aumenta il contatore relativo
-    public void check_stato(Persona p) {  //TEST OK
+    private void check_stato(Persona p) {  //TEST OK
         switch (p.getStato()) {
             case VERDE:
                 if (p.getVir() == null)
@@ -157,7 +166,10 @@ public class Simulazione {
     //setter
     public void setGiorno(int giorno) { this.giorno = giorno; }
 
-    public void setVelocita(double velocita) { this.velocita = velocita; }
+    public void setVelocita(double velocita) {
+        if (velocita < 0) throw new IllegalArgumentException("La velocita' non puo' essere negativa");
+        this.velocita = velocita;
+    }
 
     public void setPersone(ArrayList<Persona> persone) { this.persone = persone; }
 

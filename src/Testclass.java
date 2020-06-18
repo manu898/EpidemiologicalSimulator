@@ -8,11 +8,41 @@ public class Testclass {
     public static void main(String[] args) {
         Governo g = new Governo(100, 5);
         Arena a = new Arena(100,100);
-        Virus.setD(30);
-        Virus.setI(30);
-        Virus.setS(30);
+        Virus.setD(6);
+        Virus.setI(100);
+        Virus.setS(100);
         Virus.setL(30);
         Simulazione sim = new Simulazione(g,a,100,0.5);
+        Persona p1 = sim.getPersone().get(0);
+        Persona p0 = sim.getPersone().get(1);
+        p0.contatto(p1.getVir());
+        System.out.println(p0.getVir().getGiornoFineIncubazione());
+        sim.setGiorno(2);
+        p0.checkVirus();
+        System.out.println(p0.getVir().getGiornoDadoS());
+        System.out.println(p0.getVir().getGiornoDadoM());
+        System.out.println(p0.getStato());
+        p1.contatto(p0.getVir());
+
+
+
+        /*
+        Persona p1 = sim.getPersone().get(0);
+        System.out.println(p1.getVir().getGiornoContagio());
+        System.out.println(p1.getStato());
+        System.out.println(p1.getMustcheckvirus());
+        System.out.println(p1.getVir().getGiornoDadoS());
+        System.out.println(p1.getVir().getGiornoFineIncubazione());
+        System.out.println(p1.getVir().getSimulazione() == sim);
+        p1.getVir().calcola_giornoDadoM();
+        System.out.println(p1.getVir().getGiornoDadoM());
+        sim.setGiorno(2);
+        System.out.println(p1.getVir().isIncubazioneFinita());
+        */
+
+
+
+        /*
         int in_movimento = 0;
         for (Persona p : sim.getPersone()) {
             if (p.getMovimento())
@@ -49,6 +79,7 @@ public class Testclass {
             if (p.getMovimento())
                 in_movimento++;
         }
+        */
         /*
         sim.setVelocita(in_movimento * sim.getPerc_mov() / 100);
         sim.setR0(sim.getVelocita() * Virus.getD() * Virus.getI());
