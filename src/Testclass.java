@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 //R0 = velocita * Virus.getD() * Virus.getI();
 //perc_mov = velocita * 100 / popolazione;
@@ -15,6 +15,34 @@ public class Testclass {
         Simulazione sim = new Simulazione(g,a,100,0.5);
         Persona p1 = sim.getPersone().get(0);
         Persona p0 = sim.getPersone().get(1);
+        Persona p2 = sim.getPersone().get(2);
+        ArrayList<Persona> pers = new ArrayList<>();
+        pers.add(p0);
+        pers.add(p1);
+        pers.add(p2);
+        Arena b = new Arena(1,1,1);
+        b.distribuisciPersone(pers);
+        System.out.println("p0 Y: " + p0.getPosizione().getY() + " p0 x: " + p0.getPosizione().getX());
+        System.out.println("p1 Y: " + p1.getPosizione().getY() + " p1 x: " + p1.getPosizione().getX());
+        System.out.println("muovo");
+        b.move(pers);
+        System.out.println("p0 Y: " + p0.getPosizione().getY() + " p0 x: " + p0.getPosizione().getX());
+        System.out.println("p1 Y: " + p1.getPosizione().getY() + " p1 x: " + p1.getPosizione().getX());
+        System.out.println(b.check_incontri());
+        System.out.println("p0: " + p0.getStato());
+        System.out.println("p1: " + p1.getStato());
+        System.out.println("p2: " + p2.getStato());
+        System.out.println(p1.getPersone_incontrate().get(1).get(0).getID());
+        System.out.println(p1.getPersone_incontrate().get(1).get(1).getID());
+        System.out.println(p0.getPersone_incontrate().get(1).get(0).getID());
+        sim.setGiorno(1);
+        for (Persona pp: pers) {
+            pp.checkVirus();
+        }
+        System.out.println("p0: " + p0.getVir());
+        System.out.println("p1: " + p1.getVir());
+        System.out.println("p2: " + p2.getVir());
+        /*
         p0.contatto(p1.getVir());
         System.out.println(p0.getVir().getGiornoFineIncubazione());
         sim.setGiorno(2);
@@ -23,7 +51,7 @@ public class Testclass {
         System.out.println(p0.getVir().getGiornoDadoM());
         System.out.println(p0.getStato());
         p1.contatto(p0.getVir());
-
+        */
 
 
         /*

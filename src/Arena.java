@@ -67,6 +67,7 @@ public class Arena {
 
 				matrice[y][x].remove(persona);
 
+				//calcoliamo la nuova y
 				if(y >= spostamentoMax){
 					low = - spostamentoMax;
 					if(altezza - y > spostamentoMax){
@@ -85,7 +86,7 @@ public class Arena {
 					newY = r.nextInt(high - low + 1) + low + y;
 				}
 
-
+				//calcoliamo la nuova x
 				if(x >= spostamentoMax){
 					low = - spostamentoMax;
 					if(larghezza - x > spostamentoMax){
@@ -103,45 +104,6 @@ public class Arena {
 					}
 					newX = r.nextInt(high - low + 1) + low + x;
 				}
-
-				/*
-				if(y >= spostamentoMax && altezza - y >= spostamentoMax){
-					low = - spostamentoMax;
-					high = spostamentoMax;
-					newY = r.nextInt(high - low) + low + y;
-				}else if(y < spostamentoMax && altezza - y >= spostamentoMax){
-					low = - y;
-					high = spostamentoMax;
-					newY = r.nextInt(high - low) + low + y;
-				}else if(y >= spostamentoMax && altezza - y < spostamentoMax){
-					low = - spostamentoMax;
-					high = altezza - y;
-					newY = r.nextInt(high - low) + low + y;
-				}else{
-					low = - y;
-					high = altezza - y;
-					newY = r.nextInt(high - low) + low + y;
-				}
-
-				if(x >= spostamentoMax && larghezza - x >= spostamentoMax){
-					low = - spostamentoMax;
-					high = spostamentoMax;
-					newX = r.nextInt(high - low) + low + x;
-				}else if(x < spostamentoMax && larghezza - x >= spostamentoMax){
-					low = - x;
-					high = spostamentoMax;
-					newX = r.nextInt(high - low) + low + x;
-				}else if(x >= spostamentoMax && larghezza - x < spostamentoMax){
-					low = - spostamentoMax;
-					high = larghezza - x;
-					newX = r.nextInt(high - low) + low + x;
-				}else{
-					low = - x;
-					high = altezza - x;
-					newX = r.nextInt(high - low) + low + x;
-				}*/
-
-
 				matrice[newY][newX].add(persona);
 				persona.setPosizione(newY,newX);
 
@@ -150,7 +112,7 @@ public class Arena {
 	}
 
 
-
+	//verifica gli incontri che ci sono in ogni cella dell'arena
 	public int check_incontri(){
 		int n_incontrate = 0;
 		for (int i = 0; i < altezza; i++) {
@@ -174,7 +136,7 @@ public class Arena {
 		return n_incontrate;
 	}
 
-	// qui andiamo a testare l'infettività
+	// fa incontrare due persone
 	public void incontra(Persona p1, Persona p2) {
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
@@ -185,25 +147,6 @@ public class Arena {
 			p2.contatto(p1.getVir());
 		}
 
-	}
-
-	// setter
-
-	public void setAltezza(int altezza) {
-		this.altezza = altezza;
-	}
-
-	public void setLarghezza(int larghezza) {
-		this.larghezza = larghezza;
-	}
-
-	public void setMatrice(Cella[][] matrice) {
-		this.matrice = matrice;
-	}
-
-	public void setSpostamentoMax(int spostamentoMax) {
-		if ( spostamentoMax < 1) throw new IllegalArgumentException("Lo spostamento deve essere almeno di 1");
-		this.spostamentoMax = spostamentoMax;
 	}
 
 
@@ -223,5 +166,23 @@ public class Arena {
 
 	public int getSpostamentoMax() { return spostamentoMax; }
 
+	// setter
+
+	public void setAltezza(int altezza) {
+		this.altezza = altezza;
+	}
+
+	public void setLarghezza(int larghezza) {
+		this.larghezza = larghezza;
+	}
+
+	public void setMatrice(Cella[][] matrice) {
+		this.matrice = matrice;
+	}
+
+	public void setSpostamentoMax(int spostamentoMax) {
+		if ( spostamentoMax < 1) throw new IllegalArgumentException("Lo spostamento deve essere almeno di 1");
+		this.spostamentoMax = spostamentoMax;
+	}
 
 }
