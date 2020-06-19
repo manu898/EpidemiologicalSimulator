@@ -54,6 +54,7 @@ public class UiJfx extends Application {
     private Label risorseLabel = new Label("Risorse");
     private TextField risorse = new TextField();
     private HBox risorseBox = new HBox(risorseLabel,risorse);
+    private final Tooltip tooltipRisorse = new Tooltip("R < 10 * costoTampone * popolazione , R < popolazione * durataMalattia");
 
 
     private Label infettivitaLabel = new Label("Infettività");
@@ -247,6 +248,7 @@ public class UiJfx extends Application {
                 velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
         setWidth(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
 
+        risorse.setTooltip(tooltipRisorse);
         strg1.setId("strategia1");
         strg1.setTooltip(tooltip1);
         strg1.setToggleGroup(toggleGroup);
@@ -279,11 +281,10 @@ public class UiJfx extends Application {
 
                 bool = inviaDati();
 
-                window.setScene(sceneMid);
-
                 boolean ret = true;
 
                 if(bool){
+                    window.setScene(sceneMid);
                     while (ret) {
                         ret = simulazioneVera.run(1);
                     }
@@ -426,6 +427,7 @@ public class UiJfx extends Application {
 
             int arenaH_value = Integer.parseInt(getArenaH().getText());
             int arenaL_value = Integer.parseInt(getArenaL().getText());
+            int spostamento_value = Integer.parseInt(getSpostamento().getText());
             int popolazione_value = Integer.parseInt(getPopolazione().getText());
             double velocita_value = Double.parseDouble(getVelocita().getText());
             int risorse_value = Integer.parseInt(getRisorse().getText());
@@ -445,6 +447,11 @@ public class UiJfx extends Application {
                 return false;
             }
 
+            if(spostamento_value <= 0){
+                alert.setContentText("Lo spostamento massimo deve essere maggiore di 0");
+                alert.show();
+            }
+
             //  vincoli sulla popolazione
             if(popolazione_value <= 0){
                 alert.setContentText("Almeno un abitante deve esistere ");
@@ -453,7 +460,7 @@ public class UiJfx extends Application {
             }
 
             // vincoli sulle risorse
-            if(risorse_value < 0 | risorse_value > 10 * tampone_value * popolazione_value | risorse_value > popolazione_value * durata_value){
+            if(risorse_value < 0 | risorse_value >= 10 * tampone_value * popolazione_value | risorse_value >= popolazione_value * durata_value){
                 alert.setContentText("Le risorse non rispettano i vincoli, cambia il numero di risorse");
                 alert.show();
                 return false;

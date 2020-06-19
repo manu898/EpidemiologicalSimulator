@@ -72,6 +72,9 @@ public class Governo {
     public int getRisorse() {
         return risorse;
     }
+    public Strategia getStrategia() {
+        return strategia;
+    }
     public DBGoverno getDatabase() { return database; }
 
     public ArrayList<Persona> getNuovi_asintomatici() { return nuovi_asintomatici; } //TEST
