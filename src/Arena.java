@@ -49,7 +49,7 @@ public class Arena {
 	}
 
 	//fai spostare le persone all'interno dell'arena
-	public void move(ArrayList<Persona> persone) {
+	public void move(ArrayList<Persona> persone) {  //TEST sembra OK, si puo' snellire il codice
 
 		for(Persona persona : persone ){
 			if(persona.getMovimento()){
@@ -113,7 +113,7 @@ public class Arena {
 
 
 	//verifica gli incontri che ci sono in ogni cella dell'arena
-	public int check_incontri(){
+	public int check_incontri(){  //TEST OK
 		int n_incontrate = 0;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
@@ -137,7 +137,7 @@ public class Arena {
 	}
 
 	// fa incontrare due persone
-	public void incontra(Persona p1, Persona p2) {
+	public void incontra(Persona p1, Persona p2) {  //TEST OK
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
 		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
@@ -146,7 +146,10 @@ public class Arena {
 		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
 			p2.contatto(p1.getVir());
 		}
-
+		/*
+		System.out.println("persona " + p1.getID() + ", stato " + p1.getStato() + ", virus " + p1.getVir());
+		System.out.println("persona " + p2.getID() + ", stato " + p2.getStato() + ", virus " + p2.getVir());
+		*/
 	}
 
 
