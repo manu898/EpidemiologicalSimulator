@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 public class Governo {
 
+    // il Governo ha un campo relativo alla strategia che a simulazione inizata verrà immesso
+    // al suo interno un oggetto della classe relativo alla simulazione
+    private Strategia strategia;
+
     //le risorse del governo
     private int risorse;
 
@@ -25,7 +29,8 @@ public class Governo {
     //le persone morte giorno per giorno
     private ArrayList<Persona> nuovi_morti;
 
-    public Governo(int risorse, int costo_tampone) {
+    // devo passare al costruttore del governo l'oggetto relativo alla strategia che ha scelto l'utente
+    public Governo(int risorse, int costo_tampone, Strategia strategia) {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
         database = new DBGoverno();
@@ -33,6 +38,7 @@ public class Governo {
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
+        this.strategia = strategia;
     }
 
 

@@ -23,7 +23,10 @@ public class UiJfx extends Application {
     private Label arenaLLabel = new Label("ArenaL");
     private TextField arenaL = new TextField();
 
-    private HBox arenaBox = new HBox(arenaHLabel,arenaH,arenaLLabel,arenaL);
+    private Label spostamentoLabel = new Label("Spostamento max");
+    private TextField spostamento = new TextField();
+
+    private HBox arenaBox = new HBox(arenaHLabel,arenaH,arenaLLabel,arenaL,spostamentoLabel,spostamento);
 
     private Button btnInvia = new Button("Inizia simulazione");
 
@@ -51,7 +54,6 @@ public class UiJfx extends Application {
     private Label risorseLabel = new Label("Risorse");
     private TextField risorse = new TextField();
     private HBox risorseBox = new HBox(risorseLabel,risorse);
-    private final Tooltip tooltipRisorse = new Tooltip("Le risorse devono rispettare i seguenti vincoli");
 
 
     private Label infettivitaLabel = new Label("Infettività");
@@ -69,17 +71,22 @@ public class UiJfx extends Application {
     private HBox letalitaBox = new HBox(letalitaLabel,letalita);
 
 
-
     ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
+    private final Tooltip tooltip1 = new Tooltip("Descrizione strategia 1");
     private RadioButton strg2 = new RadioButton("Strategia 2");
+    private final Tooltip tooltip2 = new Tooltip("Descrizione strategia 2");
     private RadioButton strg3 = new RadioButton("Strategia 3");
+    private final Tooltip tooltip3 = new Tooltip("Descrizione strategia 3");
     private RadioButton strg4 = new RadioButton("Strategia 4");
+    private final Tooltip tooltip4 = new Tooltip("Descrizione strategia 4");
     private RadioButton selectedRadioButton = null;
 
     private HBox strategieBox = new HBox();
 
     private static Simulazione simulazioneVera = null;
+
+    private static Strategia strategia = null;
 
     public TextField getArenaH() {
         return arenaH;
@@ -87,6 +94,10 @@ public class UiJfx extends Application {
 
     public TextField getArenaL() {
         return arenaL;
+    }
+
+    public TextField getSpostamento() {
+        return spostamento;
     }
 
     public TextField getPopolazione() {
@@ -120,6 +131,34 @@ public class UiJfx extends Application {
     public TextField getVelocita() {
         return velocita;
     }
+
+    public RadioButton getSelectedRadioButton() {
+        return selectedRadioButton;
+    }
+
+    public void setStrategia(RadioButton r){
+
+        switch (r.getId()){
+            case "strategia1":
+                strategia = new Strategia1();
+                break;
+            case "strategia2":
+                strategia = new Strategia2();
+                break;
+            case "strategia3":
+                strategia = new Strategia3();
+                break;
+            case "strategia4":
+                strategia = new Strategia4();
+                break;
+        }
+    }
+
+
+    public static Strategia getStrategia() {
+        return strategia;
+    }
+
 
     public Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -204,35 +243,32 @@ public class UiJfx extends Application {
         btnInterrompi.setStyle(stylesInterrompiBtn);
         btnFinale.setStyle(stylesFinaleBtn);
 
-
-        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,popolazioneLabel,
+        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
                 velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
+        setWidth(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
 
-
-
-
-        setWidth(arenaH,arenaL,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
-
+        strg1.setId("strategia1");
+        strg1.setTooltip(tooltip1);
         strg1.setToggleGroup(toggleGroup);
+        strg2.setId("strategia2");
+        strg2.setTooltip(tooltip2);
         strg2.setToggleGroup(toggleGroup);
+        strg3.setId("strategia3");
+        strg3.setTooltip(tooltip3);
         strg3.setToggleGroup(toggleGroup);
+        strg4.setId("strategia4");
+        strg4.setTooltip(tooltip4);
         strg4.setToggleGroup(toggleGroup);
 
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
         setPosAndMargin(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
-
-
-        /*vBox.getChildren().addAll(arenaLLabel,arenaL,arenaHLabel,arenaH,popolazioneLabel,popolazione,risorseLabel,risorse,velocitaLabel,velocita,
-                tamponeLabel,tampone,durataLabel,durata,
-                infettivitaLabel,infettivita,sintomaticitaLabel,sintomaticita,letalitaLabel,letalita,btnInvia);*/
-
         vBox.getChildren().addAll(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
 
         vBox.setAlignment(Pos.CENTER);
 
-        sceneIniziale = new Scene(vBox);
+        sceneIniziale = new Scene(vBox,1000,800);
 
 
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
@@ -245,8 +281,6 @@ public class UiJfx extends Application {
 
                 window.setScene(sceneMid);
 
-                window.setFullScreen(true);
-
                 boolean ret = true;
 
                 if(bool){
@@ -254,7 +288,6 @@ public class UiJfx extends Application {
                         ret = simulazioneVera.run(1);
                     }
                     window.setScene(sceneFinale);
-                    window.setFullScreen(true);
                 }
             }
         });
@@ -267,7 +300,7 @@ public class UiJfx extends Application {
 
         vBoxMid.setAlignment(Pos.CENTER);
 
-        sceneMid = new Scene(vBoxMid);
+        sceneMid = new Scene(vBoxMid,1000,800);
 
         vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
 
@@ -275,7 +308,6 @@ public class UiJfx extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 window.setScene(sceneChart);
-                window.setFullScreen(true);
             }
         });
 
@@ -288,7 +320,7 @@ public class UiJfx extends Application {
 
         vBoxFinale.setAlignment(Pos.CENTER);
 
-        sceneFinale = new Scene(vBoxFinale);
+        sceneFinale = new Scene(vBoxFinale,1000,800);
 
         vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
 
@@ -296,7 +328,6 @@ public class UiJfx extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 window.setScene(sceneChart);
-                window.setFullScreen(true);
             }
         });
 
@@ -307,7 +338,7 @@ public class UiJfx extends Application {
 
         vBoxChart.setAlignment(Pos.CENTER);
 
-        sceneChart = new Scene(vBoxChart);
+        sceneChart = new Scene(vBoxChart,1000,800);
 
         xAxis.setLabel("Time");
         yAxis.setLabel("Total");
@@ -352,7 +383,6 @@ public class UiJfx extends Application {
 
         // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì
 
-        stage.setFullScreen(true);
         stage.setScene(sceneIniziale);
         stage.setTitle("Epidemiological simulator");
         stage.show();
@@ -473,19 +503,25 @@ public class UiJfx extends Application {
             return false;
         }
 
+        if(selectedRadioButton == null){
+            alert.setContentText("Devi selezionare una strategia");
+            alert.show();
+        }
+
         Virus.setI(Integer.parseInt(getInfettivita().getText()));
         Virus.setL(Integer.parseInt(getLetalita().getText()));
         Virus.setS(Integer.parseInt(getSintomaticita().getText()));
         Virus.setD(Integer.parseInt(getDurata().getText()));
 
-        Governo governo = new Governo(Integer.parseInt(getRisorse().getText()), Integer.parseInt(getTampone().getText()));
+        setStrategia(selectedRadioButton);
+
+
+        Governo governo = new Governo(Integer.parseInt(getRisorse().getText()), Integer.parseInt(getTampone().getText()),strategia);
 
         simulazioneVera = new Simulazione(governo,
-                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText()),/*togli*/10),
+                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText()),Integer.parseInt(getSpostamento().getText())),
                 Integer.parseInt(getPopolazione().getText()),
                 Double.parseDouble(getVelocita().getText()));
-
-        System.out.println(selectedRadioButton);
 
         return true;
 

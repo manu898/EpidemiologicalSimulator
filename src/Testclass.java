@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Testclass {
     public static void main(String[] args) {
-        Governo g = new Governo(100, 5);
+        Governo g = new Governo(100, 5,new Strategia3());
         Arena a = new Arena(100,100, 10);
         Virus.setD(6);
         Virus.setI(100);
