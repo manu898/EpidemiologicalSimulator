@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class DBGoverno {
 
+    private ArrayList<Persona> personeFerme = null;
+
     //la lista delle persone asintomatiche rilevate dal governo
     private ArrayList<Persona> asintomatici;   //TEST
 
@@ -21,6 +23,13 @@ public class DBGoverno {
         sintomatici = new ArrayList<Persona>();
         morti = new ArrayList<Persona>();
         guariti = new ArrayList<Persona>();
+        personeFerme = new ArrayList<Persona>();
+    }
+
+    public void addPersoneFerme(ArrayList<Persona> persone){
+        for(Persona persona : persone){
+            personeFerme.add(persona);
+        }
     }
 
     //rimuovi una persona dalla lista degli asintomatici (assume che p era asintomatico e quindi si trova nella lista

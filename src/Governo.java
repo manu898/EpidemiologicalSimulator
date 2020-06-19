@@ -15,6 +15,8 @@ public class Governo {
     //variabile di riferimento al database del governo
     private DBGoverno database;
 
+    private ArrayList<Persona> nuove_personeFerme = null;
+
     //le persone asintomatiche rilevate dal governo
     private ArrayList<Persona> nuovi_asintomatici;   //TEST
 
@@ -38,6 +40,7 @@ public class Governo {
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
+        nuove_personeFerme = new ArrayList<Persona>();
         this.strategia = strategia;
     }
 
@@ -75,6 +78,7 @@ public class Governo {
     public void fermaPersone(ArrayList<Persona> persone){
         for(Persona persona : persone){
             persona.setMovimento(false);
+            nuove_personeFerme.add(persona);
         }
     }
 
@@ -109,6 +113,7 @@ public class Governo {
         database.add_sintomatici(nuovi_sintomatici);
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
+        database.addPersoneFerme(nuove_personeFerme);
 
 
 
