@@ -317,8 +317,6 @@ public class UiJfx extends Application {
         });
 
 
-
-
         // scena intermedia - Finale
 
         vBoxFinale = new VBox();

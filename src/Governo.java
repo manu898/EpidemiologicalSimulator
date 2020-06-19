@@ -62,6 +62,24 @@ public class Governo {
         nuovi_morti.add(p);
     }
 
+    public void faiTampone(ArrayList<Persona> persone){
+        for(Persona persona : persone){
+            if(persona.getVir() != null)
+                nuovi_asintomatici.add(persona);
+            // comunica alla strategia che c'è un nuovo positivo
+        }
+    }
+
+    public void fermaPersone(ArrayList<Persona> persone){
+        for(Persona persona : persone){
+            persona.setMovimento(false);
+        }
+    }
+
+    public void muoviPersone(ArrayList<Persona> persone){
+        for(Persona persona : persone)
+            persona.setMovimento(true);
+    }
 
 
     public void aggiornamento(){   //TEST megatest
@@ -92,11 +110,6 @@ public class Governo {
 
 
     }
-
-
-
-
-
 
 
     //getter
