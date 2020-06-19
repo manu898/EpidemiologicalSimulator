@@ -4,8 +4,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 
 public class UiJfx extends Application {
 
+    BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
     public Stage window;
 
     // scena iniziale - Inserimento parametri
@@ -269,6 +272,7 @@ public class UiJfx extends Application {
         vBox.getChildren().addAll(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
 
         vBox.setAlignment(Pos.CENTER);
+        vBox.setBackground(new Background(bi));
 
         sceneIniziale = new Scene(vBox,1000,800);
 
@@ -395,6 +399,7 @@ public class UiJfx extends Application {
         for(Labeled labeled : labels) {
             labeled.setFont(new Font(20.0));
             labeled.setPadding(new Insets(20.0));
+            labeled.setTextFill(Color.WHITE);
         }
     }
 
