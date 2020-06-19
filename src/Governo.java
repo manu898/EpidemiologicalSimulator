@@ -62,6 +62,7 @@ public class Governo {
         nuovi_morti.add(p);
     }
 
+    //effettua il tampone alle persone passate come argomento
     public void faiTampone(ArrayList<Persona> persone){
         for(Persona persona : persone){
             if(persona.getVir() != null)
@@ -70,12 +71,14 @@ public class Governo {
         }
     }
 
+    //ferma le persone passate come argomento
     public void fermaPersone(ArrayList<Persona> persone){
         for(Persona persona : persone){
             persona.setMovimento(false);
         }
     }
 
+    //mette in movimento le persone passate come argomento
     public void muoviPersone(ArrayList<Persona> persone){
         for(Persona persona : persone)
             persona.setMovimento(true);
