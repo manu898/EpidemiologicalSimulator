@@ -6,13 +6,46 @@ import java.util.ArrayList;
 
 public class Testclass {
     public static void main(String[] args) {
-        Governo g = new Governo(100, 5,new Strategia3());
+        Governo g = new Governo(100, 5, new Strategia3());
         Arena a = new Arena(100,100, 10);
         Virus.setD(6);
         Virus.setI(100);
         Virus.setS(100);
         Virus.setL(30);
         Simulazione sim = new Simulazione(g,a,100,0.5);
+        Persona p0 = sim.getPersone().get(10);
+        Persona p1 = sim.getPersone().get(20);
+        /*
+        p0.setStato(StatoSalute.ROSSO);
+        p0.comunicaSintomaticita();
+        System.out.println(g.getNuovi_sintomatici().get(0).getID());
+
+        p0.setStato(StatoSalute.BLU);
+
+        p0.comunicaGuarigione();
+
+        //System.out.println(g.getNuovi_sintomatici().get(0).getID());
+
+        System.out.println(g.getNuovi_guariti().get(0).getID());
+
+        p1.setStato(StatoSalute.ROSSO);
+        p1.comunicaSintomaticita();
+        g.getDatabase().add_sintomatici(g.getNuovi_sintomatici());
+        System.out.println(g.getDatabase().getSintomatici().get(0));
+        g.getDatabase().remove_sintomatico(p1);
+        //System.out.println(g.getDatabase().getSintomatici().get(0));
+        g.getDatabase().remove_sintomatico(p1);
+        System.out.println("finito!");
+        */
+
+
+
+
+
+
+
+
+        /*
         Persona p1 = sim.getPersone().get(0);
         Persona p0 = sim.getPersone().get(1);
         Persona p2 = sim.getPersone().get(2);
@@ -42,6 +75,7 @@ public class Testclass {
         System.out.println("p0: " + p0.getVir());
         System.out.println("p1: " + p1.getVir());
         System.out.println("p2: " + p2.getVir());
+        */
         /*
         p0.contatto(p1.getVir());
         System.out.println(p0.getVir().getGiornoFineIncubazione());

@@ -4,7 +4,7 @@ public class Governo {
 
     // il Governo ha un campo relativo alla strategia che a simulazione inizata verrà immesso
     // al suo interno un oggetto della classe relativo alla simulazione
-    private Strategia strategia;
+    private Strategia strategia; //TEST
 
     //le risorse del governo
     private int risorse;
@@ -43,75 +43,26 @@ public class Governo {
 
 
     //aggiunge un sintomatico alla lista dei nuovi_sintomatici per il giorno corrente (assume che p non sia null)
-    public void add_sintomatico( Persona p ) {
+    public void add_sintomatico( Persona p ) {  //TEST OK
         if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona asintomatica ai nuovi_sintomatici");
-        nuovi_asintomatici.remove(p); //TEST ha senso?
         nuovi_sintomatici.add(p);
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
-        nuovi_sintomatici.remove(p);  //TEST ha senso?
-        nuovi_asintomatici.remove(p);  //TEST ha senso?
+        nuovi_sintomatici.remove(p);  //TEST ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_guariti.add(p);
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
     public void add_morto ( Persona p ) {
         if ( p.getStato() != StatoSalute.NERO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non morta ai nuovi_morti");
-        nuovi_sintomatici.remove(p);  //TEST ha senso?
+        nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_morti.add(p);
     }
 
 
-    //getter
-    public int getCosto_tampone() {
-        return costo_tampone;
-    }
-    public int getRisorse() {
-        return risorse;
-    }
-    public Strategia getStrategia() {
-        return strategia;
-    }
-    public DBGoverno getDatabase() { return database; }
-
-    public ArrayList<Persona> getNuovi_asintomatici() { return nuovi_asintomatici; } //TEST
-
-    public ArrayList<Persona> getNuovi_sintomatici() { return nuovi_sintomatici;}
-    public ArrayList<Persona> getNuovi_guariti() { return nuovi_guariti; }
-    public ArrayList<Persona> getNuovi_morti() { return nuovi_morti; }
-
-    //setter
-    public void setCosto_tampone(int costo_tampone) { this.costo_tampone = costo_tampone; }
-
-    public void setRisorse(int risorse) { this.risorse = risorse; }
-
-    public void setDatabase(DBGoverno database) { this.database = database; }
-
-    public void setNuovi_asintomatici(ArrayList<Persona> nuovi_asintomatici) { this.nuovi_asintomatici = nuovi_asintomatici; }
-
-    public void setNuovi_sintomatici(ArrayList<Persona> ns ) {
-        for (Persona p: ns){
-            if (p.getStato() != StatoSalute.ROSSO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono sintomatiche");
-        }
-        nuovi_sintomatici = ns;
-    }
-
-    public void setNuovi_guariti(ArrayList<Persona> ng) {
-        for (Persona p: ng){
-            if (p.getStato() != StatoSalute.BLU) throw new IllegalArgumentException("Non tutte le persone aggiunte sono guarite");
-        }
-        nuovi_guariti = ng;
-    }
-
-    public void setNuovi_morti(ArrayList<Persona> nm) {
-        for (Persona p: nm){
-            if (p.getStato() != StatoSalute.NERO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono morte");
-        }
-        nuovi_morti = nm;
-    }
 
     public void aggiornamento(){   //TEST megatest
 
@@ -135,10 +86,74 @@ public class Governo {
 
         database.add_asintomatici(nuovi_asintomatici);
         database.add_sintomatici(nuovi_sintomatici);
-        database.add_guariti(nuovi_guariti.size());
-        database.add_morti(nuovi_morti.size());
+        database.add_guariti(nuovi_guariti);
+        database.add_morti(nuovi_morti);
 
 
 
     }
+
+
+
+
+
+
+
+    //getter
+    public Strategia getStrategia() {
+        return strategia;
+    }
+    public int getCosto_tampone() {
+        return costo_tampone;
+    }
+    public int getRisorse() {
+        return risorse;
+    }
+
+    public DBGoverno getDatabase() { return database; }
+
+    public ArrayList<Persona> getNuovi_asintomatici() { return nuovi_asintomatici; } //TEST
+
+    public ArrayList<Persona> getNuovi_sintomatici() { return nuovi_sintomatici;}
+    public ArrayList<Persona> getNuovi_guariti() { return nuovi_guariti; }
+    public ArrayList<Persona> getNuovi_morti() { return nuovi_morti; }
+
+    //setter
+    public void setStrategia(Strategia strategia) { this.strategia = strategia; }
+
+    public void setCosto_tampone(int costo_tampone) { this.costo_tampone = costo_tampone; }
+
+    public void setRisorse(int risorse) { this.risorse = risorse; }
+
+    public void setDatabase(DBGoverno database) { this.database = database; }
+
+    public void setNuovi_asintomatici(ArrayList<Persona> na) {
+        for (Persona p: na) {
+            if (p.getStato() != StatoSalute.GIALLO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono asintomatiche");
+        }
+        this.nuovi_asintomatici = nuovi_asintomatici;
+    }
+
+    public void setNuovi_sintomatici(ArrayList<Persona> ns ) {
+        for (Persona p: ns){
+            if (p.getStato() != StatoSalute.ROSSO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono sintomatiche");
+        }
+        nuovi_sintomatici = ns;
+    }
+
+    public void setNuovi_guariti(ArrayList<Persona> ng) {
+        for (Persona p: ng){
+            if (p.getStato() != StatoSalute.BLU) throw new IllegalArgumentException("Non tutte le persone aggiunte sono guarite");
+        }
+        nuovi_guariti = ng;
+    }
+
+    public void setNuovi_morti(ArrayList<Persona> nm) {
+        for (Persona p: nm){
+            if (p.getStato() != StatoSalute.NERO) throw new IllegalArgumentException("Non tutte le persone aggiunte sono morte");
+        }
+        nuovi_morti = nm;
+    }
+
+
 }
