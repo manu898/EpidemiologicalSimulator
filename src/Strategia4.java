@@ -1,4 +1,4 @@
-public class Strategia4 implements Strategia {
+public class Strategia4 extends Strategia {
     @Override
     public void applica() {
 

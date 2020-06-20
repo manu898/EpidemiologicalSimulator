@@ -60,11 +60,10 @@ public class Simulazione {
         R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
         perc_mov = velocita * 100 / getPopolazione();   //TEST OK
 
-
     }
 
 
-    public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
+    /*public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
         giorno = new Giorno(1);  //TEST
         this.governo = governo;
         this.arena = arena;
@@ -82,7 +81,7 @@ public class Simulazione {
         this.velocita = velocita;
         R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
         perc_mov = velocita * 100 / popolazione;   //TEST OK
-    }
+    }*/
 
     //esegui la simulazione per 'giorni' giorni
     public boolean run(int giorni) {     //TEST

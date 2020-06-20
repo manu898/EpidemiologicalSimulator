@@ -13,10 +13,13 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class UiJfx extends Application {
+public class Main extends Application {
+
+    public Stage window;
 
     BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
-    public Stage window;
+
+    ParametriSimulazione ps = new ParametriSimulazione();
 
     // scena iniziale - Inserimento parametri
 
@@ -88,7 +91,7 @@ public class UiJfx extends Application {
 
     private HBox strategieBox = new HBox();
 
-    private static Simulazione simulazioneVera = null;
+    private static Simulazione simulazione = null;
 
     private static Strategia strategia = null;
 
@@ -290,7 +293,7 @@ public class UiJfx extends Application {
                 if(bool){
                     window.setScene(sceneMid);
                     while (ret) {
-                        ret = simulazioneVera.run(1);
+                        ret = simulazione.run(1);
                     }
                     window.setScene(sceneFinale);
                 }
@@ -518,20 +521,21 @@ public class UiJfx extends Application {
             alert.show();
         }
 
-        Virus.setI(Integer.parseInt(getInfettivita().getText()));
-        Virus.setL(Integer.parseInt(getLetalita().getText()));
-        Virus.setS(Integer.parseInt(getSintomaticita().getText()));
-        Virus.setD(Integer.parseInt(getDurata().getText()));
-
+        ps.setArenaH(Integer.parseInt(getArenaH().getText()));
+        ps.setArenaL(Integer.parseInt(getArenaL().getText()));
+        ps.setSpostamentoMax(Integer.parseInt(getSpostamento().getText()));
+        ps.setPopolazione(Integer.parseInt(getPopolazione().getText()));
+        ps.setRisorse(Integer.parseInt(getRisorse().getText()));
+        ps.setVelocita(Double.parseDouble(getVelocita().getText()));
+        ps.setCosto_tampone(Integer.parseInt(getTampone().getText()));
+        ps.setDurata(Integer.parseInt(getDurata().getText()));
+        ps.setInfettivita(Integer.parseInt(getInfettivita().getText()));
+        ps.setSintomaticita(Integer.parseInt(getSintomaticita().getText()));
+        ps.setLetalita(Integer.parseInt(getLetalita().getText()));
         setStrategia(selectedRadioButton);
+        ps.setStrategia(strategia);
 
-
-        Governo governo = new Governo(Integer.parseInt(getRisorse().getText()), Integer.parseInt(getTampone().getText()),strategia);
-
-        simulazioneVera = new Simulazione(governo,
-                new Arena(Integer.parseInt(getArenaH().getText()),Integer.parseInt(getArenaL().getText()),Integer.parseInt(getSpostamento().getText())),
-                Integer.parseInt(getPopolazione().getText()),
-                Double.parseDouble(getVelocita().getText()));
+        simulazione = new Simulazione(ps);
 
         return true;
 
