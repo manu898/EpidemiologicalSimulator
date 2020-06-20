@@ -208,7 +208,7 @@ public class Main extends Application {
 
     NumberAxis yAxis = new NumberAxis();
 
-    LineChart stackedAreaChart = new LineChart(xAxis, yAxis);
+    LineChart lineChartGoverno = new LineChart(xAxis, yAxis);
 
     XYChart.Series morti = new XYChart.Series();
 
@@ -340,7 +340,7 @@ public class Main extends Application {
 
         // scena finale - Chart
 
-        vBoxChart = new VBox(stackedAreaChart);
+        vBoxChart = new VBox(lineChartGoverno);
 
         vBoxChart.setAlignment(Pos.CENTER);
 
@@ -382,7 +382,7 @@ public class Main extends Application {
         addSeries(sintomatici, sintomaticiTotali);
 
 
-        stackedAreaChart.getData().addAll(morti,asintomatici,sintomatici,guariti);
+        lineChartGoverno.getData().addAll(morti,asintomatici,sintomatici,guariti);
 
 
 

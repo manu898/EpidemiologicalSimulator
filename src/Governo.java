@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 public class Governo {
 
+    private boolean primoSintomatico;  // TEST
+
+    private boolean applicaStrategia;   // TEST
+
     // il Governo ha un campo relativo alla strategia che a simulazione inizata verrà immesso
     // al suo interno un oggetto della classe relativo alla simulazione
     private Strategia strategia; //TEST
@@ -36,6 +40,8 @@ public class Governo {
     public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
+        this.primoSintomatico = false;  // TEST
+        this.applicaStrategia = true;   // TEST
         database = new DBGoverno();
         database.setPersone(persone);   //TEST
         database.setGiorno(giorno);   //TEST
@@ -53,6 +59,7 @@ public class Governo {
     public void add_sintomatico( Persona p ) {  //TEST OK
         if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona asintomatica ai nuovi_sintomatici");
         nuovi_sintomatici.add(p);
+        primoSintomatico = true;
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
@@ -67,13 +74,15 @@ public class Governo {
         if ( p.getStato() != StatoSalute.NERO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non morta ai nuovi_morti");
         nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_morti.add(p);
+        // p.setMovimento(false);  // Qualche minchione ancora ci sta pensando
     }
 
     //effettua il tampone alle persone passate come argomento
     public void faiTampone(ArrayList<Persona> persone){  //TEST
         for(Persona persona : persone){
-            if(persona.getVir() != null)
-                nuovi_asintomatici.add(persona);
+            if(persona.getVir() != null )
+                if(persona.getStato() != StatoSalute.VERDE)
+                    nuovi_asintomatici.add(persona);
             // comunica alla strategia che c'è un nuovo positivo
         }
     }
@@ -114,11 +123,23 @@ public class Governo {
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
 
+        if(primoSintomatico){
+            if(applicaStrategia){
+                // invoca la strategia scelta
+                applicaStrategia = strategia.applica(database);
+                faiTampone(strategia.getNuovi_tamponi());
+                risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());
+                fermaPersone(strategia.getNuovi_daFermare());
+            }
+        }
+
         //invoca la strategia in questo punto
 
         //sottrai il costo dei tamponi effettuati alle risorse
 
         database.add_asintomatici(nuovi_asintomatici);
+        fermaPersone(nuovi_morti);
+        fermaPersone(nuovi_sintomatici);
         database.addPersoneFerme(nuove_personeFerme);
     }
 
