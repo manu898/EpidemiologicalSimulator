@@ -15,10 +15,10 @@ public class Governo {
     //variabile di riferimento al database del governo
     private DBGoverno database;
 
-    private ArrayList<Persona> nuove_personeFerme = null;
+    private ArrayList<Persona> nuove_personeFerme = null;  //TEST
 
     //le persone asintomatiche rilevate dal governo
-    private ArrayList<Persona> nuovi_asintomatici;   //TEST
+    private ArrayList<Persona> nuovi_asintomatici;
 
     //le persone diventate sintomatiche giorno per giorno
     private ArrayList<Persona> nuovi_sintomatici;
@@ -36,11 +36,11 @@ public class Governo {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
         database = new DBGoverno();
-        nuovi_asintomatici = new ArrayList<Persona>();  //TEST
+        nuovi_asintomatici = new ArrayList<Persona>();  //TEST OK
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
-        nuove_personeFerme = new ArrayList<Persona>();
+        nuove_personeFerme = new ArrayList<Persona>();   //TEST
         this.strategia = strategia;
     }
 
@@ -54,7 +54,7 @@ public class Governo {
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
-        nuovi_sintomatici.remove(p);  //TEST ha senso? si se la persona diventa sintomatica lo stesso giorno
+        nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_guariti.add(p);
     }
 
@@ -66,7 +66,7 @@ public class Governo {
     }
 
     //effettua il tampone alle persone passate come argomento
-    public void faiTampone(ArrayList<Persona> persone){
+    public void faiTampone(ArrayList<Persona> persone){  //TEST
         for(Persona persona : persone){
             if(persona.getVir() != null)
                 nuovi_asintomatici.add(persona);
@@ -75,7 +75,7 @@ public class Governo {
     }
 
     //ferma le persone passate come argomento
-    public void fermaPersone(ArrayList<Persona> persone){
+    public void fermaPersone(ArrayList<Persona> persone){  //TEST
         for(Persona persona : persone){
             persona.setMovimento(false);
             nuove_personeFerme.add(persona);
@@ -83,7 +83,7 @@ public class Governo {
     }
 
     //mette in movimento le persone passate come argomento
-    public void muoviPersone(ArrayList<Persona> persone){
+    public void muoviPersone(ArrayList<Persona> persone){ //TEST
         for(Persona persona : persone)
             persona.setMovimento(true);
     }
@@ -92,28 +92,31 @@ public class Governo {
     public void aggiornamento(){   //TEST megatest
 
         int numeroSintomatici = database.getSintomatici().size();
-        // servono le persone ferme e le persone morte ... aggiungo ... sei un uomo morto TODO
-        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
-
+        int numeroFermi = database.getPersoneFerme().size();
+        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
+        //vanno tolti i tamponi (dopo aver chiamato la strategia)
         for(Persona persona : nuovi_sintomatici){
             database.remove_asintomatico(persona);
         }
-
         for(Persona persona : nuovi_guariti){
             database.remove_asintomatico(persona); // se sta cosa genera eccezzioni va dato un PUGNO a qualcuno che non faccio nome TODO
             database.remove_sintomatico(persona);
         }
-
-
         for(Persona persona : nuovi_morti){
             database.remove_sintomatico(persona);
         }
 
-        database.add_asintomatici(nuovi_asintomatici);
         database.add_sintomatici(nuovi_sintomatici);
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
+
+        //invoca la strategia in questo punto
+
+        //sottrai il costo dei tamponi effettuati alle risorse
+
+        database.add_asintomatici(nuovi_asintomatici);
         database.addPersoneFerme(nuove_personeFerme);
+
 
 
 

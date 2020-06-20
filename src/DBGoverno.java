@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class DBGoverno {
 
-    private ArrayList<Persona> personeFerme = null;
+    private ArrayList<Persona> personeFerme = null;   //TEST
 
     //la lista delle persone asintomatiche rilevate dal governo
     private ArrayList<Persona> asintomatici;   //TEST
@@ -23,10 +23,10 @@ public class DBGoverno {
         sintomatici = new ArrayList<Persona>();
         morti = new ArrayList<Persona>();
         guariti = new ArrayList<Persona>();
-        personeFerme = new ArrayList<Persona>();
+        personeFerme = new ArrayList<Persona>();   //TEST
     }
 
-    public void addPersoneFerme(ArrayList<Persona> persone){
+    public void addPersoneFerme(ArrayList<Persona> persone){   //TEST
         for(Persona persona : persone){
             personeFerme.add(persona);
         }
@@ -61,6 +61,7 @@ public class DBGoverno {
     public ArrayList<Persona> getSintomatici() { return sintomatici; }
     public ArrayList<Persona> getMorti() { return morti; }
     public ArrayList<Persona> getGuariti() { return guariti; }
+    public ArrayList<Persona> getPersoneFerme() { return personeFerme; }
 
 
     //setter
@@ -92,4 +93,6 @@ public class DBGoverno {
         }
         this.guariti = guariti;
     }
+
+    public void setPersoneFerme(ArrayList<Persona> personeFerme) { this.personeFerme = personeFerme; }
 }
