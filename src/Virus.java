@@ -22,6 +22,9 @@ public class Virus {
 
     //campi dell'oggetto virus
 
+    //riferimento al giorno attuale (in simulazione)
+    private Giorno giorno;
+
     //il giorno in cui questo oggetto "entra" nella persona
     private int giornoContagio;
 
@@ -37,17 +40,24 @@ public class Virus {
     //reference alla simulazione a cui appartiene questo oggetto
     private Simulazione simulazione;  //TEST OK
 
+    public Virus(Giorno giorno) {  //TEST
+        this.giorno = giorno;
+        giornoContagio = giorno.getValore();
+    }
+
+    /*
     public Virus(Simulazione sim) {
         this.simulazione = sim;  //TEST OK
         giornoContagio = sim.getGiorno();
         calcola_giornoFineIncubazione();  //TEST OK
     }
+    */
+
 
     //controlla se il periodo di incubazione e' terminato, se si stabilisce anche il giorno in cui va lanciato
     //il dado della sintomaticita'
     public boolean isIncubazioneFinita() {
-        if (simulazione.getGiorno() == giornoFineIncubazione) {   //TEST OK
-            //in persona setta il giornoDadoS TODO (fatto)
+        if (giorno.getValore() == giornoFineIncubazione) {   //TEST OK
             return true;
         }
         return false;
@@ -55,21 +65,21 @@ public class Virus {
 
     //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della sintomaticita'
     public boolean isGiornoDadoS() {
-        if (simulazione.getGiorno() == giornoDadoS)
+        if (giorno.getValore() == giornoDadoS)   //TEST
             return true;
         return false;
     }
 
     //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della mortalita'
     public boolean isGiornoDadoM() {
-        if (simulazione.getGiorno() == giornoDadoM)
+        if (giorno.getValore() == giornoDadoM)   //TEST
             return true;
         return false;
     }
 
     //controlla se il giorno della simulazione e' quello in cui la malattia termina
     public boolean isMalattiaFinita() {
-        if (simulazione.getGiorno() == giornoContagio + DURATA)
+        if (giorno.getValore() == giornoContagio + DURATA)  //TEST
             return true;
         return false;
     }
@@ -105,7 +115,6 @@ public class Virus {
     public boolean dadoS() {
         int x = r.nextInt(101);
         if (x <= SINTOMATICITA) {    //TEST
-            //in persona calcola il giornoDadoM TODO (fatto)
             return true;
         }
         return false;

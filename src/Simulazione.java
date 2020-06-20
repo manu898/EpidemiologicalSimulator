@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Simulazione {
     //il giorno della simulazione
-    private int giorno;
+    private Giorno giorno;  //TEST
 
     //la velocita delle persone (numero medio di incontri in un giorno)
     private double velocita;
@@ -38,9 +38,34 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
+    public Simulazione(ParametriSimulazione par) {
+        giorno = new Giorno(1);  //TEST
+        Virus.setI(par.getInfettivita());
+        Virus.setS(par.getSintomaticita());
+        Virus.setL(par.getLetalita());
+        Virus.setD(par.getDurata());
+        this.persone = new ArrayList<Persona>(par.getPopolazione());
+        init_persone(par.getPopolazione());
+        //TEST
+        Persona primo_giallo = persone.get(0);
+        //primo_giallo.setVir(new Virus(giorno));
+        primo_giallo.setStato(StatoSalute.GIALLO);
+        primo_giallo.setMustcheckvirus(true);
+        primo_giallo.getVir().calcola_giornoDadoS();
+        //TEST
+        //governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno)
+        arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
+        arena.distribuisciPersone(persone);
+        velocita = par.getVelocita();
+        R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
+        perc_mov = velocita * 100 / getPopolazione();   //TEST OK
+
+
+    }
+
 
     public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
-        giorno = 1;
+        giorno = new Giorno(1);  //TEST
         this.governo = governo;
         this.arena = arena;
         this.persone = new ArrayList<Persona>(popolazione);
@@ -86,7 +111,7 @@ public class Simulazione {
             //governo.controlla()
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
-            giorno++;
+            giorno.incrementa(1);
         }
         return true;
     }
@@ -126,7 +151,8 @@ public class Simulazione {
     //crea le persone
     private void init_persone(int popolazione) {
         for (int i = 0; i < popolazione; i++) {
-            persone.add(new Persona(i, governo, this));
+            //persone.add(new Persona(i, governo, this));
+            //persone.add(new Persona(i, governo, giorno));
         }
     }
 
@@ -137,7 +163,7 @@ public class Simulazione {
 
 
     //getter
-    public int getGiorno() { return giorno; }
+    public Giorno getGiorno() { return giorno; }
 
     public double getVelocita() {
         return velocita;
@@ -164,7 +190,7 @@ public class Simulazione {
     public int getBlu() { return blu; }
 
     //setter
-    public void setGiorno(int giorno) { this.giorno = giorno; }
+    public void setGiorno(Giorno giorno) { this.giorno = giorno; }
 
     public void setVelocita(double velocita) {
         if (velocita < 0) throw new IllegalArgumentException("La velocita' non puo' essere negativa");
