@@ -48,12 +48,12 @@ public class Simulazione {
         init_persone(par.getPopolazione());
         //TEST
         Persona primo_giallo = persone.get(0);
-        //primo_giallo.setVir(new Virus(giorno));
+        primo_giallo.setVir(new Virus(giorno));  //TEST
         primo_giallo.setStato(StatoSalute.GIALLO);
         primo_giallo.setMustcheckvirus(true);
         primo_giallo.getVir().calcola_giornoDadoS();
         //TEST
-        //governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno)
+        governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno);
         arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
         arena.distribuisciPersone(persone);
         velocita = par.getVelocita();
@@ -62,26 +62,6 @@ public class Simulazione {
 
     }
 
-
-    /*public Simulazione( Governo governo, Arena arena, int popolazione, double velocita ) {
-        giorno = new Giorno(1);  //TEST
-        this.governo = governo;
-        this.arena = arena;
-        this.persone = new ArrayList<Persona>(popolazione);
-        init_persone(popolazione);
-        //scelgo la prima persona gialla
-        //TEST OK
-        Persona primo_giallo = persone.get(0);
-        primo_giallo.setVir(new Virus(this));
-        primo_giallo.setStato(StatoSalute.GIALLO);
-        primo_giallo.setMustcheckvirus(true);
-        primo_giallo.getVir().calcola_giornoDadoS();
-        //TEST OK
-        arena.distribuisciPersone(persone);
-        this.velocita = velocita;
-        R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
-        perc_mov = velocita * 100 / popolazione;   //TEST OK
-    }*/
 
     //esegui la simulazione per 'giorni' giorni
     public boolean run(int giorni) {     //TEST
@@ -118,12 +98,12 @@ public class Simulazione {
     //verifica se la malattia ha vinto
     public boolean vittoria_malattia() {   //TEST
         return (neri == getPopolazione());
-    } //TEST OK
+    }
 
     //verifica se sono finite le risorse
     public boolean risorse_finite() {     //TEST
         return (governo.getRisorse() <= 0);
-    }  //TEST OK
+    }
 
     //controlla lo StatoSalute di una persona e aumenta il contatore relativo
     private void check_stato(Persona p) {  //TEST OK
@@ -148,10 +128,9 @@ public class Simulazione {
     }
 
     //crea le persone
-    private void init_persone(int popolazione) {
+    private void init_persone(int popolazione) {   //TEST
         for (int i = 0; i < popolazione; i++) {
-            //persone.add(new Persona(i, governo, this));
-            //persone.add(new Persona(i, governo, giorno));
+            persone.add(new Persona(i, governo, giorno));
         }
     }
 

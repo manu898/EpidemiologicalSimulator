@@ -27,14 +27,15 @@ public class Persona {
     //lista delle persone incontrate giorno per giorno
     private Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
 
-    //la simulazione a cui appartiene la persona
-    private Simulazione simulazione;
+    //riferimento al giorno attuale della simulazione
+    Giorno giorno;
 
-    public Persona(int ID, Governo gov, Simulazione simulazione){
+
+    public Persona(int ID, Governo gov, Giorno giorno){
         //ID della persona, non può essere negativo
         this.ID = ID;
         this.gov = gov;
-        this.simulazione = simulazione;
+        this.giorno = giorno;
 		inMovimento = true;
 		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
     }
@@ -55,7 +56,7 @@ public class Persona {
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
         if ( vir == null && v.dadoContagio() ) { //TEST vir==null  OK
-            vir = new Virus(simulazione);
+            vir = new Virus(giorno); //TEST
             mustcheckvirus = true;
         }
     }
@@ -114,14 +115,14 @@ public class Persona {
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
     public void addPersona_incontrata( Persona p ) {
-        ArrayList<Persona> app = persone_incontrate.get(simulazione.getGiorno());
+        ArrayList<Persona> app = persone_incontrate.get(giorno.getValore());  //TEST
         if ( app != null ) {
             app.add(p);
         }
         else {
             app = new ArrayList<Persona>();
             app.add(p);
-            persone_incontrate.put(simulazione.getGiorno(), app);
+            persone_incontrate.put(giorno.getValore(), app);  //TEST
         }
     }
 
@@ -146,7 +147,7 @@ public class Persona {
 
     public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
 
-    public Simulazione getSimulazione() { return simulazione; }
+    public Giorno getGiorno() { return giorno; }
 
     //setter
     //ID della persona, non può essere negativo
@@ -176,5 +177,5 @@ public class Persona {
         this.persone_incontrate = persone_incontrate;
     }
 
-    public void setSimulazione(Simulazione simulazione) { this.simulazione = simulazione; }
+    public void setGiorno(Giorno giorno) { this.giorno = giorno; }
 }

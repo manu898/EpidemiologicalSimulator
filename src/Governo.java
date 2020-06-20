@@ -15,7 +15,7 @@ public class Governo {
     //variabile di riferimento al database del governo
     private DBGoverno database;
 
-    private ArrayList<Persona> nuove_personeFerme = null;  //TEST
+    private ArrayList<Persona> nuove_personeFerme;  //TEST
 
     //le persone asintomatiche rilevate dal governo
     private ArrayList<Persona> nuovi_asintomatici;
@@ -31,17 +31,21 @@ public class Governo {
     //le persone morte giorno per giorno
     private ArrayList<Persona> nuovi_morti;
 
+
     // devo passare al costruttore del governo l'oggetto relativo alla strategia che ha scelto l'utente
-    public Governo(int risorse, int costo_tampone, Strategia strategia) {
+    public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
         database = new DBGoverno();
+        database.setPersone(persone);   //TEST
+        database.setGiorno(giorno);   //TEST
+        this.strategia = strategia;   //TEST
         nuovi_asintomatici = new ArrayList<Persona>();  //TEST OK
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
         nuove_personeFerme = new ArrayList<Persona>();   //TEST
-        this.strategia = strategia;
+
     }
 
 
@@ -116,10 +120,6 @@ public class Governo {
 
         database.add_asintomatici(nuovi_asintomatici);
         database.addPersoneFerme(nuove_personeFerme);
-
-
-
-
     }
 
 

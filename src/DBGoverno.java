@@ -2,10 +2,17 @@ import java.util.ArrayList;
 
 public class DBGoverno {
 
-    private ArrayList<Persona> personeFerme = null;   //TEST
+    //riferimento al giorno attuale della simulazione
+    private Giorno giorno;
+
+    //la lista delle persone nella simulazione
+    private ArrayList<Persona> persone;   //TEST
+
+    //le persone ferme nella simulazione
+    private ArrayList<Persona> personeFerme;   //TEST
 
     //la lista delle persone asintomatiche rilevate dal governo
-    private ArrayList<Persona> asintomatici;   //TEST
+    private ArrayList<Persona> asintomatici;
 
     //la lista di tutti i sintomatici durante la simulazione
     private ArrayList<Persona> sintomatici;
@@ -26,11 +33,6 @@ public class DBGoverno {
         personeFerme = new ArrayList<Persona>();   //TEST
     }
 
-    public void addPersoneFerme(ArrayList<Persona> persone){   //TEST
-        for(Persona persona : persone){
-            personeFerme.add(persona);
-        }
-    }
 
     //rimuovi una persona dalla lista degli asintomatici (assume che p era asintomatico e quindi si trova nella lista
     public void remove_asintomatico(Persona p){ asintomatici.remove(p); } //TEST OK
@@ -39,6 +41,9 @@ public class DBGoverno {
     public void remove_sintomatico(Persona p) {  //TEST
         sintomatici.remove(p);
     }   //TEST OK
+
+    //aggiorna la lista delle persone ferme
+    public void addPersoneFerme(ArrayList<Persona> persone){  personeFerme.addAll(persone); }  //TEST
 
     //aggiorna la lista degli asintomatici (assume che ps sia di soli asintomatici)
     public void add_asintomatici(ArrayList<Persona> ps){   //TEST
@@ -57,14 +62,18 @@ public class DBGoverno {
     public void add_guariti(ArrayList<Persona> pg){  guariti.addAll(pg); } //TEST OK
 
     //getter
+    public ArrayList<Persona> getPersone() { return persone; }
     public ArrayList<Persona> getAsintomatici() { return asintomatici; }
     public ArrayList<Persona> getSintomatici() { return sintomatici; }
     public ArrayList<Persona> getMorti() { return morti; }
     public ArrayList<Persona> getGuariti() { return guariti; }
     public ArrayList<Persona> getPersoneFerme() { return personeFerme; }
+    public Giorno getGiorno() { return giorno; }
 
 
     //setter
+    public void setPersone( ArrayList<Persona> persone) { this.persone = persone; }
+
     public void setAsintomatici(ArrayList<Persona> asintomatici) {
         for (Persona p: asintomatici) {
             if ( p.getStato() != StatoSalute.GIALLO ) throw new IllegalArgumentException("Non tutte le persone aggiunte sono asintomatiche");
@@ -95,4 +104,6 @@ public class DBGoverno {
     }
 
     public void setPersoneFerme(ArrayList<Persona> personeFerme) { this.personeFerme = personeFerme; }
+
+    public void setGiorno( Giorno giorno ) { this.giorno = giorno; }
 }

@@ -22,7 +22,7 @@ public class Virus {
 
     //campi dell'oggetto virus
 
-    //riferimento al giorno attuale (in simulazione)
+    //riferimento al giorno attuale della simulazione
     private Giorno giorno;
 
     //il giorno in cui questo oggetto "entra" nella persona
@@ -37,22 +37,11 @@ public class Virus {
     //il giorno in cui va lanciato il dado della mortalita'
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
 
-    //reference alla simulazione a cui appartiene questo oggetto
-    private Simulazione simulazione;  //TEST OK
 
     public Virus(Giorno giorno) {  //TEST
         this.giorno = giorno;
         giornoContagio = giorno.getValore();
     }
-
-    /*
-    public Virus(Simulazione sim) {
-        this.simulazione = sim;  //TEST OK
-        giornoContagio = sim.getGiorno();
-        calcola_giornoFineIncubazione();  //TEST OK
-    }
-    */
-
 
     //controlla se il periodo di incubazione e' terminato, se si stabilisce anche il giorno in cui va lanciato
     //il dado della sintomaticita'
@@ -139,6 +128,8 @@ public class Virus {
     public static int getD() { return DURATA; }
 
     //getter
+    public Giorno getGiorno() { return giorno; }
+
     public int getGiornoFineIncubazione() { return giornoFineIncubazione; }
 
     public int getGiornoDadoS() { return giornoDadoS; }
@@ -146,8 +137,6 @@ public class Virus {
     public int getGiornoDadoM() { return giornoDadoM; }
 
     public int getGiornoContagio() { return giornoContagio; }
-
-    public Simulazione getSimulazione() { return simulazione; }
 
     //static setter
     //vanno aggiunti i controlli sulla correttezza dei parametri
@@ -160,6 +149,8 @@ public class Virus {
     public static void setD(int d) { DURATA = d; }
 
     //setter
+    public void setGiorno(Giorno giorno) { this.giorno = giorno; }
+
     public void setGiornoFineIncubazione(int giornoFineIncubazione) {
         if (giornoFineIncubazione < giornoContagio) throw new IllegalArgumentException("Il giornoFineIncubazione non deve essere prima del giorno contagio");
         this.giornoFineIncubazione = giornoFineIncubazione;
@@ -179,7 +170,5 @@ public class Virus {
     }
 
     public void setGiornoContagio(int g) { giornoContagio = g; }
-
-    public void setSimulazione(Simulazione sim) { this.simulazione = sim; }
 
 }
