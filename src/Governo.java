@@ -128,6 +128,7 @@ public class Governo {
                 // invoca la strategia scelta
                 applicaStrategia = strategia.applica(database);
                 faiTampone(strategia.getNuovi_tamponi());
+                strategia.setPositivi(nuovi_asintomatici);
                 risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());
                 fermaPersone(strategia.getNuovi_daFermare());
             }
