@@ -3,6 +3,8 @@ public class Strategia2 extends Strategia {
     public boolean applica(DBGoverno dbGoverno) {
 
         nuovi_daFermare.addAll(dbGoverno.getPersone());
+        nuovi_daFermare.removeAll(dbGoverno.getMorti());
+        nuovi_daFermare.removeAll(dbGoverno.getSintomatici());
 
         nuovi_tamponi.addAll(dbGoverno.getPersone());
         nuovi_tamponi.removeAll(dbGoverno.getMorti());
