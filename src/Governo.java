@@ -67,7 +67,6 @@ public class Governo {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
         nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_guariti.add(p);
-        // p.setMovimento(true);
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
@@ -82,8 +81,10 @@ public class Governo {
     public void faiTampone(ArrayList<Persona> persone){  //TEST
         for(Persona persona : persone){
             if(persona.getVir() != null )
-                if(persona.getStato() != StatoSalute.VERDE)
+                if(persona.getStato() != StatoSalute.VERDE) {
                     nuovi_asintomatici.add(persona);
+                    persona.setGiornoComunicaGuarigione(database.getGiorno().getValore() + ((5 * Virus.getD()) / 6));
+                }
             // comunica alla strategia che c'è un nuovo positivo
         }
     }
@@ -128,26 +129,35 @@ public class Governo {
 
         if(primoSintomatico){
             if(applicaStrategia){
+                //se sfrutto il metodo setPositivi(nuovi sintomatici) qua, per la strategia4 non c'e' bisogno
+                //di usare il metodo setNuovi_sintomatici(nuovi_sintomatici)
                 strategia.setNuovi_sintomatici(nuovi_sintomatici);
                 // invoca la strategia scelta
                 applicaStrategia = strategia.applica(database);
                 faiTampone(strategia.getNuovi_tamponi());
                 strategia.setPositivi(nuovi_asintomatici);
+                strategia.setPositivi(nuovi_sintomatici);
                 risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());
                 fermaPersone(strategia.getNuovi_daFermare());
             }
         }
 
-        //invoca la strategia in questo punto
-
-        //sottrai il costo dei tamponi effettuati alle risorse
-
         database.add_asintomatici(nuovi_asintomatici);
         fermaPersone(nuovi_morti);
-        fermaPersone(nuovi_sintomatici);
+        //fermaPersone(nuovi_sintomatici);
         database.addPersoneFerme(nuove_personeFerme);
+        muoviPersone(nuovi_guariti);
+        strategia.pulisci();
+        pulisci();
     }
 
+    public void pulisci() {
+        nuovi_asintomatici.clear();
+        nuovi_sintomatici.clear();
+        nuovi_morti.clear();
+        nuovi_guariti.clear();
+        nuove_personeFerme.clear();
+    }
 
     //getter
     public Strategia getStrategia() {

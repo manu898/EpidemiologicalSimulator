@@ -15,6 +15,12 @@ public abstract class Strategia {
         this.nuovi_sintomatici = nuovi_sintomatici;
     }
 
+    public void pulisci() {
+        positivi.clear();
+        nuovi_tamponi.clear();
+        nuovi_daFermare.clear();
+        nuovi_sintomatici.clear();
+    }
 
     public abstract boolean applica(DBGoverno dbGoverno);
 

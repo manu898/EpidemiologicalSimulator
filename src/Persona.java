@@ -30,6 +30,9 @@ public class Persona {
     //riferimento al giorno attuale della simulazione
     Giorno giorno;
 
+    //giorno in cui la persona risultata positiva al virus deve comunicare la guarigione
+    private int giornoComunicaGuarigione;
+
 
     public Persona(int ID, Governo gov, Giorno giorno){
         //ID della persona, non può essere negativo
@@ -38,6 +41,7 @@ public class Persona {
         this.giorno = giorno;
 		inMovimento = true;
 		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
+		giornoComunicaGuarigione = 0;
     }
 
     //comunica al governo che si sono sviluppati i sintomi
@@ -109,6 +113,9 @@ public class Persona {
                 }
                 stato = StatoSalute.BLU;
             }
+            if (giornoComunicaGuarigione == giorno.getValore()) {
+                comunicaGuarigione();
+            }
         }
 
     }
@@ -149,6 +156,8 @@ public class Persona {
 
     public Giorno getGiorno() { return giorno; }
 
+    public int getGiornoComunicaGuarigione() { return giornoComunicaGuarigione; }
+
     //setter
     //ID della persona, non può essere negativo
     public void setID(int id) { this.ID = id; }
@@ -178,4 +187,6 @@ public class Persona {
     }
 
     public void setGiorno(Giorno giorno) { this.giorno = giorno; }
+
+    public void setGiornoComunicaGuarigione(int giornoComunicaGuarigione) { this.giornoComunicaGuarigione = giornoComunicaGuarigione; }
 }

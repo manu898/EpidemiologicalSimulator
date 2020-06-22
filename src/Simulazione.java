@@ -87,7 +87,7 @@ public class Simulazione {
                 p.checkVirus();
                 check_stato(p);
             }
-            //governo.controlla()
+            governo.aggiornamento(); //TEST
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
             giorno.incrementa(1);
