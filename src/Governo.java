@@ -67,6 +67,7 @@ public class Governo {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
         nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_guariti.add(p);
+        // p.setMovimento(true);
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
@@ -123,8 +124,11 @@ public class Governo {
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
 
+
+
         if(primoSintomatico){
             if(applicaStrategia){
+                strategia.setNuovi_sintomatici(nuovi_sintomatici);
                 // invoca la strategia scelta
                 applicaStrategia = strategia.applica(database);
                 faiTampone(strategia.getNuovi_tamponi());

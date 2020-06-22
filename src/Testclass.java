@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //velocita = in_movimento * perc_mov / 100;
 
 public class Testclass {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Governo g = new Governo(100, 5, new Strategia3());
         Arena a = new Arena(100,100, 10);
         Virus.setD(6);
@@ -151,4 +151,3 @@ public class Testclass {
         System.out.println("velocita dopo del mov " + sim.getVelocita());
          */
     }
-}

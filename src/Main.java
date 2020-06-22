@@ -204,19 +204,33 @@ public class Main extends Application {
 
     // scena finale - sceneChart
 
-    NumberAxis xAxis = new NumberAxis();
+    NumberAxis xAxisGoverno = new NumberAxis();
 
-    NumberAxis yAxis = new NumberAxis();
+    NumberAxis yAxisGoverno = new NumberAxis();
 
-    LineChart lineChartGoverno = new LineChart(xAxis, yAxis);
+    LineChart lineChartGoverno = new LineChart(xAxisGoverno, yAxisGoverno);
 
-    XYChart.Series morti = new XYChart.Series();
+    XYChart.Series mortiGoverno = new XYChart.Series();
 
-    XYChart.Series asintomatici = new XYChart.Series();
+    XYChart.Series asintomaticiGoverno = new XYChart.Series();
 
-    XYChart.Series sintomatici = new XYChart.Series();
+    XYChart.Series sintomaticiGoverno = new XYChart.Series();
 
-    XYChart.Series guariti = new XYChart.Series();
+    XYChart.Series guaritiGoverno = new XYChart.Series();
+
+    NumberAxis xAxisUniverso = new NumberAxis();
+
+    NumberAxis yAxisUniverso = new NumberAxis();
+
+    LineChart lineChartUniverso = new LineChart(xAxisUniverso, yAxisUniverso);
+
+    XYChart.Series mortiUniverso = new XYChart.Series();
+
+    XYChart.Series asintomaticiUniverso = new XYChart.Series();
+
+    XYChart.Series sintomaticiUniverso = new XYChart.Series();
+
+    XYChart.Series guaritiUniverso = new XYChart.Series();
 
     private Scene sceneChart = null;
 
@@ -340,51 +354,86 @@ public class Main extends Application {
 
         // scena finale - Chart
 
-        vBoxChart = new VBox(lineChartGoverno);
+        vBoxChart = new VBox();
+
+        vBoxChart.getChildren().addAll(lineChartGoverno,lineChartUniverso);
 
         vBoxChart.setAlignment(Pos.CENTER);
 
         sceneChart = new Scene(vBoxChart,1000,800);
 
-        xAxis.setLabel("Time");
-        yAxis.setLabel("Total");
+        xAxisGoverno.setLabel("Time");
+        yAxisGoverno.setLabel("Total");
 
-        morti.setName("MORTI");
-        asintomatici.setName("ASINTOMATICI");
-        sintomatici.setName("SINOTMATICI");
-        guariti.setName("GUARITI");
-
-
-        ArrayList<Coppia> guaritiTotali = new ArrayList<>();
-        guaritiTotali.add(new Coppia(0, 300));
-        guaritiTotali.add(new Coppia(1, 100));
-        guaritiTotali.add(new Coppia(2, 600));
-
-        ArrayList<Coppia> mortiTotali = new ArrayList<>();
-        mortiTotali.add(new Coppia(0, 900));
-        mortiTotali.add(new Coppia(1, 800));
-        mortiTotali.add(new Coppia(2, 200));
-
-        ArrayList<Coppia> asintomaticiTotali = new ArrayList<>();
-        asintomaticiTotali.add(new Coppia(0, 1000));
-        asintomaticiTotali.add(new Coppia(1,1200));
-        asintomaticiTotali.add(new Coppia(2,1500));
-
-        ArrayList<Coppia> sintomaticiTotali = new ArrayList<>();
-        sintomaticiTotali.add(new Coppia(0, 700));
-        sintomaticiTotali.add(new Coppia(1, 400));
-        sintomaticiTotali.add(new Coppia(2, 300));
+        mortiGoverno.setName("MORTI");
+        asintomaticiGoverno.setName("ASINTOMATICI");
+        sintomaticiGoverno.setName("SINOTMATICI");
+        guaritiGoverno.setName("GUARITI");
 
 
-        addSeries(guariti, guaritiTotali);
-        addSeries(morti, mortiTotali);
-        addSeries(asintomatici, asintomaticiTotali);
-        addSeries(sintomatici, sintomaticiTotali);
+        ArrayList<Coppia> guaritiGovernoSeries = new ArrayList<>();
+        guaritiGovernoSeries.add(new Coppia(0, 300));
+        guaritiGovernoSeries.add(new Coppia(1, 100));
+        guaritiGovernoSeries.add(new Coppia(2, 600));
+
+        ArrayList<Coppia> mortiGovernoSeries = new ArrayList<>();
+        mortiGovernoSeries.add(new Coppia(0, 900));
+        mortiGovernoSeries.add(new Coppia(1, 800));
+        mortiGovernoSeries.add(new Coppia(2, 200));
+
+        ArrayList<Coppia> asintomaticiGovernoSeries = new ArrayList<>();
+        asintomaticiGovernoSeries.add(new Coppia(0, 1000));
+        asintomaticiGovernoSeries.add(new Coppia(1,1200));
+        asintomaticiGovernoSeries.add(new Coppia(2,1500));
+
+        ArrayList<Coppia> sintomaticiGovernoSeries = new ArrayList<>();
+        sintomaticiGovernoSeries.add(new Coppia(0, 700));
+        sintomaticiGovernoSeries.add(new Coppia(1, 400));
+        sintomaticiGovernoSeries.add(new Coppia(2, 300));
 
 
-        lineChartGoverno.getData().addAll(morti,asintomatici,sintomatici,guariti);
+        addSeries(guaritiGoverno, guaritiGovernoSeries);
+        addSeries(mortiGoverno, mortiGovernoSeries);
+        addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
+        addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
 
 
+        lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno);
+
+        xAxisUniverso.setLabel("Time");
+        yAxisUniverso.setLabel("Total");
+
+        mortiUniverso.setName("MORTI");
+        asintomaticiGoverno.setName("ASINTOMATICI");
+        sintomaticiUniverso.setName("SINTOMATICI");
+        guaritiUniverso.setName("GUARITI");
+
+        ArrayList<Coppia> guaritiUniversoSeries = new ArrayList<>();
+        guaritiUniversoSeries.add(new Coppia(0, 300));
+        guaritiUniversoSeries.add(new Coppia(1, 100));
+        guaritiUniversoSeries.add(new Coppia(2, 600));
+
+        ArrayList<Coppia> mortiUniversoSeries = new ArrayList<>();
+        mortiUniversoSeries.add(new Coppia(0, 900));
+        mortiUniversoSeries.add(new Coppia(1, 800));
+        mortiUniversoSeries.add(new Coppia(2, 200));
+
+        ArrayList<Coppia> asintomaticiUniversoSeries = new ArrayList<>();
+        asintomaticiUniversoSeries.add(new Coppia(0, 1000));
+        asintomaticiUniversoSeries.add(new Coppia(1,1200));
+        asintomaticiUniversoSeries.add(new Coppia(2,1500));
+
+        ArrayList<Coppia> sintomaticiUniversoSeries = new ArrayList<>();
+        sintomaticiUniversoSeries.add(new Coppia(0, 700));
+        sintomaticiUniversoSeries.add(new Coppia(1, 400));
+        sintomaticiUniversoSeries.add(new Coppia(2, 300));
+
+        addSeries(guaritiUniverso, guaritiUniversoSeries);
+        addSeries(mortiUniverso, mortiUniversoSeries);
+        addSeries(asintomaticiUniverso, asintomaticiUniversoSeries);
+        addSeries(sintomaticiUniverso, sintomaticiUniversoSeries);
+
+        lineChartUniverso.getData().addAll(mortiUniverso,asintomaticiUniverso,sintomaticiUniverso,guaritiUniverso);
 
 
         // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì

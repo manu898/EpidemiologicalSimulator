@@ -1,7 +1,7 @@
-public class Strategia1 extends Strategia {
+public class Strategia1 extends Strategia{
 
     @Override
-    public void applica() {
-
+    public boolean applica(DBGoverno dbGoverno) {
+        return false;
     }
 }
