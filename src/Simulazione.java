@@ -38,27 +38,30 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
+    //costruttore, si occupa di inizializzare anche le persone, il governo e l'arena
     public Simulazione(ParametriSimulazione par) {
-        giorno = new Giorno(1);  //TEST
+        giorno = new Giorno(1);
         Virus.setI(par.getInfettivita());
         Virus.setS(par.getSintomaticita());
         Virus.setL(par.getLetalita());
         Virus.setD(par.getDurata());
         this.persone = new ArrayList<Persona>(par.getPopolazione());
+        governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno);
         init_persone(par.getPopolazione());
         //TEST
         Persona primo_giallo = persone.get(0);
-        primo_giallo.setVir(new Virus(giorno));  //TEST
+        primo_giallo.setVir(new Virus(giorno));
         primo_giallo.setStato(StatoSalute.GIALLO);
+        primo_giallo.getVir().setGiornoFineIncubazione(giorno.getValore());
         primo_giallo.setMustcheckvirus(true);
         primo_giallo.getVir().calcola_giornoDadoS();
         //TEST
-        governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno);
+
         arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
         arena.distribuisciPersone(persone);
         velocita = par.getVelocita();
-        R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
-        perc_mov = velocita * 100 / getPopolazione();   //TEST OK
+        R0 = velocita * Virus.getD() * Virus.getI();
+        perc_mov = velocita * 100 / getPopolazione();
 
     }
 
@@ -79,11 +82,11 @@ public class Simulazione {
             setVelocita(in_movimento * perc_mov / 100);  //TEST OK
             R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
             int n_incontrate = 0;
-            while (n_incontrate / in_movimento < velocita) { //TEST, controlla prima move di arena e check_incontri
-                arena.move(persone);    //TEST
-                n_incontrate += arena.check_incontri(); //TEST
+            while (n_incontrate / in_movimento < velocita) { //TEST  OK
+                arena.move(persone);    //TEST OK
+                n_incontrate += arena.check_incontri(); //TEST OK
             }
-            for (Persona p: persone) { //TEST  OK
+            for (Persona p: persone) { //TEST
                 p.checkVirus();
                 check_stato(p);
             }
@@ -128,7 +131,7 @@ public class Simulazione {
     }
 
     //crea le persone
-    private void init_persone(int popolazione) {   //TEST
+    private void init_persone(int popolazione) {   //TEST  OK
         for (int i = 0; i < popolazione; i++) {
             persone.add(new Persona(i, governo, giorno));
         }

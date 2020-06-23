@@ -2,13 +2,15 @@ import java.util.ArrayList;
 
 public class Governo {
 
-    private boolean primoSintomatico;  // TEST
+    //campo usato per verificare se c'è stato un primo individuo sintomatico
+    private boolean primoSintomatico;  // TEST  OK
 
-    private boolean applicaStrategia;   // TEST
+    //campo usato per verificare se si deve applicare la strategia o meno
+    private boolean applicaStrategia;   // TEST  OK
 
     // il Governo ha un campo relativo alla strategia che a simulazione inizata verrà immesso
     // al suo interno un oggetto della classe relativo alla simulazione
-    private Strategia strategia; //TEST
+    private Strategia strategia; //TEST  OK
 
     //le risorse del governo
     private int risorse;
@@ -19,17 +21,17 @@ public class Governo {
     //variabile di riferimento al database del governo
     private DBGoverno database;
 
-    private ArrayList<Persona> nuove_personeFerme;  //TEST
+    //le persone fermate giorno per giorno
+    private ArrayList<Persona> nuove_personeFerme;  //TEST OK
 
-    //le persone asintomatiche rilevate dal governo
+    //le persone asintomatiche rilevate dal governo giorno per giorno
     private ArrayList<Persona> nuovi_asintomatici;
 
     //le persone diventate sintomatiche giorno per giorno
     private ArrayList<Persona> nuovi_sintomatici;
 
     //le persone guarite giorno per giorno (nota: possono solo essere persone blu che precedentemente erano rosse
-    //oppure persone gialle su cui e' stato rifatto il tampone) //CONTROLLA  (le persone che da gialle diventano blu
-    //non lo comunicano direttamente al governo, ma bisogna fare un altro tampone su di esse per verificare che sono guarite)
+    //oppure persone gialle su cui e' stato fatto il tampone e dal giorno del tampone sono passati 5*D/6 giorni)
     private ArrayList<Persona> nuovi_guariti;
 
     //le persone morte giorno per giorno
@@ -40,33 +42,34 @@ public class Governo {
     public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
-        this.primoSintomatico = false;  // TEST
-        this.applicaStrategia = true;   // TEST
+        this.primoSintomatico = false;  // TEST  OK
+        this.applicaStrategia = true;   // TEST  OK
         database = new DBGoverno();
-        database.setPersone(persone);   //TEST
-        database.setGiorno(giorno);   //TEST
-        this.strategia = strategia;   //TEST
+        database.setPersone(persone);   //TEST  OK
+        database.setGiorno(giorno);   //TEST  OK
+        this.strategia = strategia;   //TEST OK
         nuovi_asintomatici = new ArrayList<Persona>();  //TEST OK
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
-        nuove_personeFerme = new ArrayList<Persona>();   //TEST
+        nuove_personeFerme = new ArrayList<Persona>();   //TEST  OK
 
     }
 
 
     //aggiunge un sintomatico alla lista dei nuovi_sintomatici per il giorno corrente (assume che p non sia null)
-    public void add_sintomatico( Persona p ) {  //TEST OK
-        if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona asintomatica ai nuovi_sintomatici");
+    public void add_sintomatico( Persona p ) {  //TEST
+        if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non sintomatica ai nuovi_sintomatici");
         nuovi_sintomatici.add(p);
-        primoSintomatico = true;
+        primoSintomatico = true;  //TEST
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
         nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
-        nuovi_guariti.add(p);
+        if (!(database.getGuariti().contains(p)))  //TEST   si può verificare se la persona aveva un giorno in cui doveva comunicare la guarigione ma è diventata rossa ed è guarita prima
+            nuovi_guariti.add(p);
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
@@ -74,7 +77,6 @@ public class Governo {
         if ( p.getStato() != StatoSalute.NERO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non morta ai nuovi_morti");
         nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_morti.add(p);
-        // p.setMovimento(false);  // Qualche minchione ancora ci sta pensando
     }
 
     //effettua il tampone alle persone passate come argomento
@@ -160,6 +162,10 @@ public class Governo {
     }
 
     //getter
+    public boolean getPrimoSintomatico() { return this.primoSintomatico; }
+
+    public boolean getApplicaStrategia() { return this.applicaStrategia; }
+
     public Strategia getStrategia() {
         return strategia;
     }
@@ -177,6 +183,7 @@ public class Governo {
     public ArrayList<Persona> getNuovi_sintomatici() { return nuovi_sintomatici;}
     public ArrayList<Persona> getNuovi_guariti() { return nuovi_guariti; }
     public ArrayList<Persona> getNuovi_morti() { return nuovi_morti; }
+    public ArrayList<Persona> getNuove_personeFerme() { return nuove_personeFerme; }
 
     //setter
     public void setStrategia(Strategia strategia) { this.strategia = strategia; }

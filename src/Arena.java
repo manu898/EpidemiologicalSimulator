@@ -31,7 +31,7 @@ public class Arena {
 		}
 	}
 
-	// Andiamo a distribuire le persone (le abbiamo già generate in universo). In una cella possono anche esserci più persone inizialmente
+	// Andiamo a distribuire le persone (le abbiamo già generate in simulazione). In una cella possono anche esserci più persone inizialmente
 	public void distribuisciPersone(ArrayList<Persona> persone){
 
 		// Per ogni persona nell'arrayList scegliamo una cella randomicamente in cui andremo a posizionarla

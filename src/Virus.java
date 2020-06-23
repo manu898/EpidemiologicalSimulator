@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class Virus {
     //parametri della simulazione
-    //vanno aggiunti i controlli sulla correttezza dei parametri (gestiti nel main?--> gestiti nin UiJfx)
 
     //infettivita' del virus
     private static int INFETTIVITA;
@@ -37,8 +36,8 @@ public class Virus {
     //il giorno in cui va lanciato il dado della mortalita'
     private int giornoDadoM;  //controlla: valore compreso tra giorno odierno e giorno contagio+D
 
-
-    public Virus(Giorno giorno) {  //TEST
+    //costruttore
+    public Virus(Giorno giorno) {  //TEST  OK
         this.giorno = giorno;
         giornoContagio = giorno.getValore();
     }
@@ -46,7 +45,7 @@ public class Virus {
     //controlla se il periodo di incubazione e' terminato, se si stabilisce anche il giorno in cui va lanciato
     //il dado della sintomaticita'
     public boolean isIncubazioneFinita() {
-        if (giorno.getValore() == giornoFineIncubazione) {   //TEST OK
+        if (giorno.getValore() == giornoFineIncubazione) {
             return true;
         }
         return false;
@@ -54,39 +53,39 @@ public class Virus {
 
     //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della sintomaticita'
     public boolean isGiornoDadoS() {
-        if (giorno.getValore() == giornoDadoS)   //TEST
+        if (giorno.getValore() == giornoDadoS)
             return true;
         return false;
     }
 
     //controlla se il giorno della simulazione e' quello in cui va lanciato il dado della mortalita'
     public boolean isGiornoDadoM() {
-        if (giorno.getValore() == giornoDadoM)   //TEST
+        if (giorno.getValore() == giornoDadoM)
             return true;
         return false;
     }
 
     //controlla se il giorno della simulazione e' quello in cui la malattia termina
     public boolean isMalattiaFinita() {
-        if (giorno.getValore() == giornoContagio + DURATA)  //TEST
+        if (giorno.getValore() == giornoContagio + DURATA)
             return true;
         return false;
     }
 
     //calcola il giorno in cui l'incubazione del virus e' finita e la persona diventa contagiosa
-    public void calcola_giornoFineIncubazione() { //TEST OK
+    public void calcola_giornoFineIncubazione() {
         giornoFineIncubazione = giornoContagio + (DURATA / 6);
     }
 
     //calcola il giorno in cui va lanciato il dado della sintomaticita'
-    public void calcola_giornoDadoS() {  //TEST OK
+    public void calcola_giornoDadoS() {
         int bound = (giornoContagio + DURATA / 3) - giornoFineIncubazione;
         int g = (bound == 0 ? giornoFineIncubazione : giornoFineIncubazione + r.nextInt(bound));
         setGiornoDadoS(g);
     }
 
     //calcola il giorno in cui va lanciato il dado della mortalita'
-    public void calcola_giornoDadoM() {  //TEST  OK
+    public void calcola_giornoDadoM() {
         int bound = (giornoContagio + DURATA) - giornoDadoS;
         int g = (bound == 0 ? giornoDadoS : giornoDadoS + r.nextInt(bound));
         setGiornoDadoM(g);
@@ -103,7 +102,7 @@ public class Virus {
     //il dado della mortalita'
     public boolean dadoS() {
         int x = r.nextInt(101);
-        if (x <= SINTOMATICITA) {    //TEST
+        if (x <= SINTOMATICITA) {
             return true;
         }
         return false;

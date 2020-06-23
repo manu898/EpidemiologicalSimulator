@@ -41,7 +41,7 @@ public class Persona {
         this.giorno = giorno;
 		inMovimento = true;
 		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
-		giornoComunicaGuarigione = 0;
+		giornoComunicaGuarigione = 0;  //TEST OK
     }
 
     //comunica al governo che si sono sviluppati i sintomi
@@ -50,18 +50,17 @@ public class Persona {
     }
 
     //comunica al governo che si e' guariti
-    public void comunicaGuarigione() {
-        gov.add_guarito(this);
-    }
+    public void comunicaGuarigione() { gov.add_guarito(this); }
 
     //comunica al governo la propria morte
     public void comunicaMorte() { gov.add_morto(this); }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
-        if ( vir == null && v.dadoContagio() ) { //TEST vir==null  OK
-            vir = new Virus(giorno); //TEST
+        if ( vir == null && v.dadoContagio() ) {
+            vir = new Virus(giorno);
             mustcheckvirus = true;
+            vir.calcola_giornoFineIncubazione();
         }
     }
 
@@ -73,7 +72,7 @@ public class Persona {
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
-                        vir.calcola_giornoDadoS(); //TEST OK
+                        vir.calcola_giornoDadoS();
                     }
                     else
                         break;
@@ -82,11 +81,12 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
-                            vir.calcola_giornoDadoM();   //TEST OK
+                            vir.calcola_giornoDadoM();
                             comunicaSintomaticita();
                         }
-                        else
+                        else {
                             mustcheckvirus = false;
+                        }
                     }
                     else
                         break;
@@ -99,8 +99,9 @@ public class Persona {
                             comunicaMorte();
                             //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova) (vedi Governo e DBGoverno)
                         }
-                        else
+                        else {
                             mustcheckvirus = false;
+                        }
                     }
                     break;
             }
@@ -122,14 +123,14 @@ public class Persona {
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
     public void addPersona_incontrata( Persona p ) {
-        ArrayList<Persona> app = persone_incontrate.get(giorno.getValore());  //TEST
+        ArrayList<Persona> app = persone_incontrate.get(giorno.getValore());
         if ( app != null ) {
             app.add(p);
         }
         else {
             app = new ArrayList<Persona>();
             app.add(p);
-            persone_incontrate.put(giorno.getValore(), app);  //TEST
+            persone_incontrate.put(giorno.getValore(), app);
         }
     }
 
