@@ -241,28 +241,30 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        window = stage;
-
-        // scena iniziale - Inserimento parametri
-
+        // CSS per tutte le scene
 
         String stylesInviaBtn = "-fx-background-color : dodgerblue;" +
                 "-fx-font-size: 20;" +
                 "-fx-max-width: 200;" +
                 "-fx-text-fill : white;";
+        String stylesFrase = "-fx-font-size: 26;"+
+                "-fx-padding: 20";
         String stylesInterrompiBtn = "-fx-background-color : red;" +
                 "-fx-font-size: 20;" +
-                "-fx-max-width: 200;" +
-                "-fx-text-fill: white";
+                "-fx-max-width: 270;" +
+                "-fx-text-fill: white;";
         String stylesFinaleBtn = "-fx-background-color: limegreen;" +
                 "-fx-font-size: 20;" +
-                "-fx-max-width: 200;" +
+                "-fx-max-width: 270;" +
                 "-fx-text-fill: white;";
 
 
         btnInvia.setStyle(stylesInviaBtn);
+        fraseMid.setStyle(stylesFrase);
+        fraseFinale.setStyle(stylesFrase);
         btnInterrompi.setStyle(stylesInterrompiBtn);
         btnFinale.setStyle(stylesFinaleBtn);
+
 
         setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
                 velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
@@ -286,10 +288,15 @@ public class Main extends Application {
 
         setPosAndMargin(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
-        vBox.getChildren().addAll(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
-
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(bi));
+
+        // scena iniziale
+
+        window = stage;
+
+        vBox.getChildren().addAll(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
+
 
         sceneIniziale = new Scene(vBox,1000,800);
 
@@ -367,7 +374,7 @@ public class Main extends Application {
 
         mortiGoverno.setName("MORTI");
         asintomaticiGoverno.setName("ASINTOMATICI");
-        sintomaticiGoverno.setName("SINOTMATICI");
+        sintomaticiGoverno.setName("SINTOMATICI");
         guaritiGoverno.setName("GUARITI");
 
 
@@ -396,6 +403,20 @@ public class Main extends Application {
         addSeries(mortiGoverno, mortiGovernoSeries);
         addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
         addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
+
+
+        xAxisGoverno.setAutoRanging(false);
+        xAxisGoverno.setLowerBound(0);
+        xAxisGoverno.setUpperBound(30);
+        xAxisGoverno.setTickUnit(1);
+        xAxisGoverno.setMinorTickVisible(false);
+
+        xAxisUniverso.setAutoRanging(false);
+        xAxisUniverso.setLowerBound(0);
+        xAxisUniverso.setUpperBound(30);
+        xAxisUniverso.setTickUnit(1);
+        xAxisUniverso.setMinorTickVisible(false);
+
 
 
         lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno);
