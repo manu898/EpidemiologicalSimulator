@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //velocita = in_movimento * perc_mov / 100;
 
 public class Testclass {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         ParametriSimulazione par = new ParametriSimulazione();
         par.setArenaH(10);
         par.setArenaL(10);
@@ -13,12 +13,13 @@ public class Testclass {
         par.setDurata(3);
         par.setInfettivita(100);
         par.setLetalita(50);
-        par.setSintomaticita(0);
+        par.setSintomaticita(100);
         par.setPopolazione(100);
         par.setCosto_tampone(5);
         par.setVelocita(1);
         par.setRisorse(100);
         par.setStrategia(new Strategia1());
+
 
         Simulazione sim = new Simulazione(par);
         System.out.println(sim.getGiorno().getValore());
@@ -27,7 +28,30 @@ public class Testclass {
         Persona p0 = sim.getPersone().get(0);
         System.out.println("dado sintomaticita: " + p0.getVir().getGiornoDadoS());
         p0.setGiornoComunicaGuarigione(5);
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
         p0.checkVirus();
+        System.out.println(sim.getGoverno().getPrimoSintomatico());
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
+        System.out.println(sim.getGoverno().getNuovi_sintomatici() == p0.getGoverno().getNuovi_sintomatici());
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
+
+        /*
+        COSA BUFFA!!!
+        Simulazione sim = new Simulazione(par);
+        System.out.println(sim.getGiorno().getValore());
+        //sim.getGiorno().incrementa(1);
+        System.out.println(sim.getGoverno().getDatabase().getGiorno().getValore());
+        Persona p0 = sim.getPersone().get(0);
+        System.out.println("dado sintomaticita: " + p0.getVir().getGiornoDadoS());
+        p0.setGiornoComunicaGuarigione(5);
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
+        p0.checkVirus();
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
+        System.out.println(sim.getGoverno().getNuovi_sintomatici() == p0.getGoverno().getNuovi_sintomatici());
+        System.out.println(sim.getGoverno().getNuovi_sintomatici().size());
+        */
+
+        /*
         sim.getGiorno().incrementa(3);
         //p0.setMustcheckvirus(false);
         //p0.checkVirus();
@@ -37,5 +61,6 @@ public class Testclass {
         p0.checkVirus();
         sim.getGiorno().incrementa(1);
         p0.checkVirus();
+        */
     }
 }

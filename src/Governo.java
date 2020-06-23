@@ -8,8 +8,7 @@ public class Governo {
     //campo usato per verificare se si deve applicare la strategia o meno
     private boolean applicaStrategia;   // TEST  OK
 
-    // il Governo ha un campo relativo alla strategia che a simulazione inizata verrà immesso
-    // al suo interno un oggetto della classe relativo alla simulazione
+    //la strategia utilizzata dal governo durante la simulazione
     private Strategia strategia; //TEST  OK
 
     //le risorse del governo
@@ -60,8 +59,10 @@ public class Governo {
     //aggiunge un sintomatico alla lista dei nuovi_sintomatici per il giorno corrente (assume che p non sia null)
     public void add_sintomatico( Persona p ) {  //TEST
         if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non sintomatica ai nuovi_sintomatici");
+        System.out.println("aggiungo un sintomatico al governo");
         nuovi_sintomatici.add(p);
-        primoSintomatico = true;  //TEST
+        System.out.println("nuovi_sintomatici: " + nuovi_sintomatici.size());
+        primoSintomatico = true;  //TEST OK
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
