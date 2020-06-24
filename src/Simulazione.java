@@ -38,8 +38,11 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
+    private DatiStatistici statistiche;  // TEST
+
     //costruttore, si occupa di inizializzare anche le persone, il governo e l'arena
     public Simulazione(ParametriSimulazione par) {
+        statistiche = new DatiStatistici();  // TEST
         giorno = new Giorno(1);
         Virus.setI(par.getInfettivita());
         Virus.setS(par.getSintomaticita());
@@ -65,6 +68,20 @@ public class Simulazione {
 
     }
 
+    public DatiStatistici getDati(){  // TEST
+        return statistiche;
+    }
+
+    public void aggiornaDati(){  // TEST
+
+        statistiche.morti.add(governo.getDatabase().getMorti().size());
+        statistiche.sintomatici.add(governo.getDatabase().getSintomatici().size());
+        statistiche.asintomaticiGoverno.add(governo.getDatabase().getAsintomatici().size());
+        statistiche.asintomaticiSimulazione.add(governo.getDatabase().getAsintomatici().size());
+        statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
+        statistiche.guaritiSimulazione.add(governo.getDatabase().getGuariti().size());
+        // aggiungere i verdi sia di simulazione che di governo
+    }
 
     //esegui la simulazione per 'giorni' giorni
     public boolean run(int giorni) {     //TEST
@@ -94,6 +111,8 @@ public class Simulazione {
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
             giorno.incrementa(1);
+            governo.getDatabase().getMorti();
+            // aggiornaDati();  // TEST
         }
         return true;
     }

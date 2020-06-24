@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.image.Image;
@@ -185,7 +186,16 @@ public class Main extends Application {
 
     private VBox vBoxMid = null;
 
+    private boolean interrompi = false;
 
+
+    // scena intermedia 2 - hai premuto interrompi
+
+    private Label fraseMid2 = new Label(" Sto interrompendo ... aspetta 5 ore dai !");
+
+    private Scene sceneMid2 = null;
+
+    private VBox vBoxMid2 = null;
 
 
 
@@ -237,6 +247,8 @@ public class Main extends Application {
     private VBox vBoxChart = null;
 
 
+    private DatiStatistici statistiche = new DatiStatistici();
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -261,6 +273,7 @@ public class Main extends Application {
 
         btnInvia.setStyle(stylesInviaBtn);
         fraseMid.setStyle(stylesFrase);
+        fraseMid2.setStyle(stylesFrase);
         fraseFinale.setStyle(stylesFrase);
         btnInterrompi.setStyle(stylesInterrompiBtn);
         btnFinale.setStyle(stylesFinaleBtn);
@@ -301,6 +314,7 @@ public class Main extends Application {
         sceneIniziale = new Scene(vBox,1000,800);
 
 
+
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -313,9 +327,10 @@ public class Main extends Application {
 
                 if(bool){
                     window.setScene(sceneMid);
-                    while (ret) {
-                        ret = simulazione.run(1);
+                    while (ret && !interrompi) {
+                        ret = simulazione.run(30);
                     }
+                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione 
                     window.setScene(sceneFinale);
                 }
             }
@@ -323,20 +338,27 @@ public class Main extends Application {
 
 
 
-        // scene intermedia - Interrompi
+
+
+        // scene intermedia1 e intermedia2 - Interrompi
 
         vBoxMid = new VBox();
+        vBoxMid2 = new VBox();
 
         vBoxMid.setAlignment(Pos.CENTER);
+        vBoxMid2.setAlignment(Pos.CENTER);
 
         sceneMid = new Scene(vBoxMid,1000,800);
+        sceneMid2 = new Scene(vBoxMid2,1000,800);
 
         vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
+        vBoxMid2.getChildren().addAll(fraseMid2);
 
         btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                window.setScene(sceneChart);
+                interrompi = true;
+                window.setScene(sceneMid2);
             }
         });
 
