@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public abstract class Strategia {
 
     public ArrayList<Persona> positivi = new ArrayList<>();
-    public ArrayList<Persona> nuovi_tamponi;
-    public ArrayList<Persona> nuovi_daFermare;
+    public ArrayList<Persona> nuovi_tamponi = new ArrayList<>();
+    public ArrayList<Persona> nuovi_daFermare = new ArrayList<>();
     public ArrayList<Persona> nuovi_sintomatici = new ArrayList<>();
 
     public void setPositivi(ArrayList<Persona> positivi) {
