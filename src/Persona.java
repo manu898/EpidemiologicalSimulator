@@ -45,10 +45,7 @@ public class Persona {
     }
 
     //comunica al governo che si sono sviluppati i sintomi
-    public void comunicaSintomaticita() {
-        System.out.println("malatissimo!");
-        gov.add_sintomatico(this);
-    }
+    public void comunicaSintomaticita() { gov.add_sintomatico(this); }
 
     //comunica al governo che si e' guariti
     public void comunicaGuarigione() { gov.add_guarito(this); }
@@ -81,7 +78,6 @@ public class Persona {
                 case GIALLO:
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
-                            System.out.println("Mhhh mi ammalo!");  //CANCELLA
                             stato = StatoSalute.ROSSO;
                             vir.calcola_giornoDadoM();
                             comunicaSintomaticita();

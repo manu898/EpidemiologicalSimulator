@@ -1,15 +1,16 @@
 import java.util.ArrayList;
+import java.lang.Math.*;
 
 public class Governo {
 
     //campo usato per verificare se c'è stato un primo individuo sintomatico
-    private boolean primoSintomatico;  // TEST  OK
+    private boolean primoSintomatico;
 
     //campo usato per verificare se si deve applicare la strategia o meno
-    private boolean applicaStrategia;   // TEST  OK
+    private boolean applicaStrategia;
 
     //la strategia utilizzata dal governo durante la simulazione
-    private Strategia strategia; //TEST  OK
+    private Strategia strategia;
 
     //le risorse del governo
     private int risorse;
@@ -21,7 +22,7 @@ public class Governo {
     private DBGoverno database;
 
     //le persone fermate giorno per giorno
-    private ArrayList<Persona> nuove_personeFerme;  //TEST OK
+    private ArrayList<Persona> nuove_personeFerme;
 
     //le persone asintomatiche rilevate dal governo giorno per giorno
     private ArrayList<Persona> nuovi_asintomatici;
@@ -41,59 +42,60 @@ public class Governo {
     public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
         this.risorse = risorse;
         this.costo_tampone = costo_tampone;
-        this.primoSintomatico = false;  // TEST  OK
-        this.applicaStrategia = true;   // TEST  OK
+        this.primoSintomatico = false;
+        this.applicaStrategia = true;
         database = new DBGoverno();
-        database.setPersone(persone);   //TEST  OK
-        database.setGiorno(giorno);   //TEST  OK
-        this.strategia = strategia;   //TEST OK
-        nuovi_asintomatici = new ArrayList<Persona>();  //TEST OK
+        database.setPersone(persone);
+        database.setGiorno(giorno);
+        this.strategia = strategia;
+        nuovi_asintomatici = new ArrayList<Persona>();
         nuovi_sintomatici = new ArrayList<Persona>();
         nuovi_guariti = new ArrayList<Persona>();
         nuovi_morti = new ArrayList<Persona>();
-        nuove_personeFerme = new ArrayList<Persona>();   //TEST  OK
+        nuove_personeFerme = new ArrayList<Persona>();
 
     }
 
 
     //aggiunge un sintomatico alla lista dei nuovi_sintomatici per il giorno corrente (assume che p non sia null)
-    public void add_sintomatico( Persona p ) {  //TEST
+    public void add_sintomatico( Persona p ) {
         if ( p.getStato() != StatoSalute.ROSSO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non sintomatica ai nuovi_sintomatici");
-        System.out.println("aggiungo un sintomatico al governo");
         nuovi_sintomatici.add(p);
-        System.out.println("nuovi_sintomatici: " + nuovi_sintomatici.size());
-        primoSintomatico = true;  //TEST OK
+        primoSintomatico = true;
     }
 
     //aggiunge un guarito alla lista dei nuovi_guariti per il giorno corrente (assume che p non sia null)
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
-        nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
-        if (!(database.getGuariti().contains(p)))  //TEST   si può verificare se la persona aveva un giorno in cui doveva comunicare la guarigione ma è diventata rossa ed è guarita prima
+        nuovi_sintomatici.remove(p);  // ha senso? si se la persona diventa sintomatica lo stesso giorno
+        if (!(database.getGuariti().contains(p))) { //si può verificare se la persona aveva un giorno in cui doveva comunicare la guarigione ma è diventata rossa ed è guarita prima
             nuovi_guariti.add(p);
+        }
     }
 
     //aggiunge un morto alla lista dei nuovi_morti per il giorno corrente (assume che p non sia null)
     public void add_morto ( Persona p ) {
         if ( p.getStato() != StatoSalute.NERO ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non morta ai nuovi_morti");
-        nuovi_sintomatici.remove(p);  //TEST OK ha senso? si se la persona diventa sintomatica lo stesso giorno
+        nuovi_sintomatici.remove(p);  // ha senso? si se la persona diventa sintomatica lo stesso giorno
         nuovi_morti.add(p);
     }
 
     //effettua il tampone alle persone passate come argomento
-    public void faiTampone(ArrayList<Persona> persone){  //TEST
+    public void faiTampone(ArrayList<Persona> persone){
         for(Persona persona : persone){
-            if(persona.getVir() != null )
-                if(persona.getStato() != StatoSalute.VERDE) {
+            if(persona.getVir() != null ) {
+                if (persona.getStato() == StatoSalute.GIALLO || persona.getStato() == StatoSalute.ROSSO/*non dovrebbe mai verificarsi*/) {
+                    if (persona.getStato() == StatoSalute.ROSSO)
+                        throw new IllegalArgumentException("tampone a un rosso!");  //CANCELLA
                     nuovi_asintomatici.add(persona);
-                    persona.setGiornoComunicaGuarigione(database.getGiorno().getValore() + ((5 * Virus.getD()) / 6));
+                    persona.setGiornoComunicaGuarigione(database.getGiorno().getValore() + (int) Math.ceil(((5 * Virus.getD()) / 6.0))); //altrimenti potrei 'perdermi' qualche giorno
                 }
-            // comunica alla strategia che c'è un nuovo positivo
+            }
         }
     }
 
     //ferma le persone passate come argomento
-    public void fermaPersone(ArrayList<Persona> persone){  //TEST
+    public void fermaPersone(ArrayList<Persona> persone){
         for(Persona persona : persone){
             persona.setMovimento(false);
             nuove_personeFerme.add(persona);
@@ -101,7 +103,7 @@ public class Governo {
     }
 
     //mette in movimento le persone passate come argomento
-    public void muoviPersone(ArrayList<Persona> persone){ //TEST
+    public void muoviPersone(ArrayList<Persona> persone){
         for(Persona persona : persone)
             persona.setMovimento(true);
     }
@@ -117,7 +119,7 @@ public class Governo {
             database.remove_asintomatico(persona);
         }
         for(Persona persona : nuovi_guariti){
-            database.remove_asintomatico(persona); // se sta cosa genera eccezzioni va dato un PUGNO a qualcuno che non faccio nome TODO
+            database.remove_asintomatico(persona);
             database.remove_sintomatico(persona);
         }
         for(Persona persona : nuovi_morti){
@@ -150,6 +152,11 @@ public class Governo {
         //fermaPersone(nuovi_sintomatici);
         database.addPersoneFerme(nuove_personeFerme);
         muoviPersone(nuovi_guariti);
+
+        for (Persona p: nuovi_guariti) {
+            database.remove_personaFerma(p);
+        }
+
         strategia.pulisci();
         pulisci();
     }
