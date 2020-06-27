@@ -116,24 +116,30 @@ public class Governo {
 
         int numeroSintomatici = database.getSintomatici().size();
         int numeroFermi = database.getPersoneFerme().size();
-        //TEST
+        //TEST OK
         risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
         //vanno tolti i tamponi (dopo aver chiamato la strategia)
-        //TEST
+        //TEST OK
         for(Persona persona : nuovi_sintomatici){
+            System.out.println("rimuovo sintomatici da asintomatici");  //CANCELLA
             database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
         }
-        //TEST
+        //TEST OK
         for(Persona persona : nuovi_guariti){
+            System.out.println(("rimuovo guarito da asintomatici"));  //CANCELLA
             database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici
+            System.out.println("rimuovo guarito da sintomatici");    //CANCELLA
             database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici
         }
-        //TEST
+        //TEST OK
         for(Persona persona : nuovi_morti){
+            System.out.println("rimuovo morto da asintomatici");  //CANCELLA
             database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici (c'è se aveva fatto il tampone e in uno stesso giorno e' diventata sintomatica ed è morta
+            System.out.println("rimuovo morto da sintomatici");   //CANCELLA
             database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici (se si trova negli asintomatici o se e' diventata sintomatica ed e' morta lo stesso giorno)
         }
 
+        //TEST OK
         database.add_sintomatici(nuovi_sintomatici);
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
@@ -180,12 +186,17 @@ public class Governo {
 
         database.addPersoneFerme(nuove_personeFerme);    //questi pure vanno aggiunti solo se esistono, cioè solo se ci sono persone da fermare, quindi nell'if
         */
+
+        //TEST OK
         muoviPersone(nuovi_guariti);
 
+        //TEST OK
         for (Persona p: nuovi_guariti) {
+            System.out.println("rimuovo persona ferma");  //CANCELLA
             database.remove_personaFerma(p);
         }
 
+        //TEST OK
         strategia.pulisci();
         pulisci();
     }
