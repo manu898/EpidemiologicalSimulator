@@ -22,6 +22,8 @@ public class Main extends Application {
 
     ParametriSimulazione ps = new ParametriSimulazione();
 
+    public int giorniSimulazione = 50;
+
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
@@ -228,19 +230,19 @@ public class Main extends Application {
 
     XYChart.Series guaritiGoverno = new XYChart.Series();
 
-    NumberAxis xAxisUniverso = new NumberAxis();
+    NumberAxis xAxisSimulazione = new NumberAxis();
 
-    NumberAxis yAxisUniverso = new NumberAxis();
+    NumberAxis yAxisSimulazione = new NumberAxis();
 
-    LineChart lineChartUniverso = new LineChart(xAxisUniverso, yAxisUniverso);
+    LineChart lineChartSimulazione = new LineChart(xAxisSimulazione, yAxisSimulazione);
 
-    XYChart.Series mortiUniverso = new XYChart.Series();
+    XYChart.Series mortiSimulazione = new XYChart.Series();
 
-    XYChart.Series asintomaticiUniverso = new XYChart.Series();
+    XYChart.Series asintomaticiSimulazione = new XYChart.Series();
 
-    XYChart.Series sintomaticiUniverso = new XYChart.Series();
+    XYChart.Series sintomaticiSimulazione = new XYChart.Series();
 
-    XYChart.Series guaritiUniverso = new XYChart.Series();
+    XYChart.Series guaritiSimulazione = new XYChart.Series();
 
     private Scene sceneChart = null;
 
@@ -328,9 +330,10 @@ public class Main extends Application {
                 if(bool){
                     window.setScene(sceneMid);
                     while (ret && !interrompi) {
-                        ret = simulazione.run(30);
+                        ret = simulazione.run(giorniSimulazione);
                     }
-                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione 
+                    // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
+                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
                     window.setScene(sceneFinale);
                 }
             }
@@ -373,19 +376,14 @@ public class Main extends Application {
 
         vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
 
-        btnFinale.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                window.setScene(sceneChart);
-            }
-        });
-
 
         // scena finale - Chart
 
+        // Chart Governo
+
         vBoxChart = new VBox();
 
-        vBoxChart.getChildren().addAll(lineChartGoverno,lineChartUniverso);
+        vBoxChart.getChildren().addAll(lineChartGoverno,lineChartSimulazione);
 
         vBoxChart.setAlignment(Pos.CENTER);
 
@@ -394,6 +392,18 @@ public class Main extends Application {
         xAxisGoverno.setLabel("Time");
         yAxisGoverno.setLabel("Total");
 
+        xAxisGoverno.setAutoRanging(false);
+        xAxisGoverno.setLowerBound(1);
+        xAxisGoverno.setUpperBound(giorniSimulazione);
+        xAxisGoverno.setTickUnit(1);
+        xAxisGoverno.setMinorTickVisible(true);
+
+        yAxisGoverno.setAutoRanging(false);
+        yAxisGoverno.setLowerBound(0);
+        yAxisGoverno.setUpperBound(100);
+        yAxisGoverno.setTickUnit(5);
+        yAxisGoverno.setMinorTickVisible(true);
+
         mortiGoverno.setName("MORTI");
         asintomaticiGoverno.setName("ASINTOMATICI");
         sintomaticiGoverno.setName("SINTOMATICI");
@@ -401,82 +411,89 @@ public class Main extends Application {
 
 
         ArrayList<Coppia> guaritiGovernoSeries = new ArrayList<>();
-        guaritiGovernoSeries.add(new Coppia(0, 300));
-        guaritiGovernoSeries.add(new Coppia(1, 100));
-        guaritiGovernoSeries.add(new Coppia(2, 600));
 
         ArrayList<Coppia> mortiGovernoSeries = new ArrayList<>();
-        mortiGovernoSeries.add(new Coppia(0, 900));
-        mortiGovernoSeries.add(new Coppia(1, 800));
-        mortiGovernoSeries.add(new Coppia(2, 200));
 
         ArrayList<Coppia> asintomaticiGovernoSeries = new ArrayList<>();
-        asintomaticiGovernoSeries.add(new Coppia(0, 1000));
-        asintomaticiGovernoSeries.add(new Coppia(1,1200));
-        asintomaticiGovernoSeries.add(new Coppia(2,1500));
 
         ArrayList<Coppia> sintomaticiGovernoSeries = new ArrayList<>();
-        sintomaticiGovernoSeries.add(new Coppia(0, 700));
-        sintomaticiGovernoSeries.add(new Coppia(1, 400));
-        sintomaticiGovernoSeries.add(new Coppia(2, 300));
-
-
-        addSeries(guaritiGoverno, guaritiGovernoSeries);
-        addSeries(mortiGoverno, mortiGovernoSeries);
-        addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
-        addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
-
-
-        xAxisGoverno.setAutoRanging(false);
-        xAxisGoverno.setLowerBound(0);
-        xAxisGoverno.setUpperBound(30);
-        xAxisGoverno.setTickUnit(1);
-        xAxisGoverno.setMinorTickVisible(false);
-
-        xAxisUniverso.setAutoRanging(false);
-        xAxisUniverso.setLowerBound(0);
-        xAxisUniverso.setUpperBound(30);
-        xAxisUniverso.setTickUnit(1);
-        xAxisUniverso.setMinorTickVisible(false);
-
 
 
         lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno);
 
-        xAxisUniverso.setLabel("Time");
-        yAxisUniverso.setLabel("Total");
 
-        mortiUniverso.setName("MORTI");
-        asintomaticiGoverno.setName("ASINTOMATICI");
-        sintomaticiUniverso.setName("SINTOMATICI");
-        guaritiUniverso.setName("GUARITI");
+        // Chart Simulazione
 
-        ArrayList<Coppia> guaritiUniversoSeries = new ArrayList<>();
-        guaritiUniversoSeries.add(new Coppia(0, 300));
-        guaritiUniversoSeries.add(new Coppia(1, 100));
-        guaritiUniversoSeries.add(new Coppia(2, 600));
+        xAxisSimulazione.setLabel("Time");
+        yAxisSimulazione.setLabel("Total");
 
-        ArrayList<Coppia> mortiUniversoSeries = new ArrayList<>();
-        mortiUniversoSeries.add(new Coppia(0, 900));
-        mortiUniversoSeries.add(new Coppia(1, 800));
-        mortiUniversoSeries.add(new Coppia(2, 200));
+        xAxisSimulazione.setAutoRanging(false);
+        xAxisSimulazione.setLowerBound(1);
+        xAxisSimulazione.setUpperBound(giorniSimulazione);
+        xAxisSimulazione.setTickUnit(1);
+        xAxisSimulazione.setMinorTickVisible(false);
 
-        ArrayList<Coppia> asintomaticiUniversoSeries = new ArrayList<>();
-        asintomaticiUniversoSeries.add(new Coppia(0, 1000));
-        asintomaticiUniversoSeries.add(new Coppia(1,1200));
-        asintomaticiUniversoSeries.add(new Coppia(2,1500));
+        yAxisSimulazione.setAutoRanging(false);
+        yAxisSimulazione.setLowerBound(0);
+        yAxisSimulazione.setUpperBound(100);
+        yAxisSimulazione.setTickUnit(5);
+        yAxisSimulazione.setMinorTickVisible(false);
 
-        ArrayList<Coppia> sintomaticiUniversoSeries = new ArrayList<>();
-        sintomaticiUniversoSeries.add(new Coppia(0, 700));
-        sintomaticiUniversoSeries.add(new Coppia(1, 400));
-        sintomaticiUniversoSeries.add(new Coppia(2, 300));
+        mortiSimulazione.setName("MORTI");
+        asintomaticiSimulazione.setName("ASINTOMATICI");
+        sintomaticiSimulazione.setName("SINTOMATICI");
+        guaritiSimulazione.setName("GUARITI");
 
-        addSeries(guaritiUniverso, guaritiUniversoSeries);
-        addSeries(mortiUniverso, mortiUniversoSeries);
-        addSeries(asintomaticiUniverso, asintomaticiUniversoSeries);
-        addSeries(sintomaticiUniverso, sintomaticiUniversoSeries);
+        ArrayList<Coppia> guaritiSimulazioneSeries = new ArrayList<>();
 
-        lineChartUniverso.getData().addAll(mortiUniverso,asintomaticiUniverso,sintomaticiUniverso,guaritiUniverso);
+        ArrayList<Coppia> mortiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> asintomaticiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> sintomaticiSimulazioneSeries = new ArrayList<>();
+
+        lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione);
+
+        btnFinale.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                for(int i = 0; i < statistiche.sintomatici.size(); i++){
+                    System.out.println("Giorno " + (i+1));
+                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste);
+                    System.out.println("Morti: " + statistiche.morti.get(i));
+                    System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
+                    System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
+                    System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
+                    System.out.println(statistiche.risultato);
+                    System.out.println();
+                    System.out.println();
+
+
+                    mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
+                    sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
+                    asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));
+                    guaritiGovernoSeries.add(new Coppia(i+1,statistiche.guaritiGoverno.get(i)));
+
+
+                    mortiSimulazioneSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
+                    sintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
+                    asintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.asintomaticiSimulazione.get(i)));
+                    guaritiSimulazioneSeries.add(new Coppia(i+1,statistiche.guaritiSimulazione.get(i)));
+
+
+                    addSeries(guaritiGoverno, guaritiGovernoSeries);
+                    addSeries(mortiGoverno, mortiGovernoSeries);
+                    addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
+                    addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
+
+                    addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
+                    addSeries(mortiSimulazione, mortiSimulazioneSeries);
+                    addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
+                    addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
+                }
+                window.setScene(sceneChart);
+            }
+        });
 
 
         // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì

@@ -74,12 +74,19 @@ public class Simulazione {
 
     public void aggiornaDati(){  // TEST
 
+        statistiche.risorseRimaste = governo.getRisorse();
         statistiche.morti.add(governo.getDatabase().getMorti().size());
         statistiche.sintomatici.add(governo.getDatabase().getSintomatici().size());
         statistiche.asintomaticiGoverno.add(governo.getDatabase().getAsintomatici().size());
         statistiche.asintomaticiSimulazione.add(governo.getDatabase().getAsintomatici().size());
         statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
         statistiche.guaritiSimulazione.add(governo.getDatabase().getGuariti().size());
+        statistiche.risultato = "Tutto bene";
+        if(vittoria_malattia())
+            statistiche.risultato = "Ha vinto il virus !";
+        if(risorse_finite())
+            statistiche.risultato = "Sono finite le risorse";
+
         // aggiungere i verdi sia di simulazione che di governo
     }
 
@@ -111,8 +118,8 @@ public class Simulazione {
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
             giorno.incrementa(1);
-            governo.getDatabase().getMorti();
-            // aggiornaDati();  // TEST
+            // governo.getDatabase().getMorti(); // PERCHÈ ?
+            aggiornaDati();  // TEST
         }
         return true;
     }
