@@ -16,7 +16,9 @@ public class Strategia4 extends Strategia{
     }
 
     @Override
-    public boolean applica(DBGoverno dbGoverno) {
+    //public boolean applica(DBGoverno dbGoverno) {
+
+    public void applica(DBGoverno dbGoverno) {
         for(Persona p : nuovi_sintomatici){
             Hashtable<Integer,ArrayList<Persona>> personeIncontrate =  p.getPersone_incontrate();
             for(int i = Math.max(dbGoverno.getGiorno().getValore() - Virus.getD(),1); i < dbGoverno.getGiorno().getValore() + 1 ; i++ ){
@@ -59,7 +61,8 @@ public class Strategia4 extends Strategia{
             }
         }
 
-        return true;
+        //return true;
+        return;
     }
 
 }

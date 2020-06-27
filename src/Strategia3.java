@@ -15,7 +15,9 @@ public class Strategia3 extends Strategia {
     }
 
     @Override
-    public boolean applica(DBGoverno dbGoverno) {
+    //public boolean applica(DBGoverno dbGoverno) {
+
+    public void applica(DBGoverno dbGoverno) {
         ArrayList<Persona> persone_incontrate;
         for(Persona p1 : dbGoverno.getSintomatici()){
             // qui ho tutte le persone incontrate oggi dai tizi ROSSI nell'arena
@@ -52,6 +54,7 @@ public class Strategia3 extends Strategia {
                 nuovi_tamponi.add(p);
             }
         }
-        return true;
+        //return true;
+        return;
     }
 }

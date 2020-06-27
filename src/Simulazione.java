@@ -88,6 +88,7 @@ public class Simulazione {
             statistiche.risultato = "Sono finite le risorse";
 
         // aggiungere i verdi sia di simulazione che di governo
+        // e calcolare in modo diverso i guaritiSimulazione e gli asintomaticiSimulazione
     }
 
     //esegui la simulazione per 'giorni' giorni
