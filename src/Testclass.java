@@ -68,6 +68,54 @@ public class Testclass {
         sim.getGoverno().getDatabase().add_guariti(sim.getGoverno().getNuovi_guariti());
         sim.getGoverno().getDatabase().add_morti(sim.getGoverno().getNuovi_morti());
 
+        sim.getGoverno().getStrategia().setNuovi_sintomatici(sim.getGoverno().getNuovi_sintomatici());
+        //System.out.println(sim.getGoverno().getStrategia().nuovi_sintomatici.size());
+
+        sim.getGoverno().getStrategia().applica(sim.getGoverno().getDatabase());
+        //System.out.println(sim.getGoverno().getStrategia().getNuovi_tamponi().size());
+
+        //togliere
+        sim.getGoverno().getStrategia().nuovi_tamponi.add(p3);
+        sim.getGoverno().getStrategia().nuovi_tamponi.add(p4);
+
+        //togliere
+
+        sim.getGoverno().faiTampone(sim.getGoverno().getStrategia().getNuovi_tamponi());
+
+        sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_sintomatici());
+        System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
+        System.out.println(sim.getGoverno().getStrategia().positivi.size());
+
+        sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_asintomatici());
+        System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
+        System.out.println(sim.getGoverno().getStrategia().positivi.size());
+
+        sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_morti());
+        System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
+        System.out.println(sim.getGoverno().getStrategia().positivi.size());
+
+        int risorse = par.getRisorse();
+        System.out.println(risorse);
+        risorse = risorse + (-1 * sim.getGoverno().getCosto_tampone() * sim.getGoverno().getStrategia().getNuovi_tamponi().size());
+        System.out.println(risorse);
+
+        sim.getGoverno().getDatabase().add_asintomatici(sim.getGoverno().getNuovi_asintomatici());
+        System.out.println(sim.getGoverno().getDatabase().getAsintomatici().size());
+
+        sim.getGoverno().fermaPersone(sim.getGoverno().getStrategia().getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: sintomatiche, positive al tampone, altre selezionate dalla strategia
+
+        sim.getGoverno().getDatabase().addPersoneFerme(sim.getGoverno().getNuove_personeFerme());
+
+        System.out.println(sim.getGoverno().getNuove_personeFerme().size());
+        System.out.println(sim.getGoverno().getDatabase().getPersoneFerme().size());
+
+        for (Persona p : sim.getPersone()) {
+            System.out.println(p.getMovimento());
+        }
+
+
+
+        /*
         sim.getGoverno().pulisci();
         sim.getGiorno().incrementa(1);
         System.out.println("NUOVO GIORNO");
@@ -96,6 +144,8 @@ public class Testclass {
             System.out.println("rimuovo persona ferma");  //CANCELLA
             sim.getGoverno().getDatabase().remove_personaFerma(p);
         }
+
+         */
 
 
 
