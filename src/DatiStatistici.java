@@ -13,10 +13,12 @@ public class DatiStatistici {  // TEST
     public ArrayList<Integer> asintomaticiSimulazione;
     public ArrayList<Integer> verdiSimulazione;
 
-    public int risorseRimaste;
-    public String risultato;
+    public ArrayList<Integer> risorseRimaste;
+    public ArrayList<String> risultato;
 
     public DatiStatistici(){
+        this.risorseRimaste = new ArrayList<>();
+        this.risultato = new ArrayList<>();
         this.morti = new ArrayList<>();
         this.sintomatici = new ArrayList<>();
         this.guaritiSimulazione = new ArrayList<>();

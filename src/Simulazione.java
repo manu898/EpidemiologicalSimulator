@@ -74,18 +74,20 @@ public class Simulazione {
 
     public void aggiornaDati(){  // TEST
 
-        statistiche.risorseRimaste = governo.getRisorse();
+        // fare arrayList per frase e risorseRimaste
+        statistiche.risorseRimaste.add(governo.getRisorse());
         statistiche.morti.add(governo.getDatabase().getMorti().size());
         statistiche.sintomatici.add(governo.getDatabase().getSintomatici().size());
         statistiche.asintomaticiGoverno.add(governo.getDatabase().getAsintomatici().size());
         statistiche.asintomaticiSimulazione.add(governo.getDatabase().getAsintomatici().size());
         statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
         statistiche.guaritiSimulazione.add(governo.getDatabase().getGuariti().size());
-        statistiche.risultato = "Tutto bene";
+        String risultato = "Tutto bene";
         if(vittoria_malattia())
-            statistiche.risultato = "Ha vinto il virus !";
+            risultato = "Ha vinto il virus !";
         if(risorse_finite())
-            statistiche.risultato = "Sono finite le risorse";
+            risultato = "Sono finite le risorse";
+        statistiche.risultato.add(risultato);
 
         // aggiungere i verdi sia di simulazione che di governo
         // e calcolare in modo diverso i guaritiSimulazione e gli asintomaticiSimulazione
@@ -116,11 +118,10 @@ public class Simulazione {
                 check_stato(p);
             }
             governo.aggiornamento(); //TEST
+            aggiornaDati();  // TEST
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
             giorno.incrementa(1);
-            // governo.getDatabase().getMorti(); // PERCHÈ ?
-            aggiornaDati();  // TEST
         }
         return true;
     }

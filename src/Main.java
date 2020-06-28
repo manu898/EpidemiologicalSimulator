@@ -351,11 +351,12 @@ public class Main extends Application {
         vBoxMid.setAlignment(Pos.CENTER);
         vBoxMid2.setAlignment(Pos.CENTER);
 
+        vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
+        vBoxMid2.getChildren().addAll(fraseMid2);
+
         sceneMid = new Scene(vBoxMid,1000,800);
         sceneMid2 = new Scene(vBoxMid2,1000,800);
 
-        vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
-        vBoxMid2.getChildren().addAll(fraseMid2);
 
         btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -459,15 +460,14 @@ public class Main extends Application {
             public void handle(ActionEvent actionEvent) {
                 for(int i = 0; i < statistiche.sintomatici.size(); i++){
                     System.out.println("Giorno " + (i+1));
-                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste);
+                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
                     System.out.println("Morti: " + statistiche.morti.get(i));
                     System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
                     System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
                     System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
-                    System.out.println(statistiche.risultato);
+                    System.out.println(statistiche.risultato.get(i));
                     System.out.println();
                     System.out.println();
-
 
                     mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
                     sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
@@ -480,17 +480,18 @@ public class Main extends Application {
                     asintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.asintomaticiSimulazione.get(i)));
                     guaritiSimulazioneSeries.add(new Coppia(i+1,statistiche.guaritiSimulazione.get(i)));
 
-
-                    addSeries(guaritiGoverno, guaritiGovernoSeries);
-                    addSeries(mortiGoverno, mortiGovernoSeries);
-                    addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
-                    addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
-
-                    addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
-                    addSeries(mortiSimulazione, mortiSimulazioneSeries);
-                    addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
-                    addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
                 }
+
+                addSeries(guaritiGoverno, guaritiGovernoSeries);
+                addSeries(mortiGoverno, mortiGovernoSeries);
+                addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
+                addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
+
+                addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
+                addSeries(mortiSimulazione, mortiSimulazioneSeries);
+                addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
+                addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
+
                 window.setScene(sceneChart);
             }
         });
