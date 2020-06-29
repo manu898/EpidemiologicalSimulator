@@ -112,42 +112,30 @@ public class Governo {
     }
 
 
-    public void aggiornamento(){   //TEST megatest
+    public void aggiornamento(){
 
         int numeroSintomatici = database.getSintomatici().size();
         int numeroFermi = database.getPersoneFerme().size();
         //TEST OK
         risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
-        //vanno tolti i tamponi (dopo aver chiamato la strategia)
-        //TEST OK
         for(Persona persona : nuovi_sintomatici){
-            System.out.println("rimuovo sintomatici da asintomatici");  //CANCELLA
             database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
         }
-        //TEST OK
         for(Persona persona : nuovi_guariti){
-            System.out.println(("rimuovo guarito da asintomatici"));  //CANCELLA
             database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici
-            System.out.println("rimuovo guarito da sintomatici");    //CANCELLA
             database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici
         }
-        //TEST OK
         for(Persona persona : nuovi_morti){
-            System.out.println("rimuovo morto da asintomatici");  //CANCELLA
             database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici (c'è se aveva fatto il tampone e in uno stesso giorno e' diventata sintomatica ed è morta
-            System.out.println("rimuovo morto da sintomatici");   //CANCELLA
             database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici (se si trova negli asintomatici o se e' diventata sintomatica ed e' morta lo stesso giorno)
         }
 
-        //TEST OK
         database.add_sintomatici(nuovi_sintomatici);
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
 
 
-        //TEST
         if(primoSintomatico){   //se c'è stato un primo sintomatico
-                            //if(applicaStrategia){  //se la strategia va ancora applicata   //CANCELLA
 
             //se sfrutto il metodo setPositivi(nuovi sintomatici) qua, per la strategia4 non c'e' bisogno
             //di usare il metodo setNuovi_sintomatici(nuovi_sintomatici)
@@ -161,8 +149,6 @@ public class Governo {
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
 
             strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
-            //con setPositivi dunque la strategia indiviuda le ulteriori persone da fermare
-            //dovrei aggiungere pure i nuovi_morti? visto che anche loro potrebbero avere un tampone previsto in un giorno, ma potrebbero diventare sintomatici e morire uno stesso giorno precedente a quello del tampone
 
             strategia.setPositivi(nuovi_morti);   //si comunicano alla strategia le persone morte (che effettivamente sono positive)
 
@@ -173,27 +159,12 @@ public class Governo {
             fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: sintomatiche, positive al tampone, altre selezionate dalla strategia
 
             database.addPersoneFerme(nuove_personeFerme);
-
-                            // }                                                             //CANCELLA
         }
 
-        /*
-        database.add_asintomatici(nuovi_asintomatici);  //questi pure vanno aggiunti solo se esistono, cioè solo se vengono effettuati tamponi, quindi nell'if
-
-        fermaPersone(nuovi_morti);  //i morti forse vanno fermati nell'if
-
-        //fermaPersone(nuovi_sintomatici); i sintomatici li fermiamo nell'if ^^
-
-        database.addPersoneFerme(nuove_personeFerme);    //questi pure vanno aggiunti solo se esistono, cioè solo se ci sono persone da fermare, quindi nell'if
-        */
-
-        //TEST OK
         muoviPersone(nuovi_guariti);
 
-        //TEST OK
         for (Persona p: nuovi_guariti) {
-            System.out.println("rimuovo persona ferma");  //CANCELLA
-            database.remove_personaFerma(p);
+           database.remove_personaFerma(p);
         }
 
         //TEST OK
