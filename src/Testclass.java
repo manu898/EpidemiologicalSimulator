@@ -10,7 +10,7 @@ public class Testclass {
         par.setArenaH(10);
         par.setArenaL(10);
         par.setSpostamentoMax(10);
-        par.setDurata(1);
+        par.setDurata(6);
         par.setInfettivita(100);
         par.setSintomaticita(50);
         par.setLetalita(90);
@@ -18,7 +18,13 @@ public class Testclass {
         par.setCosto_tampone(5);
         par.setVelocita(1);
         par.setRisorse(100);
-        par.setStrategia(new Strategia1());
+        //par.setStrategia(new Strategia1());
+
+        //Strategia3 str = new Strategia3();
+        Strategia4 str = new Strategia4();
+        par.setStrategia(str);
+
+
 
         Virus.r.setSeed(0);
 
@@ -31,6 +37,7 @@ public class Testclass {
         Persona p3 = sim.getPersone().get(3);
         Persona p4 = sim.getPersone().get(4);
 
+
         System.out.println("stato p0 " + p0.getStato());
         System.out.println("stato p1 " + p1.getStato());
         System.out.println("stato p2 " + p2.getStato());
@@ -39,9 +46,53 @@ public class Testclass {
 
         System.out.println("INCONTRO");
         p1.contatto(p0.getVir());
+        p1.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p1);
+
         p2.contatto(p0.getVir());
+        p2.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p2);
+
         p3.contatto(p0.getVir());
+        p3.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p3);
+
         p4.contatto(p0.getVir());
+        p4.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p4);
+
+        p4.contatto(p2.getVir());
+        p4.addPersona_incontrata(p2);
+        p2.addPersona_incontrata(p4);
+
+
+        System.out.println("CHECKVIRUS");
+        for (Persona p: sim.getPersone()) //TEST
+            p.checkVirus();
+
+        sim.getGiorno().incrementa(1);
+
+        System.out.println("INCONTRO");
+        p1.contatto(p0.getVir());
+        p1.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p1);
+
+        p2.contatto(p0.getVir());
+        p2.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p2);
+
+        p3.contatto(p0.getVir());
+        p3.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p3);
+
+        p4.contatto(p0.getVir());
+        p4.addPersona_incontrata(p0);
+        p0.addPersona_incontrata(p4);
+
+        p4.contatto(p2.getVir());
+        p4.addPersona_incontrata(p2);
+        p2.addPersona_incontrata(p4);
+
 
         System.out.println("CHECKVIRUS");
         for (Persona p: sim.getPersone()) //TEST
@@ -52,6 +103,13 @@ public class Testclass {
         System.out.println("stato p2 " + p2.getStato());
         System.out.println("stato p3 " + p3.getStato());
         System.out.println("stato p4 " + p4.getStato());
+
+        sim.getGiorno().incrementa(1);
+
+        System.out.println("CHECKVIRUS");
+        for (Persona p: sim.getPersone()) //TEST
+            p.checkVirus();
+
 
         for(Persona persona : sim.getGoverno().getNuovi_sintomatici()){
             System.out.println("rimuovo sintomatici da asintomatici");  //CANCELLA
@@ -68,27 +126,40 @@ public class Testclass {
         sim.getGoverno().getDatabase().add_guariti(sim.getGoverno().getNuovi_guariti());
         sim.getGoverno().getDatabase().add_morti(sim.getGoverno().getNuovi_morti());
 
+        //System.out.println(sim.getGoverno().getDatabase().getSintomatici().size());
+        //System.out.println(sim.getGoverno().getDatabase().getGuariti().size());
+        //System.out.println(sim.getGoverno().getDatabase().getMorti().size());
+
         sim.getGoverno().getStrategia().setNuovi_sintomatici(sim.getGoverno().getNuovi_sintomatici());
         //System.out.println(sim.getGoverno().getStrategia().nuovi_sintomatici.size());
 
         sim.getGoverno().getStrategia().applica(sim.getGoverno().getDatabase());
-        //System.out.println(sim.getGoverno().getStrategia().getNuovi_tamponi().size());
+        System.out.println(" nuovi tamponi: " + sim.getGoverno().getStrategia().getNuovi_tamponi().size());
+
 
         //togliere
-        sim.getGoverno().getStrategia().nuovi_tamponi.add(p3);
-        sim.getGoverno().getStrategia().nuovi_tamponi.add(p4);
+        //sim.getGoverno().getStrategia().nuovi_tamponi.add(p3);
+        //sim.getGoverno().getStrategia().nuovi_tamponi.add(p4);
 
         //togliere
 
         sim.getGoverno().faiTampone(sim.getGoverno().getStrategia().getNuovi_tamponi());
+        System.out.println(sim.getGoverno().getNuovi_asintomatici().size());
+
+        sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_asintomatici());
+        //System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
+        //System.out.println(sim.getGoverno().getStrategia().positivi.size());
+
+        //ArrayList<Integer> ar = new ArrayList<>();
+        //ar.add(90);
+        //str.futuriTamponi.put(p1,ar);
+        //System.out.println(str.futuriTamponi);
 
         sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_sintomatici());
         System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
         System.out.println(sim.getGoverno().getStrategia().positivi.size());
 
-        sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_asintomatici());
-        System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
-        System.out.println(sim.getGoverno().getStrategia().positivi.size());
+        //System.out.println(str.futuriTamponi);
 
         sim.getGoverno().getStrategia().setPositivi(sim.getGoverno().getNuovi_morti());
         System.out.println(sim.getGoverno().getStrategia().getNuovi_daFermare().size());
