@@ -23,6 +23,10 @@ public class Simulazione {
     private double perc_mov;
 
     //potrebbero essere solo variabili locali nel metodo run
+
+    //il numero di persone verdi
+    private int verdi;
+
     //il numero di persone verdi e che non hanno contratto il virus
     private int verdi_sani;
 
@@ -77,11 +81,18 @@ public class Simulazione {
         // fare arrayList per frase e risorseRimaste
         statistiche.risorseRimaste.add(governo.getRisorse());
         statistiche.morti.add(governo.getDatabase().getMorti().size());
+        //statistiche.morti.add(neri);  //TODO
         statistiche.sintomatici.add(governo.getDatabase().getSintomatici().size());
+        //statistiche.sintomatici.add(rossi);  //TODO
         statistiche.asintomaticiGoverno.add(governo.getDatabase().getAsintomatici().size());
         statistiche.asintomaticiSimulazione.add(governo.getDatabase().getAsintomatici().size());
+        //statistiche.asintomaticiSimulazione.add(gialli);  //TODO
         statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
         statistiche.guaritiSimulazione.add(governo.getDatabase().getGuariti().size());
+        //statistiche.guaritiSimulazione.add(blu);  //TODO
+
+        //e i verdi? TODO
+
         String risultato = "Tutto bene";
         if(vittoria_malattia())
             risultato = "Ha vinto il virus !";
@@ -96,6 +107,7 @@ public class Simulazione {
     //esegui la simulazione per 'giorni' giorni
     public boolean run(int giorni) {     //TEST
         for (int i = 0; i < giorni ; i++) {
+            verdi = 0;
             verdi_sani = 0;
             gialli = 0;
             rossi = 0;
@@ -142,6 +154,7 @@ public class Simulazione {
             case VERDE:
                 if (p.getVir() == null)
                     verdi_sani++;
+                verdi++;
                 break;
             case GIALLO:  //assume che le persone abbiano il virus
                 gialli++;
@@ -188,6 +201,8 @@ public class Simulazione {
 
     public double getPerc_mov() { return perc_mov; }
 
+    public int getVerdi() { return verdi; }
+
     public int getVerdi_sani() { return verdi_sani; }
 
     public int getGialli() { return gialli; }
@@ -215,6 +230,8 @@ public class Simulazione {
     public void setR0(double R0) { this.R0 = R0; }
 
     public void setPerc_mov(double perc_mov) { this.perc_mov = perc_mov; }
+
+    public void setVerdi(int verdi) { this.verdi = verdi; }
 
     public void setVerdi_sani(int verdi_sani) { this.verdi_sani = verdi_sani; }
 
