@@ -85,11 +85,9 @@ public class Simulazione {
         statistiche.sintomatici.add(governo.getDatabase().getSintomatici().size());
         //statistiche.sintomatici.add(rossi);  //TODO
         statistiche.asintomaticiGoverno.add(governo.getDatabase().getAsintomatici().size());
-        statistiche.asintomaticiSimulazione.add(governo.getDatabase().getAsintomatici().size());
-        //statistiche.asintomaticiSimulazione.add(gialli);  //TODO
+        statistiche.asintomaticiSimulazione.add(gialli);
         statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
-        statistiche.guaritiSimulazione.add(governo.getDatabase().getGuariti().size());
-        //statistiche.guaritiSimulazione.add(blu);  //TODO
+        statistiche.guaritiSimulazione.add(blu);
 
         //e i verdi? TODO
 
