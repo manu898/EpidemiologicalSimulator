@@ -125,11 +125,11 @@ public class Simulazione {
                 arena.move(persone);    //TEST OK
                 n_incontrate += arena.check_incontri(); //TEST OK
             }
-            for (Persona p: persone) { //TEST
+            for (Persona p: persone) { //TEST OK
                 p.checkVirus();
                 check_stato(p);
             }
-            governo.aggiornamento(); //TEST
+            governo.aggiornamento(); //TEST OK
             aggiornaDati();  // TEST
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
                 return false;
