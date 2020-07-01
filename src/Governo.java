@@ -69,7 +69,7 @@ public class Governo {
     public void add_guarito ( Persona p ) {
         if ( p.getStato() != StatoSalute.BLU ) throw new IllegalArgumentException("Non si puo' aggiungere una persona non guarita ai nuovi_guariti");
         //non ha senso togliere un nuovo_guarito dai nuovi_asintomatici poiché significherebbe che la persona ha fatto il tampone prima di aver chiamato il metodo checkVirus e aver comunicato la sua guarigione
-        nuovi_sintomatici.remove(p);  // ha senso? si se la persona diventa sintomatica lo stesso giorno
+        nuovi_sintomatici.remove(p);  // ha senso? si se la persona diventa sintomatica lo stesso giorno (ma forse succede solo se la durata è 0) TODO
         if (!(database.getGuariti().contains(p))) { //si può verificare se la persona aveva un giorno in cui doveva comunicare la guarigione ma è diventata rossa ed è guarita prima
             nuovi_guariti.add(p);
         }
