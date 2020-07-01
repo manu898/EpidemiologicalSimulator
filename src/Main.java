@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
@@ -251,6 +252,9 @@ public class Main extends Application {
 
     private DatiStatistici statistiche = new DatiStatistici();
 
+    //public? private?
+    boolean ret = true;
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -435,7 +439,25 @@ public class Main extends Application {
 
                 bool = inviaDati();
 
-                boolean ret = true;
+                //boolean ret = true;
+                //COSA NUOVA INSERITA
+                Thread simula = new Thread() {
+
+                    public void run() {
+                        while (ret && !interrompi) {
+                            ret = simulazione.run(1);
+                        }
+                        // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
+                        statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
+
+                        Platform.runLater(new Runnable() {
+                            public void run() {
+                                window.setScene(sceneFinale);
+                            }
+
+                        });
+                    }
+                };
 
                 if(bool){
 
@@ -445,7 +467,11 @@ public class Main extends Application {
                     yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
                     yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
 
+                    //COSE NUOVE INSERITE
+                    window.setScene(sceneMid);
+                    simula.start();
 
+                    /*
                     window.setScene(sceneMid);
                     while (ret && !interrompi) {
                         ret = simulazione.run(giorniSimulazione);
@@ -453,6 +479,7 @@ public class Main extends Application {
                     // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
                     statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
                     window.setScene(sceneFinale);
+                     */
                 }
             }
         });
