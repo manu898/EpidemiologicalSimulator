@@ -317,30 +317,6 @@ public class Main extends Application {
 
 
 
-        btnInvia.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                boolean bool;
-
-                bool = inviaDati();
-
-                boolean ret = true;
-
-                if(bool){
-                    window.setScene(sceneMid);
-                    while (ret && !interrompi) {
-                        ret = simulazione.run(giorniSimulazione);
-                    }
-                    // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
-                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
-                    window.setScene(sceneFinale);
-                }
-            }
-        });
-
-
-
 
 
         // scene intermedia1 e intermedia2 - Interrompi
@@ -401,8 +377,6 @@ public class Main extends Application {
 
         yAxisGoverno.setAutoRanging(false);
         yAxisGoverno.setLowerBound(0);
-        yAxisGoverno.setUpperBound(100);
-        yAxisGoverno.setTickUnit(5);
         yAxisGoverno.setMinorTickVisible(true);
 
         mortiGoverno.setName("MORTI");
@@ -436,8 +410,6 @@ public class Main extends Application {
 
         yAxisSimulazione.setAutoRanging(false);
         yAxisSimulazione.setLowerBound(0);
-        yAxisSimulazione.setUpperBound(100);
-        yAxisSimulazione.setTickUnit(5);
         yAxisSimulazione.setMinorTickVisible(false);
 
         mortiSimulazione.setName("MORTI");
@@ -454,6 +426,36 @@ public class Main extends Application {
         ArrayList<Coppia> sintomaticiSimulazioneSeries = new ArrayList<>();
 
         lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione);
+
+        btnInvia.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                boolean bool;
+
+                bool = inviaDati();
+
+                boolean ret = true;
+
+                if(bool){
+
+                    yAxisGoverno.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                    yAxisGoverno.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
+                    yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                    yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
+
+                    window.setScene(sceneMid);
+                    while (ret && !interrompi) {
+                        ret = simulazione.run(giorniSimulazione);
+                    }
+                    // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
+                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
+                    window.setScene(sceneFinale);
+                }
+            }
+        });
 
         btnFinale.setOnAction(new EventHandler<ActionEvent>() {
             @Override
