@@ -23,8 +23,6 @@ public class Main extends Application {
 
     ParametriSimulazione ps = new ParametriSimulazione();
 
-    public int giorniSimulazione = 50;
-
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
@@ -375,7 +373,6 @@ public class Main extends Application {
 
         xAxisGoverno.setAutoRanging(false);
         xAxisGoverno.setLowerBound(1);
-        xAxisGoverno.setUpperBound(giorniSimulazione);
         xAxisGoverno.setTickUnit(1);
         xAxisGoverno.setMinorTickVisible(true);
 
@@ -408,7 +405,6 @@ public class Main extends Application {
 
         xAxisSimulazione.setAutoRanging(false);
         xAxisSimulazione.setLowerBound(1);
-        xAxisSimulazione.setUpperBound(giorniSimulazione);
         xAxisSimulazione.setTickUnit(1);
         xAxisSimulazione.setMinorTickVisible(false);
 
@@ -461,12 +457,6 @@ public class Main extends Application {
 
                 if(bool){
 
-                    yAxisGoverno.setUpperBound(Double.parseDouble(getPopolazione().getText()));
-                    yAxisGoverno.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
-
-                    yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
-                    yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
-
                     //COSE NUOVE INSERITE
                     window.setScene(sceneMid);
                     simula.start();
@@ -487,7 +477,18 @@ public class Main extends Application {
         btnFinale.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
+                xAxisGoverno.setUpperBound(statistiche.sintomatici.size());
+                yAxisGoverno.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                yAxisGoverno.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
+
+                xAxisSimulazione.setUpperBound(statistiche.sintomatici.size());
+                yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
                 for(int i = 0; i < statistiche.sintomatici.size(); i++){
+
                     System.out.println("Giorno " + (i+1));
                     System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
                     System.out.println("Morti: " + statistiche.morti.get(i));
