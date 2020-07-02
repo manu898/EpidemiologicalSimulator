@@ -38,12 +38,10 @@ public class DBGoverno {
 
     //rimuovi una persona dalla lista degli asintomatici (assume che p era asintomatico e quindi si trova nella lista
     public void remove_asintomatico(Persona p){
-        System.out.println("rimuovo asintomatico");  //CANCELLA
         asintomatici.remove(p); }
 
     //rimuovi una persona dalla lista dei sintomatici (assume che p era sintomatico e quindi si trova nella lista)
-    public void remove_sintomatico(Persona p) {  //TEST
-        System.out.println("rimuovo sintomatico");
+    public void remove_sintomatico(Persona p) {
         sintomatici.remove(p);
     }
 

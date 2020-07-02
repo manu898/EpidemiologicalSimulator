@@ -19,7 +19,8 @@ public class Strategia4 extends Strategia{
     //public boolean applica(DBGoverno dbGoverno) {
 
     public void applica(DBGoverno dbGoverno) {
-        for(Persona p : nuovi_sintomatici){
+        //assume che i primi positivi inseriti siano i nuovi_sintomatici
+        for(Persona p : positivi){
             Hashtable<Integer,ArrayList<Persona>> personeIncontrate =  p.getPersone_incontrate();
 
             for(int i = Math.max(dbGoverno.getGiorno().getValore() - Virus.getD(), 1); i < dbGoverno.getGiorno().getValore() + 1 ; i++ ){

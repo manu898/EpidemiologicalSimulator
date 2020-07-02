@@ -78,6 +78,10 @@ public class Simulazione {
 
     public void aggiornaDati(){  // TEST
 
+        int asintomaticiGov = governo.getDatabase().getAsintomatici().size();
+        int guaritiGov = governo.getDatabase().getGuariti().size();
+        int verdiGov = getPopolazione() - neri - rossi - asintomaticiGov - guaritiGov;
+
         // fare arrayList per frase e risorseRimaste
         statistiche.risorseRimaste.add(governo.getRisorse());
         statistiche.morti.add(governo.getDatabase().getMorti().size());
@@ -88,8 +92,10 @@ public class Simulazione {
         statistiche.asintomaticiSimulazione.add(gialli);
         statistiche.guaritiGoverno.add(governo.getDatabase().getGuariti().size());
         statistiche.guaritiSimulazione.add(blu);
+        //AGGIUNTA NUOVA
+        statistiche.verdiGoverno.add(verdiGov);
+        statistiche.verdiSimulazione.add(verdi);
 
-        //e i verdi? TODO
 
         String risultato = "Tutto bene";
         if(vittoria_malattia())
@@ -97,9 +103,6 @@ public class Simulazione {
         if(risorse_finite())
             risultato = "Sono finite le risorse";
         statistiche.risultato.add(risultato);
-
-        // aggiungere i verdi sia di simulazione che di governo
-        // e calcolare in modo diverso i guaritiSimulazione e gli asintomaticiSimulazione
     }
 
     //esegui la simulazione per 'giorni' giorni
@@ -111,25 +114,28 @@ public class Simulazione {
             rossi = 0;
             neri = 0;
             blu = 0;
-            int in_movimento = 0;        //TEST OK
+            int in_movimento = 0;
             for (Persona p : persone) {
                 if (p.getMovimento())
                     in_movimento++;
             }
-            setVelocita(in_movimento * perc_mov / 100);  //TEST OK
-            R0 = velocita * Virus.getD() * Virus.getI(); //TEST OK
+            setVelocita(in_movimento * perc_mov / 100);
+            R0 = velocita * Virus.getD() * Virus.getI();
             int n_incontrate = 0;
-            while (n_incontrate / in_movimento < velocita) { //TEST  OK
-                arena.move(persone);    //TEST OK
-                n_incontrate += arena.check_incontri(); //TEST OK
+            while (n_incontrate / (double) in_movimento < velocita) {
+                arena.move(persone);
+                n_incontrate += arena.check_incontri();
+                System.out.println("n_incontrate: " + n_incontrate); //CANCELLA
+                System.out.println("Vd: " + n_incontrate / in_movimento);  //CANCELLA
+                System.out.println("velocita: " + velocita);  //CANCELLA
             }
-            for (Persona p: persone) { //TEST OK
+            for (Persona p: persone) {
                 p.checkVirus();
                 check_stato(p);
             }
-            governo.aggiornamento(); //TEST OK
-            aggiornaDati();  // TEST
-            if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )  //TEST OK
+            governo.aggiornamento();
+            aggiornaDati();
+            if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )
                 return false;
             giorno.incrementa(1);
         }

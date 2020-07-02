@@ -251,7 +251,7 @@ public class Main extends Application {
     private DatiStatistici statistiche = new DatiStatistici();
 
     //public? private?
-    boolean ret = true;
+    boolean return_from_simulazione = true;
 
 
     @Override
@@ -435,16 +435,46 @@ public class Main extends Application {
 
                 bool = inviaDati();
 
-                //boolean ret = true;
-                //COSA NUOVA INSERITA
                 Thread simula = new Thread() {
 
                     public void run() {
-                        while (ret && !interrompi) {
-                            ret = simulazione.run(1);
+                        while (return_from_simulazione && !interrompi) {
+                            return_from_simulazione = simulazione.run(1);
+
+                            statistiche = simulazione.getDati();
+
+                            if (return_from_simulazione){
+                                int giorno_passato = simulazione.getGiorno().getValore() - 1;
+                                System.out.println("Giorno " + (giorno_passato));
+                                System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
+                                System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
+                                System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
+                                System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato - 1));
+                                System.out.println("GuaritiGov: " + statistiche.guaritiGoverno.get(giorno_passato - 1));
+                                System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
+                                System.out.println(statistiche.risultato.get(giorno_passato - 1));
+                                System.out.println();
+                                System.out.println();
+                            }
+
                         }
+
+                        int giorno_passato = simulazione.getGiorno().getValore();
+                        System.out.println("Giorno " + (giorno_passato));
+                        System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
+                        System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
+                        System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
+                        System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
+                        System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
+                        System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
+                        System.out.println(statistiche.risultato.get(giorno_passato-1));
+                        System.out.println();
+                        System.out.println();
+
                         // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
-                        statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
+                        //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
+
+
 
                         Platform.runLater(new Runnable() {
                             public void run() {
@@ -456,20 +486,8 @@ public class Main extends Application {
                 };
 
                 if(bool){
-
-                    //COSE NUOVE INSERITE
                     window.setScene(sceneMid);
                     simula.start();
-
-                    /*
-                    window.setScene(sceneMid);
-                    while (ret && !interrompi) {
-                        ret = simulazione.run(giorniSimulazione);
-                    }
-                    // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
-                    statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
-                    window.setScene(sceneFinale);
-                     */
                 }
             }
         });
@@ -495,6 +513,7 @@ public class Main extends Application {
                     System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
                     System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
                     System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
+                    System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(i));
                     System.out.println(statistiche.risultato.get(i));
                     System.out.println();
                     System.out.println();
@@ -606,7 +625,7 @@ public class Main extends Application {
             }
 
             // vincoli sulle risorse
-            if(risorse_value < 0 | risorse_value >= 10 * tampone_value * popolazione_value | risorse_value >= popolazione_value * durata_value){
+            if(risorse_value < 0 || risorse_value >= 10 * tampone_value * popolazione_value || risorse_value >= popolazione_value * durata_value){
                 alert.setContentText("Le risorse non rispettano i vincoli, cambia il numero di risorse");
                 alert.show();
                 return false;
@@ -632,19 +651,19 @@ public class Main extends Application {
                 return false;
             }
 
-            if(infettivita_value <= 0 | infettivita_value > 100){
+            if(infettivita_value <= 0 || infettivita_value > 100){
                 alert.setContentText("L'infettività non va bene");
                 alert.show();
                 return false;
             }
 
-            if(sintomaticita_value <= 0 | sintomaticita_value > 100 ){
+            if(sintomaticita_value <= 0 || sintomaticita_value > 100 ){
                 alert.setContentText("La sintomaticità non va bene");
                 alert.show();
                 return false;
             }
 
-            if(letalita_value <= 0 | letalita_value > 100){
+            if(letalita_value <= 0 || letalita_value > 100){
                 alert.setContentText("La letalità non va bene");
                 alert.show();
                 return false;

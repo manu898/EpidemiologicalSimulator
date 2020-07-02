@@ -137,9 +137,15 @@ public class Governo {
 
         if(primoSintomatico){   //se c'è stato un primo sintomatico
 
+            //TODO probabilmente devo fare a prescindere setPositivi(nuovi sintomatici) qua poiché altrimenti
+            //potrei mantenere nell'hashtable futuri_tamponi della strategia persone su cui dovrei fare il tampone proprio oggi
+            //ma che proprio oggi sono diventate sintomatiche, dunque dovendo fare il tampone oggi viene aggiunta alle persone da tamponare,
+            //ma non va tamponata! Perché è diventata rossa!
+
             //se sfrutto il metodo setPositivi(nuovi sintomatici) qua, per la strategia4 non c'e' bisogno
             //di usare il metodo setNuovi_sintomatici(nuovi_sintomatici)
-            strategia.setNuovi_sintomatici(nuovi_sintomatici);   //comunica alla strategia i sintomatici del giorno
+            //strategia.setNuovi_sintomatici(nuovi_sintomatici);   //comunica alla strategia i sintomatici del giorno
+            strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
 
             // invoca la strategia scelta
             strategia.applica(database);   //la strategia calcola le persone su cui fare i tamponi e eventualmente alcune da fermare (v. strategia2)
@@ -148,7 +154,7 @@ public class Governo {
 
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
 
-            strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
+            //strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
 
             strategia.setPositivi(nuovi_morti);   //si comunicano alla strategia le persone morte (che effettivamente sono positive)
 
