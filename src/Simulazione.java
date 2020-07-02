@@ -126,8 +126,8 @@ public class Simulazione {
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
                 System.out.println("n_incontrate: " + n_incontrate); //CANCELLA
-                System.out.println("Vd: " + n_incontrate / in_movimento);  //CANCELLA
-                System.out.println("velocita: " + velocita);  //CANCELLA
+                System.out.println("Velocita effettiva: " + n_incontrate / (double )in_movimento);  //CANCELLA
+                System.out.println("Vd: " + velocita);  //CANCELLA
             }
             for (Persona p: persone) {
                 p.checkVirus();
