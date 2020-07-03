@@ -82,13 +82,13 @@ public class Main extends Application {
 
     ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
-    private final Tooltip tooltip1 = new Tooltip("Descrizione strategia 1");
+    private final Tooltip tooltip1 = new Tooltip("Non viene fatto alcun tampone e non viene fermato nessuno");
     private RadioButton strg2 = new RadioButton("Strategia 2");
-    private final Tooltip tooltip2 = new Tooltip("Descrizione strategia 2");
+    private final Tooltip tooltip2 = new Tooltip("Si fa il tampone alla metà della popolazione (scelti randomicamente) e i positivi vengono fermati");
     private RadioButton strg3 = new RadioButton("Strategia 3");
-    private final Tooltip tooltip3 = new Tooltip("Descrizione strategia 3");
+    private final Tooltip tooltip3 = new Tooltip("Si fa il tampone a tutte le persone incontrate dai sintomatici giorno per giorno e se positivi si fermano");
     private RadioButton strg4 = new RadioButton("Strategia 4");
-    private final Tooltip tooltip4 = new Tooltip("Descrizione strategia 4");
+    private final Tooltip tooltip4 = new Tooltip("Si fa il tampone a tutte le persone incontrate dai sintomatici giorno per giorno e se positivi si fermano");
     private RadioButton selectedRadioButton = null;
 
     private HBox strategieBox = new HBox();
@@ -161,8 +161,8 @@ public class Main extends Application {
                 strategia = new Strategia4();
                 break;
         }
-    }
 
+    }
 
     public static Strategia getStrategia() {
         return strategia;
@@ -229,6 +229,8 @@ public class Main extends Application {
 
     XYChart.Series guaritiGoverno = new XYChart.Series();
 
+    XYChart.Series verdiGoverno = new XYChart.Series();
+
     NumberAxis xAxisSimulazione = new NumberAxis();
 
     NumberAxis yAxisSimulazione = new NumberAxis();
@@ -242,6 +244,8 @@ public class Main extends Application {
     XYChart.Series sintomaticiSimulazione = new XYChart.Series();
 
     XYChart.Series guaritiSimulazione = new XYChart.Series();
+
+    XYChart.Series verdiSimulazione = new XYChart.Series();
 
     private Scene sceneChart = null;
 
@@ -321,6 +325,8 @@ public class Main extends Application {
 
 
 
+
+
         // scene intermedia1 e intermedia2 - Interrompi
 
         vBoxMid = new VBox();
@@ -368,6 +374,8 @@ public class Main extends Application {
 
         sceneChart = new Scene(vBoxChart,1000,800);
 
+        lineChartGoverno.setTitle("Governo");
+
         xAxisGoverno.setLabel("Time");
         yAxisGoverno.setLabel("Total");
 
@@ -384,6 +392,7 @@ public class Main extends Application {
         asintomaticiGoverno.setName("ASINTOMATICI");
         sintomaticiGoverno.setName("SINTOMATICI");
         guaritiGoverno.setName("GUARITI");
+        verdiGoverno.setName("NON MALATI");
 
 
         ArrayList<Coppia> guaritiGovernoSeries = new ArrayList<>();
@@ -394,11 +403,16 @@ public class Main extends Application {
 
         ArrayList<Coppia> sintomaticiGovernoSeries = new ArrayList<>();
 
+        ArrayList<Coppia> verdiGovernoSeries = new ArrayList<>();
 
-        lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno);
+
+        lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno,verdiGoverno);
 
 
         // Chart Simulazione
+
+
+        lineChartSimulazione.setTitle("Simulazione");
 
         xAxisSimulazione.setLabel("Time");
         yAxisSimulazione.setLabel("Total");
@@ -416,6 +430,7 @@ public class Main extends Application {
         asintomaticiSimulazione.setName("ASINTOMATICI");
         sintomaticiSimulazione.setName("SINTOMATICI");
         guaritiSimulazione.setName("GUARITI");
+        verdiSimulazione.setName("NON MALATI");
 
         ArrayList<Coppia> guaritiSimulazioneSeries = new ArrayList<>();
 
@@ -425,7 +440,9 @@ public class Main extends Application {
 
         ArrayList<Coppia> sintomaticiSimulazioneSeries = new ArrayList<>();
 
-        lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione);
+        ArrayList<Coppia> verdiSimulazioneSeries = new ArrayList<>();
+
+        lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione,verdiSimulazione);
 
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -522,12 +539,14 @@ public class Main extends Application {
                     sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
                     asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));
                     guaritiGovernoSeries.add(new Coppia(i+1,statistiche.guaritiGoverno.get(i)));
+                    verdiGovernoSeries.add(new Coppia(i+1, statistiche.verdiGoverno.get(i)));
 
 
                     mortiSimulazioneSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
                     sintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
                     asintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.asintomaticiSimulazione.get(i)));
                     guaritiSimulazioneSeries.add(new Coppia(i+1,statistiche.guaritiSimulazione.get(i)));
+                    verdiSimulazioneSeries.add(new Coppia(i+1, statistiche.verdiSimulazione.get(i)));
 
                 }
 
@@ -535,11 +554,15 @@ public class Main extends Application {
                 addSeries(mortiGoverno, mortiGovernoSeries);
                 addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
                 addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
+                addSeries(verdiGoverno, verdiGovernoSeries);
 
                 addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
                 addSeries(mortiSimulazione, mortiSimulazioneSeries);
                 addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
                 addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
+                addSeries(verdiSimulazione, verdiSimulazioneSeries);
+
+                sceneChart.getStylesheets().add("stylesheets/style.css");
 
                 window.setScene(sceneChart);
             }
@@ -551,7 +574,6 @@ public class Main extends Application {
         stage.setScene(sceneIniziale);
         stage.setTitle("Epidemiological simulator");
         stage.show();
-
 
     }
 
