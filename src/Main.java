@@ -439,13 +439,14 @@ public class Main extends Application {
 
                     public void run() {
                         while (return_from_simulazione && !interrompi) {
+                            System.out.println("Giorno " + simulazione.getGiorno().getValore());
                             return_from_simulazione = simulazione.run(1);
 
                             statistiche = simulazione.getDati();
 
                             if (return_from_simulazione){
                                 int giorno_passato = simulazione.getGiorno().getValore() - 1;
-                                System.out.println("Giorno " + (giorno_passato));
+                                //System.out.println("Giorno " + (giorno_passato));
                                 System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
                                 System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
                                 System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
@@ -506,7 +507,7 @@ public class Main extends Application {
                 yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
 
                 for(int i = 0; i < statistiche.sintomatici.size(); i++){
-
+/*
                     System.out.println("Giorno " + (i+1));
                     System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
                     System.out.println("Morti: " + statistiche.morti.get(i));
@@ -517,7 +518,7 @@ public class Main extends Application {
                     System.out.println(statistiche.risultato.get(i));
                     System.out.println();
                     System.out.println();
-
+*/
                     mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
                     sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
                     asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));

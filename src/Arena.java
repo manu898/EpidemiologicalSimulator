@@ -12,7 +12,7 @@ public class Arena {
 	private Cella[][] matrice;
 
 	//variabile di tipo Random per calcolare lo spostamento
-	private Random r;
+	public static Random r = new Random(); //rendi private (e non static?)
 
 	//massimo spostamento di una persona nella matrice
 	private int spostamentoMax;
@@ -120,6 +120,8 @@ public class Arena {
 			for (int j = 0; j < larghezza; j++) {
 				Cella c = matrice[i][j];
 				if (c.size() > 1) {
+					//System.out.println("Dimensione cella " + i + "," + j + ": " + c.size());  //CANCELLA
+
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
 							//n_incontrate = n_incontrate + 2;

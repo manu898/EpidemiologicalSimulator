@@ -134,6 +134,11 @@ public class Governo {
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
 
+        System.out.println("Nuovi_sintomatici: " + nuovi_sintomatici.size());  //CANCELLA
+        System.out.println("Nuovi_guariti: " + nuovi_guariti.size());  //CANCELLA
+        System.out.println("Nuovi_morti: " + nuovi_morti.size());  //CANCELLA
+
+
 
         if(primoSintomatico){   //se c'è stato un primo sintomatico
 
@@ -160,9 +165,15 @@ public class Governo {
 
             risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());  //si sottraggono le spese effettuate per i tamponi del giorno
 
+            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+
             database.add_asintomatici(nuovi_asintomatici);
 
+            System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
+
             fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: sintomatiche, positive al tampone, altre selezionate dalla strategia
+
+            System.out.println("Persone fermate: " + strategia.getNuovi_daFermare().size());
 
             database.addPersoneFerme(nuove_personeFerme);
         }
@@ -172,6 +183,8 @@ public class Governo {
         for (Persona p: nuovi_guariti) {
            database.remove_personaFerma(p);
         }
+
+        System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
 
         //TEST OK
         strategia.pulisci();
