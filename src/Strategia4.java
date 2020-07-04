@@ -7,7 +7,7 @@ public class Strategia4 extends Strategia{
     private Hashtable<Persona, ArrayList<Integer>> futuriTamponi = new Hashtable<>();
 
     @Override
-    public void setPositivi(ArrayList<Persona> positivi) {  //analogo a Strategia3 quindi funziona
+    public void setPositivi(ArrayList<Persona> positivi) {
         super.setPositivi(positivi);
         for(Persona p : positivi){
             futuriTamponi.remove(p);
@@ -15,8 +15,6 @@ public class Strategia4 extends Strategia{
         }
     }
 
-    @Override
-    //public boolean applica(DBGoverno dbGoverno) {
 
     public void applica(DBGoverno dbGoverno) {
         //assume che i primi positivi inseriti siano i nuovi_sintomatici

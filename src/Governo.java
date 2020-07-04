@@ -37,6 +37,7 @@ public class Governo {
     //le persone morte giorno per giorno
     private ArrayList<Persona> nuovi_morti;
 
+    public Governo() {} //CANCELLA
 
     // devo passare al costruttore del governo l'oggetto relativo alla strategia che ha scelto l'utente
     public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
@@ -116,7 +117,6 @@ public class Governo {
 
         int numeroSintomatici = database.getSintomatici().size();
         int numeroFermi = database.getPersoneFerme().size();
-        //TEST OK
         risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
         for(Persona persona : nuovi_sintomatici){
             database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
@@ -138,55 +138,34 @@ public class Governo {
         System.out.println("Nuovi_guariti: " + nuovi_guariti.size());  //CANCELLA
         System.out.println("Nuovi_morti: " + nuovi_morti.size());  //CANCELLA
 
-
-
         if(primoSintomatico){   //se c'è stato un primo sintomatico
-
-            //TODO probabilmente devo fare a prescindere setPositivi(nuovi sintomatici) qua poiché altrimenti
+            //devo fare a prescindere setPositivi(nuovi sintomatici) qua poiché altrimenti
             //potrei mantenere nell'hashtable futuri_tamponi della strategia persone su cui dovrei fare il tampone proprio oggi
             //ma che proprio oggi sono diventate sintomatiche, dunque dovendo fare il tampone oggi viene aggiunta alle persone da tamponare,
             //ma non va tamponata! Perché è diventata rossa!
-
-            //se sfrutto il metodo setPositivi(nuovi sintomatici) qua, per la strategia4 non c'e' bisogno
-            //di usare il metodo setNuovi_sintomatici(nuovi_sintomatici)
-            //strategia.setNuovi_sintomatici(nuovi_sintomatici);   //comunica alla strategia i sintomatici del giorno
-            strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
+            //stesso discorso per i morti, se una persona diventa rossa e muore nello stesso giorno
+            strategia.setPositivi(nuovi_morti);   //si comunicano alla strategia le persone morte (che effettivamente sono positive)
+            strategia.setPositivi(nuovi_sintomatici);   //comunica alla strategia i sintomatici del giorno
+            //nota: per la strategia 3 e 4 comunicare i nuovi_sintomatici in questo punto permette di evitare che venga fatto il tampone sui sintomatici
 
             // invoca la strategia scelta
             strategia.applica(database);   //la strategia calcola le persone su cui fare i tamponi e eventualmente alcune da fermare (v. strategia2)
-
             faiTampone(strategia.getNuovi_tamponi());   //vengono effettuati i tamponi sulle persone individuate dalla strategia
-
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
-
-            //strategia.setPositivi(nuovi_sintomatici);   //e quelle che si sa già lo sarebbero risultate
-
-            strategia.setPositivi(nuovi_morti);   //si comunicano alla strategia le persone morte (che effettivamente sono positive)
-
             risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());  //si sottraggono le spese effettuate per i tamponi del giorno
-
             System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
-
             database.add_asintomatici(nuovi_asintomatici);
-
             System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
-
-            fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: sintomatiche, positive al tampone, altre selezionate dalla strategia
-
+            fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: morte, sintomatiche, positive al tampone, altre selezionate dalla strategia
             System.out.println("Persone fermate: " + strategia.getNuovi_daFermare().size());
-
             database.addPersoneFerme(nuove_personeFerme);
         }
 
         muoviPersone(nuovi_guariti);
-
         for (Persona p: nuovi_guariti) {
            database.remove_personaFerma(p);
         }
-
         System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
-
-        //TEST OK
         strategia.pulisci();
         pulisci();
     }

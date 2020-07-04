@@ -120,19 +120,13 @@ public class Arena {
 			for (int j = 0; j < larghezza; j++) {
 				Cella c = matrice[i][j];
 				if (c.size() > 1) {
-					//System.out.println("Dimensione cella " + i + "," + j + ": " + c.size());  //CANCELLA
-
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
-							//n_incontrate = n_incontrate + 2;
 							Persona p1 = c.pos_get(k);
 							Persona p2 = c.pos_get(z);
-							// qui andiamo ad inserire l'incontro in questione nelle liste incontri di entrambe le persone
-							//p1.addPersona_incontrata(p2);
-							//p2.addPersona_incontrata(p1);
 							if (p1.getMovimento() == true || p2.getMovimento() == true) {
 								res = incontra(p1, p2); // prendo le due persone scelte dalla fila e le faccio incontrare
-								if (res) {  //TEST
+								if (res) {
 									n_incontrate = n_incontrate + 2;
 								}
 							}
@@ -145,7 +139,7 @@ public class Arena {
 	}
 
 	// fa incontrare due persone
-	public boolean incontra(Persona p1, Persona p2) { //TEST
+	public boolean incontra(Persona p1, Persona p2) {
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
 		if (s1 == StatoSalute.NERO || s2 == StatoSalute.NERO) {
@@ -157,10 +151,6 @@ public class Arena {
 		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
 			p2.contatto(p1.getVir());
 		}
-		/*
-		System.out.println("persona " + p1.getID() + ", stato " + p1.getStato() + ", virus " + p1.getVir());
-		System.out.println("persona " + p2.getID() + ", stato " + p2.getStato() + ", virus " + p2.getVir());
-		*/
 		p1.addPersona_incontrata(p2);
 		p2.addPersona_incontrata(p1);
 		return true;

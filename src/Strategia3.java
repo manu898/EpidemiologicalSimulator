@@ -10,13 +10,11 @@ public class Strategia3 extends Strategia {
     public void setPositivi(ArrayList<Persona> positivi) {
         super.setPositivi(positivi);
         for(Persona p : positivi){
-            futuriTamponi.remove(p);  //FUNZIONAAAA
+            futuriTamponi.remove(p);
             nuovi_daFermare.add(p);
         }
     }
 
-    @Override
-    //public boolean applica(DBGoverno dbGoverno) {
 
     public void applica(DBGoverno dbGoverno) {
         ArrayList<Persona> persone_incontrate;
