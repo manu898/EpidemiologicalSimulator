@@ -148,23 +148,22 @@ public class Arena {
 	public boolean incontra(Persona p1, Persona p2) { //TEST
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
+		if (s1 == StatoSalute.NERO || s2 == StatoSalute.NERO) {
+			return false;
+		}
 		if (s1 == StatoSalute.VERDE && (s2 == StatoSalute.GIALLO || s2 == StatoSalute.ROSSO))  {
 			p1.contatto(p2.getVir());
-			p1.addPersona_incontrata(p2);
-			p2.addPersona_incontrata(p1);
-			return true;
 		} else
 		if ((s1 == StatoSalute.GIALLO || s1 == StatoSalute.ROSSO) && s2 == StatoSalute.VERDE) {
 			p2.contatto(p1.getVir());
-			p1.addPersona_incontrata(p2);
-			p2.addPersona_incontrata(p1);
-			return true;
 		}
 		/*
 		System.out.println("persona " + p1.getID() + ", stato " + p1.getStato() + ", virus " + p1.getVir());
 		System.out.println("persona " + p2.getID() + ", stato " + p2.getStato() + ", virus " + p2.getVir());
 		*/
-		return false;
+		p1.addPersona_incontrata(p2);
+		p2.addPersona_incontrata(p1);
+		return true;
 	}
 
 

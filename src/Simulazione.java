@@ -127,6 +127,11 @@ public class Simulazione {
             while (n_incontrate / (double) in_movimento < velocita) {
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
+                /*
+                System.out.println("n_incontrate: " + n_incontrate); //CANCELLA
+                System.out.println("Velocita effettiva: " + n_incontrate / (double )in_movimento);  //CANCELLA
+                System.out.println("Vd: " + velocita);  //CANCELLA
+                */
             }
             System.out.println("n_incontrate: " + n_incontrate); //CANCELLA
             System.out.println("Velocita effettiva: " + n_incontrate / (double )in_movimento);  //CANCELLA

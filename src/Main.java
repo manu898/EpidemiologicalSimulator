@@ -86,9 +86,9 @@ public class Main extends Application {
     private RadioButton strg2 = new RadioButton("Strategia 2");
     private final Tooltip tooltip2 = new Tooltip("Si fa il tampone alla metà della popolazione (scelti randomicamente) e i positivi vengono fermati");
     private RadioButton strg3 = new RadioButton("Strategia 3");
-    private final Tooltip tooltip3 = new Tooltip("Si fa il tampone a tutte le persone incontrate dai sintomatici giorno per giorno e se positivi si fermano");
+    private final Tooltip tooltip3 = new Tooltip("Si fa il tampone a tutte le persone incontrate dai sintomatici\ngiorno per giorno e se positivi si fermano");
     private RadioButton strg4 = new RadioButton("Strategia 4");
-    private final Tooltip tooltip4 = new Tooltip("Si fa il tampone a tutte le persone incontrate dai sintomatici giorno per giorno e se positivi si fermano");
+    private final Tooltip tooltip4 = new Tooltip("Si fa il tampone a tutte le persone incontrate durante la simulazione\ndagli individui risultanti sintomatici giorno per giorno e\nse positivi si fermano");
     private RadioButton selectedRadioButton = null;
 
     private HBox strategieBox = new HBox();
