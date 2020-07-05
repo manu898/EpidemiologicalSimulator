@@ -3,6 +3,33 @@
     -fx-effect: null;
 }
 
+.frase{
+    -fx-font-size: 26;
+    -fx-padding: 20;
+}
+
+.btn{
+    -fx-font-size: 20;
+    -fx-max-width: 250;
+    -fx-text-fill: white;
+}
+
+#btnInvia{
+    -fx-background-color: dodgerblue;
+}
+
+#btnInterrompi{
+    -fx-background-color: red;
+}
+
+#btnFinale{
+    -fx-background-color: limegreen;
+}
+
+#btnNewSimulation{
+    -fx-background-color: coral;
+}
+
 .default-color0.chart-series-line { -fx-stroke: black; }
 .default-color1.chart-series-line { -fx-stroke: yellow; }
 .default-color2.chart-series-line { -fx-stroke: red; }

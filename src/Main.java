@@ -17,11 +17,27 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
+    // parametri dello stage
+
     public Stage window;
 
     BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
 
+    public Alert alert = new Alert(Alert.AlertType.ERROR);
+
+    // parametri per  gestione/creazione della simulazione
+
     ParametriSimulazione ps = new ParametriSimulazione();
+
+    private static Simulazione simulazione = null;
+
+    private static Strategia strategia = null;
+
+    private DatiStatistici statistiche = new DatiStatistici();
+
+    //public? private?
+    boolean return_from_simulazione = true;
+
 
     // scena iniziale - Inserimento parametri
 
@@ -41,7 +57,7 @@ public class Main extends Application {
 
     private Label popolazioneLabel = new Label("Popolazione");
     private TextField popolazione = new TextField();
-    private HBox popolaioneBox = new HBox(popolazioneLabel,popolazione);
+    private HBox popolazioneBox = new HBox(popolazioneLabel,popolazione);
 
 
     private Label velocitaLabel = new Label("Velocita");
@@ -90,12 +106,14 @@ public class Main extends Application {
     private RadioButton strg4 = new RadioButton("Strategia 4");
     private final Tooltip tooltip4 = new Tooltip("Si fa il tampone a tutte le persone incontrate durante la simulazione\ndagli individui risultanti sintomatici giorno per giorno e\nse positivi si fermano");
     private RadioButton selectedRadioButton = null;
-
     private HBox strategieBox = new HBox();
 
-    private static Simulazione simulazione = null;
+    // scena iniziale - parametri
 
-    private static Strategia strategia = null;
+    private VBox vBox = new VBox();
+    private Scene sceneIniziale = new Scene(vBox,1000,800);
+
+    // getter
 
     public TextField getArenaH() {
         return arenaH;
@@ -145,6 +163,9 @@ public class Main extends Application {
         return selectedRadioButton;
     }
 
+
+    // setter
+
     public void setStrategia(RadioButton r){
 
         switch (r.getId()){
@@ -169,13 +190,6 @@ public class Main extends Application {
     }
 
 
-    public Alert alert = new Alert(Alert.AlertType.ERROR);
-
-    private Scene sceneIniziale = null;
-
-    private VBox vBox = new VBox();
-
-
 
     // scena intermedia - interrompi
 
@@ -183,37 +197,43 @@ public class Main extends Application {
 
     private Button btnInterrompi = new Button("Interrompi simulazione");
 
-    private Scene sceneMid = null;
+    private VBox vBoxMid = new VBox();
 
-    private VBox vBoxMid = null;
+    private Scene sceneMid = new Scene(vBoxMid,1000 ,800 );
 
     private boolean interrompi = false;
 
 
     // scena intermedia 2 - hai premuto interrompi
 
+    private VBox vBoxMid2 = new VBox();
+
+    private Scene sceneMid2 = new Scene(vBoxMid2,1000 ,800 ) ;
+
     private Label fraseMid2 = new Label(" Sto interrompendo ... aspetta 5 ore dai !");
 
-    private Scene sceneMid2 = null;
 
-    private VBox vBoxMid2 = null;
+    // scena finale
 
+    private VBox vBoxFinale = new VBox();
 
+    private Scene sceneFinale = new Scene(vBoxFinale,1000 ,800 );
 
-    // scena intermedia - finale
-
-    private Label fraseFinale = new Label("Simulazione finita ! Vedi le statistiche ");
+    private Label fraseFinale = new Label("Simulazione terminata");
 
     private Button btnFinale = new Button("Vedi statistiche");
 
-    private Scene sceneFinale = null;
 
-    private VBox vBoxFinale = null;
+    // scena grafico - parametri generali
+
+    private VBox vBoxChart = new VBox();
+
+    private Scene sceneChart = new Scene(vBoxChart,1000 ,800 ) ;
+
+    private Button btnNewSimulation = new Button("Nuova simulazione");
 
 
-
-
-    // scena finale - sceneChart
+    // scena grafico - grafico Governo
 
     NumberAxis xAxisGoverno = new NumberAxis();
 
@@ -231,6 +251,9 @@ public class Main extends Application {
 
     XYChart.Series verdiGoverno = new XYChart.Series();
 
+
+    // scena grafico - grafico Simulazione
+
     NumberAxis xAxisSimulazione = new NumberAxis();
 
     NumberAxis yAxisSimulazione = new NumberAxis();
@@ -247,336 +270,6 @@ public class Main extends Application {
 
     XYChart.Series verdiSimulazione = new XYChart.Series();
 
-    private Scene sceneChart = null;
-
-    private VBox vBoxChart = null;
-
-
-    private DatiStatistici statistiche = new DatiStatistici();
-
-    //public? private?
-    boolean return_from_simulazione = true;
-
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-        // CSS per tutte le scene
-
-        String stylesInviaBtn = "-fx-background-color : dodgerblue;" +
-                "-fx-font-size: 20;" +
-                "-fx-max-width: 200;" +
-                "-fx-text-fill : white;";
-        String stylesFrase = "-fx-font-size: 26;"+
-                "-fx-padding: 20";
-        String stylesInterrompiBtn = "-fx-background-color : red;" +
-                "-fx-font-size: 20;" +
-                "-fx-max-width: 270;" +
-                "-fx-text-fill: white;";
-        String stylesFinaleBtn = "-fx-background-color: limegreen;" +
-                "-fx-font-size: 20;" +
-                "-fx-max-width: 270;" +
-                "-fx-text-fill: white;";
-
-
-        btnInvia.setStyle(stylesInviaBtn);
-        fraseMid.setStyle(stylesFrase);
-        fraseMid2.setStyle(stylesFrase);
-        fraseFinale.setStyle(stylesFrase);
-        btnInterrompi.setStyle(stylesInterrompiBtn);
-        btnFinale.setStyle(stylesFinaleBtn);
-
-
-        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
-                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
-        setWidth(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
-
-        risorse.setTooltip(tooltipRisorse);
-        strg1.setId("strategia1");
-        strg1.setTooltip(tooltip1);
-        strg1.setToggleGroup(toggleGroup);
-        strg2.setId("strategia2");
-        strg2.setTooltip(tooltip2);
-        strg2.setToggleGroup(toggleGroup);
-        strg3.setId("strategia3");
-        strg3.setTooltip(tooltip3);
-        strg3.setToggleGroup(toggleGroup);
-        strg4.setId("strategia4");
-        strg4.setTooltip(tooltip4);
-        strg4.setToggleGroup(toggleGroup);
-
-        strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
-
-        setPosAndMargin(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
-
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setBackground(new Background(bi));
-
-        // scena iniziale
-
-        window = stage;
-
-        vBox.getChildren().addAll(arenaBox,popolaioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
-
-
-        sceneIniziale = new Scene(vBox,1000,800);
-
-
-
-
-
-
-
-        // scene intermedia1 e intermedia2 - Interrompi
-
-        vBoxMid = new VBox();
-        vBoxMid2 = new VBox();
-
-        vBoxMid.setAlignment(Pos.CENTER);
-        vBoxMid2.setAlignment(Pos.CENTER);
-
-        vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
-        vBoxMid2.getChildren().addAll(fraseMid2);
-
-        sceneMid = new Scene(vBoxMid,1000,800);
-        sceneMid2 = new Scene(vBoxMid2,1000,800);
-
-
-        btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                interrompi = true;
-                window.setScene(sceneMid2);
-            }
-        });
-
-
-        // scena intermedia - Finale
-
-        vBoxFinale = new VBox();
-
-        vBoxFinale.setAlignment(Pos.CENTER);
-
-        sceneFinale = new Scene(vBoxFinale,1000,800);
-
-        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
-
-
-        // scena finale - Chart
-
-        // Chart Governo
-
-        vBoxChart = new VBox();
-
-        vBoxChart.getChildren().addAll(lineChartGoverno,lineChartSimulazione);
-
-        vBoxChart.setAlignment(Pos.CENTER);
-
-        sceneChart = new Scene(vBoxChart,1000,800);
-
-        lineChartGoverno.setTitle("Governo");
-
-        xAxisGoverno.setLabel("Time");
-        yAxisGoverno.setLabel("Total");
-
-        xAxisGoverno.setAutoRanging(false);
-        xAxisGoverno.setLowerBound(1);
-        xAxisGoverno.setTickUnit(1);
-        xAxisGoverno.setMinorTickVisible(true);
-
-        yAxisGoverno.setAutoRanging(false);
-        yAxisGoverno.setLowerBound(0);
-        yAxisGoverno.setMinorTickVisible(true);
-
-        mortiGoverno.setName("MORTI");
-        asintomaticiGoverno.setName("ASINTOMATICI");
-        sintomaticiGoverno.setName("SINTOMATICI");
-        guaritiGoverno.setName("GUARITI");
-        verdiGoverno.setName("NON MALATI");
-
-
-        ArrayList<Coppia> guaritiGovernoSeries = new ArrayList<>();
-
-        ArrayList<Coppia> mortiGovernoSeries = new ArrayList<>();
-
-        ArrayList<Coppia> asintomaticiGovernoSeries = new ArrayList<>();
-
-        ArrayList<Coppia> sintomaticiGovernoSeries = new ArrayList<>();
-
-        ArrayList<Coppia> verdiGovernoSeries = new ArrayList<>();
-
-
-        lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno,verdiGoverno);
-
-
-        // Chart Simulazione
-
-
-        lineChartSimulazione.setTitle("Simulazione");
-
-        xAxisSimulazione.setLabel("Time");
-        yAxisSimulazione.setLabel("Total");
-
-        xAxisSimulazione.setAutoRanging(false);
-        xAxisSimulazione.setLowerBound(1);
-        xAxisSimulazione.setTickUnit(1);
-        xAxisSimulazione.setMinorTickVisible(false);
-
-        yAxisSimulazione.setAutoRanging(false);
-        yAxisSimulazione.setLowerBound(0);
-        yAxisSimulazione.setMinorTickVisible(false);
-
-        mortiSimulazione.setName("MORTI");
-        asintomaticiSimulazione.setName("ASINTOMATICI");
-        sintomaticiSimulazione.setName("SINTOMATICI");
-        guaritiSimulazione.setName("GUARITI");
-        verdiSimulazione.setName("NON MALATI");
-
-        ArrayList<Coppia> guaritiSimulazioneSeries = new ArrayList<>();
-
-        ArrayList<Coppia> mortiSimulazioneSeries = new ArrayList<>();
-
-        ArrayList<Coppia> asintomaticiSimulazioneSeries = new ArrayList<>();
-
-        ArrayList<Coppia> sintomaticiSimulazioneSeries = new ArrayList<>();
-
-        ArrayList<Coppia> verdiSimulazioneSeries = new ArrayList<>();
-
-        lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione,verdiSimulazione);
-
-        btnInvia.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                boolean bool;
-
-                bool = inviaDati();
-
-                Thread simula = new Thread() {
-
-                    public void run() {
-                        while (return_from_simulazione && !interrompi) {
-                            System.out.println("Giorno " + simulazione.getGiorno().getValore());
-                            return_from_simulazione = simulazione.run(1);
-
-                            statistiche = simulazione.getDati();
-
-                            if (return_from_simulazione){
-                                int giorno_passato = simulazione.getGiorno().getValore() - 1;
-                                //System.out.println("Giorno " + (giorno_passato));
-                                System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
-                                System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
-                                System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
-                                System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato - 1));
-                                System.out.println("GuaritiGov: " + statistiche.guaritiGoverno.get(giorno_passato - 1));
-                                System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
-                                System.out.println(statistiche.risultato.get(giorno_passato - 1));
-                                System.out.println();
-                                System.out.println();
-                            }
-
-                        }
-
-                        int giorno_passato = simulazione.getGiorno().getValore();
-                        System.out.println("Giorno " + (giorno_passato));
-                        System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
-                        System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
-                        System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
-                        System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
-                        System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
-                        System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
-                        System.out.println(statistiche.risultato.get(giorno_passato-1));
-                        System.out.println();
-                        System.out.println();
-
-                        // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
-                        //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
-
-
-
-                        Platform.runLater(new Runnable() {
-                            public void run() {
-                                window.setScene(sceneFinale);
-                            }
-
-                        });
-                    }
-                };
-
-                if(bool){
-                    window.setScene(sceneMid);
-                    simula.start();
-                }
-            }
-        });
-
-        btnFinale.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                xAxisGoverno.setUpperBound(statistiche.sintomatici.size());
-                yAxisGoverno.setUpperBound(Double.parseDouble(getPopolazione().getText()));
-                yAxisGoverno.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
-
-
-                xAxisSimulazione.setUpperBound(statistiche.sintomatici.size());
-                yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
-                yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
-
-                for(int i = 0; i < statistiche.sintomatici.size(); i++){
-/*
-                    System.out.println("Giorno " + (i+1));
-                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
-                    System.out.println("Morti: " + statistiche.morti.get(i));
-                    System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
-                    System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
-                    System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
-                    System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(i));
-                    System.out.println(statistiche.risultato.get(i));
-                    System.out.println();
-                    System.out.println();
-*/
-                    mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
-                    sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
-                    asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));
-                    guaritiGovernoSeries.add(new Coppia(i+1,statistiche.guaritiGoverno.get(i)));
-                    verdiGovernoSeries.add(new Coppia(i+1, statistiche.verdiGoverno.get(i)));
-
-
-                    mortiSimulazioneSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
-                    sintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
-                    asintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.asintomaticiSimulazione.get(i)));
-                    guaritiSimulazioneSeries.add(new Coppia(i+1,statistiche.guaritiSimulazione.get(i)));
-                    verdiSimulazioneSeries.add(new Coppia(i+1, statistiche.verdiSimulazione.get(i)));
-
-                }
-
-                addSeries(guaritiGoverno, guaritiGovernoSeries);
-                addSeries(mortiGoverno, mortiGovernoSeries);
-                addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
-                addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
-                addSeries(verdiGoverno, verdiGovernoSeries);
-
-                addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
-                addSeries(mortiSimulazione, mortiSimulazioneSeries);
-                addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
-                addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
-                addSeries(verdiSimulazione, verdiSimulazioneSeries);
-
-                sceneChart.getStylesheets().add("stylesheets/style.css");
-
-                window.setScene(sceneChart);
-            }
-        });
-
-
-        // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì
-
-        stage.setScene(sceneIniziale);
-        stage.setTitle("Epidemiological simulator");
-        stage.show();
-
-    }
 
     public  void setFontAndPadding(double fontsize, Labeled... labels){
         for(Labeled labeled : labels) {
@@ -720,6 +413,318 @@ public class Main extends Application {
         simulazione = new Simulazione(ps);
 
         return true;
+
+    }
+
+
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        window = stage;
+
+        // CSS
+
+        sceneIniziale.getStylesheets().add("stylesheets/style.css");
+        sceneMid.getStylesheets().add("stylesheets/style.css");
+        sceneMid2.getStylesheets().add("stylesheets/style.css");
+        sceneFinale.getStylesheets().add("stylesheets/style.css");
+        sceneChart.getStylesheets().add("stylesheets/style.css");
+
+
+        btnInvia.setId("btnInvia");
+        btnInvia.getStyleClass().add("btn");
+        btnInterrompi.setId("btnInterrompi");
+        btnInterrompi.getStyleClass().add("btn");
+        btnFinale.setId("btnFinale");
+        btnFinale.getStyleClass().add("btn");
+        btnNewSimulation.setId("btnNewSimulation");
+        btnNewSimulation.getStyleClass().add("btn");
+        fraseMid.getStyleClass().add("frase");
+        fraseMid2.getStyleClass().add("frase");
+        fraseFinale.getStyleClass().add("frase");
+
+
+        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
+                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
+        setWidth(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
+
+        risorse.setTooltip(tooltipRisorse);
+        strg1.setId("strategia1");
+        strg1.setTooltip(tooltip1);
+        strg1.setToggleGroup(toggleGroup);
+        strg2.setId("strategia2");
+        strg2.setTooltip(tooltip2);
+        strg2.setToggleGroup(toggleGroup);
+        strg3.setId("strategia3");
+        strg3.setTooltip(tooltip3);
+        strg3.setToggleGroup(toggleGroup);
+        strg4.setId("strategia4");
+        strg4.setTooltip(tooltip4);
+        strg4.setToggleGroup(toggleGroup);
+
+        strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
+
+        setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
+
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setBackground(new Background(bi));
+
+
+        // scena iniziale
+
+
+        vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
+
+
+        // scene intermedia1 e intermedia2 - Interrompi
+
+
+        vBoxMid.setAlignment(Pos.CENTER);
+        vBoxMid2.setAlignment(Pos.CENTER);
+
+        vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
+        vBoxMid2.getChildren().addAll(fraseMid2);
+
+
+        btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                interrompi = true;
+                window.setScene(sceneMid2);
+            }
+        });
+
+
+        // scena finale
+
+        vBoxFinale.setAlignment(Pos.CENTER);
+
+        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
+
+        btnNewSimulation.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                window.close();
+                Platform.runLater(() -> {
+                    try {
+                        new Main().start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
+
+
+        // Chart Governo
+
+        vBoxChart.getChildren().addAll(lineChartGoverno,lineChartSimulazione,btnNewSimulation);
+
+        vBoxChart.setAlignment(Pos.CENTER);
+
+        lineChartGoverno.setTitle("Governo");
+
+        xAxisGoverno.setLabel("Time");
+        yAxisGoverno.setLabel("Total");
+
+        xAxisGoverno.setAutoRanging(false);
+        xAxisGoverno.setLowerBound(1);
+        xAxisGoverno.setTickUnit(1);
+        xAxisGoverno.setMinorTickVisible(true);
+
+        yAxisGoverno.setAutoRanging(false);
+        yAxisGoverno.setLowerBound(0);
+        yAxisGoverno.setMinorTickVisible(true);
+
+        mortiGoverno.setName("MORTI");
+        asintomaticiGoverno.setName("ASINTOMATICI");
+        sintomaticiGoverno.setName("SINTOMATICI");
+        guaritiGoverno.setName("GUARITI");
+        verdiGoverno.setName("NON MALATI");
+
+
+        ArrayList<Coppia> guaritiGovernoSeries = new ArrayList<>();
+
+        ArrayList<Coppia> mortiGovernoSeries = new ArrayList<>();
+
+        ArrayList<Coppia> asintomaticiGovernoSeries = new ArrayList<>();
+
+        ArrayList<Coppia> sintomaticiGovernoSeries = new ArrayList<>();
+
+        ArrayList<Coppia> verdiGovernoSeries = new ArrayList<>();
+
+
+        lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno,verdiGoverno);
+
+
+        // Chart Simulazione
+
+
+        lineChartSimulazione.setTitle("Simulazione");
+
+        xAxisSimulazione.setLabel("Time");
+        yAxisSimulazione.setLabel("Total");
+
+        xAxisSimulazione.setAutoRanging(false);
+        xAxisSimulazione.setLowerBound(1);
+        xAxisSimulazione.setTickUnit(1);
+        xAxisSimulazione.setMinorTickVisible(false);
+
+        yAxisSimulazione.setAutoRanging(false);
+        yAxisSimulazione.setLowerBound(0);
+        yAxisSimulazione.setMinorTickVisible(false);
+
+        mortiSimulazione.setName("MORTI");
+        asintomaticiSimulazione.setName("ASINTOMATICI");
+        sintomaticiSimulazione.setName("SINTOMATICI");
+        guaritiSimulazione.setName("GUARITI");
+        verdiSimulazione.setName("NON MALATI");
+
+        ArrayList<Coppia> guaritiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> mortiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> asintomaticiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> sintomaticiSimulazioneSeries = new ArrayList<>();
+
+        ArrayList<Coppia> verdiSimulazioneSeries = new ArrayList<>();
+
+        lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione,verdiSimulazione);
+
+        btnInvia.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                boolean bool;
+
+                bool = inviaDati();
+
+                Thread simula = new Thread() {
+
+                    public void run() {
+                        while (return_from_simulazione && !interrompi) {
+                            System.out.println("Giorno " + simulazione.getGiorno().getValore());
+                            return_from_simulazione = simulazione.run(1);
+
+                            statistiche = simulazione.getDati();
+
+                            if (return_from_simulazione){
+                                int giorno_passato = simulazione.getGiorno().getValore() - 1;
+                                //System.out.println("Giorno " + (giorno_passato));
+                                System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
+                                System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
+                                System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
+                                System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato - 1));
+                                System.out.println("GuaritiGov: " + statistiche.guaritiGoverno.get(giorno_passato - 1));
+                                System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
+                                System.out.println(statistiche.risultato.get(giorno_passato - 1));
+                                System.out.println();
+                                System.out.println();
+                            }
+
+                        }
+
+                        int giorno_passato = simulazione.getGiorno().getValore();
+                        System.out.println("Giorno " + (giorno_passato));
+                        System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
+                        System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
+                        System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
+                        System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
+                        System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
+                        System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
+                        System.out.println(statistiche.risultato.get(giorno_passato-1));
+                        System.out.println();
+                        System.out.println();
+
+                        // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
+                        //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
+
+
+
+                        Platform.runLater(new Runnable() {
+                            public void run() {
+                                window.setScene(sceneFinale);
+                            }
+
+                        });
+                        String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
+                        fraseFinale.setText(risultato);
+                    }
+                };
+
+                if(bool){
+                    window.setScene(sceneMid);
+                    simula.start();
+                }
+            }
+
+        });
+
+        btnFinale.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                xAxisGoverno.setUpperBound(statistiche.sintomatici.size());
+                yAxisGoverno.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                yAxisGoverno.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
+
+                xAxisSimulazione.setUpperBound(statistiche.sintomatici.size());
+                yAxisSimulazione.setUpperBound(Double.parseDouble(getPopolazione().getText()));
+                yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
+
+                for(int i = 0; i < statistiche.sintomatici.size(); i++){
+/*
+                    System.out.println("Giorno " + (i+1));
+                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
+                    System.out.println("Morti: " + statistiche.morti.get(i));
+                    System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
+                    System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
+                    System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
+                    System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(i));
+                    System.out.println(statistiche.risultato.get(i));
+                    System.out.println();
+                    System.out.println();
+*/
+                    mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
+                    sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
+                    asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));
+                    guaritiGovernoSeries.add(new Coppia(i+1,statistiche.guaritiGoverno.get(i)));
+                    verdiGovernoSeries.add(new Coppia(i+1, statistiche.verdiGoverno.get(i)));
+
+
+                    mortiSimulazioneSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
+                    sintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
+                    asintomaticiSimulazioneSeries.add(new Coppia(i+1,statistiche.asintomaticiSimulazione.get(i)));
+                    guaritiSimulazioneSeries.add(new Coppia(i+1,statistiche.guaritiSimulazione.get(i)));
+                    verdiSimulazioneSeries.add(new Coppia(i+1, statistiche.verdiSimulazione.get(i)));
+
+                }
+
+                addSeries(guaritiGoverno, guaritiGovernoSeries);
+                addSeries(mortiGoverno, mortiGovernoSeries);
+                addSeries(asintomaticiGoverno, asintomaticiGovernoSeries);
+                addSeries(sintomaticiGoverno, sintomaticiGovernoSeries);
+                addSeries(verdiGoverno, verdiGovernoSeries);
+
+                addSeries(guaritiSimulazione, guaritiSimulazioneSeries);
+                addSeries(mortiSimulazione, mortiSimulazioneSeries);
+                addSeries(asintomaticiSimulazione, asintomaticiSimulazioneSeries);
+                addSeries(sintomaticiSimulazione, sintomaticiSimulazioneSeries);
+                addSeries(verdiSimulazione, verdiSimulazioneSeries);
+
+                window.setScene(sceneChart);
+            }
+        });
+
+
+        // Stage - inizialmente visualizziamo la scena iniziale di inserimento parametriì
+
+        stage.setScene(sceneIniziale);
+        stage.setTitle("Epidemiological simulator");
+        stage.show();
 
     }
 
