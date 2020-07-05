@@ -42,11 +42,12 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
-    private DatiStatistici statistiche;  // TEST
+    //variabile contenente un oggetto con le statistiche della simulazione
+    private DatiStatistici statistiche;
 
     //costruttore, si occupa di inizializzare anche le persone, il governo e l'arena
     public Simulazione(ParametriSimulazione par) {
-        statistiche = new DatiStatistici();  // TEST
+        statistiche = new DatiStatistici();
         giorno = new Giorno(1);
         Virus.setI(par.getInfettivita());
         Virus.setS(par.getSintomaticita());
@@ -55,14 +56,13 @@ public class Simulazione {
         this.persone = new ArrayList<Persona>(par.getPopolazione());
         governo = new Governo(par.getRisorse(), par.getCosto_tampone(), par.getStrategia(), persone, giorno);
         init_persone(par.getPopolazione());
-        //TEST
+
         Persona primo_giallo = persone.get(0);
         primo_giallo.setVir(new Virus(giorno));
         primo_giallo.setStato(StatoSalute.GIALLO);
         primo_giallo.getVir().setGiornoFineIncubazione(giorno.getValore());
         primo_giallo.setMustcheckvirus(true);
         primo_giallo.getVir().calcola_giornoDadoS();
-        //TEST
 
         arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
         arena.distribuisciPersone(persone);
@@ -82,7 +82,6 @@ public class Simulazione {
         int guaritiGov = governo.getDatabase().getGuariti().size();
         int verdiGov = getPopolazione() - neri - rossi - asintomaticiGov - guaritiGov;
 
-        // fare arrayList per frase e risorseRimaste
         statistiche.risorseRimaste.add(governo.getRisorse());
         statistiche.morti.add(governo.getDatabase().getMorti().size());
         //statistiche.morti.add(neri);  //TODO
@@ -105,8 +104,8 @@ public class Simulazione {
         statistiche.risultato.add(risultato);
     }
 
-    //esegui la simulazione per 'giorni' giorni
-    public boolean run(int giorni) {     //TEST
+    //esegui la simulazione per 'giorni' giorni prima di fare return, a meno che non termina prima
+    public boolean run(int giorni) {
         for (int i = 0; i < giorni ; i++) {
             verdi = 0;
             verdi_sani = 0;
@@ -160,7 +159,7 @@ public class Simulazione {
     }
 
     //controlla lo StatoSalute di una persona e aumenta il contatore relativo
-    private void check_stato(Persona p) {  //TEST OK
+    private void check_stato(Persona p) {
         switch (p.getStato()) {
             case VERDE:
                 if (p.getVir() == null)
@@ -183,7 +182,7 @@ public class Simulazione {
     }
 
     //crea le persone
-    private void init_persone(int popolazione) {   //TEST  OK
+    private void init_persone(int popolazione) {
         for (int i = 0; i < popolazione; i++) {
             persone.add(new Persona(i, governo, giorno));
         }
