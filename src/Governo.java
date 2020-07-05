@@ -167,7 +167,7 @@ public class Governo {
         }
         System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
         strategia.pulisci();
-        pulisci();
+        //pulisci();
     }
 
     public void pulisci() {

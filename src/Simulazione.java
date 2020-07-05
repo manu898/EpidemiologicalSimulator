@@ -140,6 +140,7 @@ public class Simulazione {
                 check_stato(p);
             }
             governo.aggiornamento();
+            governo.pulisci(); //l'ideale e' fare questa cosa dopo aggiornaDati() cos' da inserire i dati solo del giorno tra le statistiche
             aggiornaDati();
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )
                 return false;
