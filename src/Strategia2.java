@@ -23,7 +23,9 @@ public class Strategia2 extends Strategia {
             while (i < size / 2) {
                 int id = r.nextInt(size);
                 Persona p = dbGoverno.getPersone().get(id);
-                if ((p.getStato() != StatoSalute.NERO) && (p.getStato() != StatoSalute.ROSSO) && !(dbGoverno.getGuariti().contains(p))) { //l'ultima condizione forse ha senso solo se si può avere DURATA=0 TODO
+                if ((p.getStato() != StatoSalute.NERO) && (p.getStato() != StatoSalute.ROSSO) &&
+                        !(dbGoverno.getGuariti().contains(p)) &&
+                        !(nuovi_tamponi.contains(p))) { //la penultima condizione forse ha senso solo se si può avere DURATA=0 TODO
                     nuovi_tamponi.add(p);
                     i++;
                 }

@@ -26,7 +26,7 @@ public class Testclass {
         //par.setStrategia(str);
         DatiStatistici statistiche;
 
-        Virus.r.setSeed(0);
+        //Virus.r.setSeed(0);
         Arena.r.setSeed(0);
         Simulazione sim = new Simulazione(par);
 

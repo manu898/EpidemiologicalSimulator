@@ -160,9 +160,11 @@ public class Governo {
             // invoca la strategia scelta
             strategia.applica(database);   //la strategia calcola le persone su cui fare i tamponi e eventualmente alcune da fermare (v. strategia2)
             faiTampone(strategia.getNuovi_tamponi());   //vengono effettuati i tamponi sulle persone individuate dalla strategia
+            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+            System.out.println("Tamponi effettuati su: " + strategia.getNuovi_tamponi());  //CANCELLA
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
             risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());  //si sottraggono le spese effettuate per i tamponi del giorno
-            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+
             database.add_asintomatici(nuovi_asintomatici);
             System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
             System.out.println("nuovi_asintomatici: " + nuovi_asintomatici);
