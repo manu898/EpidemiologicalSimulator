@@ -54,7 +54,6 @@ public class DatiStatistici {  // TEST
         stringa += Integer.toString(verdiSimulazione.get(i-1));
         stringa += ", ";
         stringa += Integer.toString(risorseRimaste.get(i-1));
-        stringa += ", ";
         //non ci ho aggiunto l'esito del giorno
         //e i dati giornalieri?
         return stringa;

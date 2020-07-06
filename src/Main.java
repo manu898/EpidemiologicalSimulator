@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import java.io.*;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,9 @@ public class Main extends Application {
 
     //public? private?
     boolean return_from_simulazione = true;
+
+    //public? private?
+    String filecsv = "filemagnifico.csv";
 
 
     // scena iniziale - Inserimento parametri
@@ -728,6 +732,25 @@ public class Main extends Application {
                 addSeries(verdiSimulazione, verdiSimulazioneSeries);
 
                 window.setScene(sceneChart);
+
+                //creazione del fil csv
+                PrintWriter pw = null;
+                File f = new File(filecsv);
+                try {
+                    pw = new PrintWriter(f);  //si mette a scrivere sul file troncandolo o lo crea
+                    pw.println(statistiche.dati);
+                    pw.flush();
+                    for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
+                        pw.println(statistiche.toCSV(i));
+                        pw.flush();
+                    }
+                } catch (FileNotFoundException fe) {
+                    fe.printStackTrace();
+                } catch (SecurityException se) {
+                    se.printStackTrace();
+                } finally {
+                    pw.close();
+                }
             }
         });
 
