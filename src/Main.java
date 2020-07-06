@@ -279,6 +279,7 @@ public class Main extends Application {
         }
     }
 
+    /*
     public void setWidth(TextField... element){
         for(TextField node : element){
             node.setMaxWidth(100.0);
@@ -293,12 +294,26 @@ public class Main extends Application {
         }
     }
 
+     */
+
 
     public void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
         for(Coppia coppia : coppie){
             series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
         }
     }
+
+    public void setTFClass(TextField... fields){
+        for(TextField tf : fields)
+            tf.getStyleClass().add("textFields");
+    }
+
+    public void setHboxClass(HBox... elements){
+        for(HBox element : elements)
+            element.getStyleClass().add("hbox");
+    }
+
+
 
     public boolean inviaDati() throws NumberFormatException{
 
@@ -443,11 +458,11 @@ public class Main extends Application {
         fraseMid.getStyleClass().add("frase");
         fraseMid2.getStyleClass().add("frase");
         fraseFinale.getStyleClass().add("frase");
+        setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
 
 
         setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
                 velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
-        setWidth(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
 
         risorse.setTooltip(tooltipRisorse);
         strg1.setId("strategia1");
@@ -465,7 +480,9 @@ public class Main extends Application {
 
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
-        setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
+        setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
+
+        //setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(bi));
