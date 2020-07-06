@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import java.io.*;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,9 @@ public class Main extends Application {
 
     //public? private?
     boolean return_from_simulazione = true;
+
+    //public? private?
+    String filecsv = "filemagnifico.csv";
 
 
     // scena iniziale - Inserimento parametri
@@ -622,7 +626,7 @@ public class Main extends Application {
 
                     public void run() {
                         while (return_from_simulazione && !interrompi) {
-                            System.out.println("Giorno " + simulazione.getGiorno().getValore());
+                            System.out.println("GIORNO " + simulazione.getGiorno().getValore());
                             return_from_simulazione = simulazione.run(1);
 
                             statistiche = simulazione.getDati();
@@ -630,12 +634,17 @@ public class Main extends Application {
                             if (return_from_simulazione){
                                 int giorno_passato = simulazione.getGiorno().getValore() - 1;
                                 //System.out.println("Giorno " + (giorno_passato));
+                                System.out.println("DATI FINE GIORNATA");
                                 System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
                                 System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
                                 System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
                                 System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato - 1));
+                                System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
                                 System.out.println("GuaritiGov: " + statistiche.guaritiGoverno.get(giorno_passato - 1));
+                                System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
                                 System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
+                                System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                                System.out.println("Verdi sani simulazione: " + simulazione.getVerdi_sani());
                                 System.out.println(statistiche.risultato.get(giorno_passato - 1));
                                 System.out.println();
                                 System.out.println();
@@ -644,13 +653,18 @@ public class Main extends Application {
                         }
 
                         int giorno_passato = simulazione.getGiorno().getValore();
-                        System.out.println("Giorno " + (giorno_passato));
+                        System.out.println("DATI FINE GIORNATA");
                         System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
                         System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
                         System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
                         System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
+                        System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
                         System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
+                        System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
                         System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
+                        System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                        System.out.println("Verdi sani simulazione: " + simulazione.getVerdi_sani());
+
                         System.out.println(statistiche.risultato.get(giorno_passato-1));
                         System.out.println();
                         System.out.println();
@@ -662,12 +676,14 @@ public class Main extends Application {
 
                         Platform.runLater(new Runnable() {
                             public void run() {
+                                String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
+                                fraseFinale.setText(risultato);
                                 window.setScene(sceneFinale);
                             }
 
                         });
-                        String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
-                        fraseFinale.setText(risultato);
+                        //String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
+                        //fraseFinale.setText(risultato);
                     }
                 };
 
@@ -733,6 +749,25 @@ public class Main extends Application {
                 addSeries(verdiSimulazione, verdiSimulazioneSeries);
 
                 window.setScene(sceneChart);
+
+                //creazione del fil csv
+                PrintWriter pw = null;
+                File f = new File(filecsv);
+                try {
+                    pw = new PrintWriter(f);  //si mette a scrivere sul file troncandolo o lo crea
+                    pw.println(statistiche.dati);
+                    pw.flush();
+                    for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
+                        pw.println(statistiche.toCSV(i));
+                        pw.flush();
+                    }
+                } catch (FileNotFoundException fe) {
+                    fe.printStackTrace();
+                } catch (SecurityException se) {
+                    se.printStackTrace();
+                } finally {
+                    pw.close();
+                }
             }
         });
 

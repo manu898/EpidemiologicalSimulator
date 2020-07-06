@@ -89,8 +89,9 @@ public class Governo {
         for(Persona persona : persone){
             if(persona.getVir() != null ) {
                 if (persona.getStato() == StatoSalute.GIALLO || persona.getStato() == StatoSalute.ROSSO/*non dovrebbe mai verificarsi*/) {
-                    if (persona.getStato() == StatoSalute.ROSSO)
+                    if (persona.getStato() == StatoSalute.ROSSO) {
                         throw new IllegalArgumentException("tampone a un rosso!");  //CANCELLA
+                    }
                     nuovi_asintomatici.add(persona);
                     persona.setGiornoComunicaGuarigione(database.getGiorno().getValore() + (int) Math.ceil(((5 * Virus.getD()) / 6.0))); //altrimenti potrei 'perdermi' qualche giorno
                 }
@@ -101,8 +102,10 @@ public class Governo {
     //ferma le persone passate come argomento
     public void fermaPersone(ArrayList<Persona> persone){
         for(Persona persona : persone){
-            persona.setMovimento(false);
-            nuove_personeFerme.add(persona);
+            if (persona.getMovimento() == true) {
+                persona.setMovimento(false);
+                nuove_personeFerme.add(persona);
+            }
         }
     }
 
@@ -135,8 +138,14 @@ public class Governo {
         database.add_morti(nuovi_morti);
 
         System.out.println("Nuovi_sintomatici: " + nuovi_sintomatici.size());  //CANCELLA
+        System.out.println("nuovi_sintomatici: " + nuovi_sintomatici);
         System.out.println("Nuovi_guariti: " + nuovi_guariti.size());  //CANCELLA
+        System.out.println("nuovi_guariti: " + nuovi_guariti);
+
         System.out.println("Nuovi_morti: " + nuovi_morti.size());  //CANCELLA
+        System.out.println("nuovi_morti: " + nuovi_morti);
+        //FAI STA COSA ANCHE CON GLI ASINTOMATICI
+
 
         if(primoSintomatico){   //se c'è stato un primo sintomatico
             //devo fare a prescindere setPositivi(nuovi sintomatici) qua poiché altrimenti
@@ -151,13 +160,19 @@ public class Governo {
             // invoca la strategia scelta
             strategia.applica(database);   //la strategia calcola le persone su cui fare i tamponi e eventualmente alcune da fermare (v. strategia2)
             faiTampone(strategia.getNuovi_tamponi());   //vengono effettuati i tamponi sulle persone individuate dalla strategia
+            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+            System.out.println("Tamponi effettuati su: " + strategia.getNuovi_tamponi());  //CANCELLA
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
             risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());  //si sottraggono le spese effettuate per i tamponi del giorno
-            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+
             database.add_asintomatici(nuovi_asintomatici);
             System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
+            System.out.println("nuovi_asintomatici: " + nuovi_asintomatici);
+
             fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: morte, sintomatiche, positive al tampone, altre selezionate dalla strategia
-            System.out.println("Persone fermate: " + strategia.getNuovi_daFermare().size());
+            System.out.println("Persone da fermare : " + strategia.getNuovi_daFermare().size());
+            System.out.println("Persone fermate " + getNuove_personeFerme().size());
+            System.out.println("Persone fermate: " + getNuove_personeFerme());
             database.addPersoneFerme(nuove_personeFerme);
         }
 
@@ -167,7 +182,7 @@ public class Governo {
         }
         System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
         strategia.pulisci();
-        pulisci();
+        //pulisci();
     }
 
     public void pulisci() {
