@@ -40,15 +40,15 @@ public class Main extends Application {
     boolean return_from_simulazione = true;
 
     //public? private?
-    String filecsv = "filemagnifico.csv";
+    String filecsv = "statistiche.csv";
 
 
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
     private TextField arenaH = new TextField();
+   private Label arenaLLabel = new Label("ArenaL");
 
-    private Label arenaLLabel = new Label("ArenaL");
     private TextField arenaL = new TextField();
 
     private Label spostamentoLabel = new Label("Spostamento max");
@@ -681,6 +681,24 @@ public class Main extends Application {
                         // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
                         //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
 
+                        //creazione del fil csv
+                        PrintWriter pw = null;
+                        File f = new File(filecsv);
+                        try {
+                            pw = new PrintWriter(f);  //si mette a scrivere sul file troncandolo o lo crea
+                            pw.println(statistiche.dati);
+                            pw.flush();
+                            for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
+                                pw.println(statistiche.toCSV(i));
+                                pw.flush();
+                            }
+                        } catch (FileNotFoundException fe) {
+                            fe.printStackTrace();
+                        } catch (SecurityException se) {
+                            se.printStackTrace();
+                        } finally {
+                            pw.close();
+                        }
 
 
                         Platform.runLater(new Runnable() {
@@ -758,25 +776,6 @@ public class Main extends Application {
                 addSeries(verdiSimulazione, verdiSimulazioneSeries);
 
                 window.setScene(sceneChart);
-
-                //creazione del fil csv
-                PrintWriter pw = null;
-                File f = new File(filecsv);
-                try {
-                    pw = new PrintWriter(f);  //si mette a scrivere sul file troncandolo o lo crea
-                    pw.println(statistiche.dati);
-                    pw.flush();
-                    for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
-                        pw.println(statistiche.toCSV(i));
-                        pw.flush();
-                    }
-                } catch (FileNotFoundException fe) {
-                    fe.printStackTrace();
-                } catch (SecurityException se) {
-                    se.printStackTrace();
-                } finally {
-                    pw.close();
-                }
             }
         });
 
