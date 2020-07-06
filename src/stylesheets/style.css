@@ -40,6 +40,10 @@
     -fx-background-color: coral;
 }
 
+#file{
+    -fx-max-width: 150;
+}
+
 .default-color0.chart-series-line { -fx-stroke: black; }
 .default-color1.chart-series-line { -fx-stroke: yellow; }
 .default-color2.chart-series-line { -fx-stroke: red; }

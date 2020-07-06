@@ -99,6 +99,9 @@ public class Main extends Application {
     private TextField letalita = new TextField();
     private HBox letalitaBox = new HBox(letalitaLabel,letalita);
 
+    private Label filecsvLabel = new Label("Nome file CSV");
+    private TextField filecsvTf = new TextField("statistiche.csv");
+    private HBox fileBox = new HBox(filecsvLabel,filecsvTf);
 
     ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
@@ -161,6 +164,10 @@ public class Main extends Application {
 
     public TextField getVelocita() {
         return velocita;
+    }
+
+    public TextField getFilecsvTf() {
+        return filecsvTf;
     }
 
     public RadioButton getSelectedRadioButton() {
@@ -336,6 +343,7 @@ public class Main extends Application {
             int infettivita_value = Integer.parseInt(getInfettivita().getText());
             int sintomaticita_value = Integer.parseInt(getSintomaticita().getText());
             int letalita_value = Integer.parseInt(getLetalita().getText());
+            filecsv = getFilecsvTf().getText();
 
             selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
 
@@ -462,11 +470,12 @@ public class Main extends Application {
         fraseMid.getStyleClass().add("frase");
         fraseMid2.getStyleClass().add("frase");
         fraseFinale.getStyleClass().add("frase");
-        setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita);
+        filecsvTf.setId("file");
+        setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,filecsvTf);
 
 
         setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
-                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,strg1,strg2,strg3,strg4);
+                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,filecsvLabel,strg1,strg2,strg3,strg4);
 
         risorse.setTooltip(tooltipRisorse);
         strg1.setId("strategia1");
@@ -484,7 +493,7 @@ public class Main extends Application {
 
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
-        setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
+        setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,fileBox,strategieBox);
 
         //setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
@@ -495,7 +504,7 @@ public class Main extends Application {
         // scena iniziale
 
 
-        vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox,btnInvia);
+        vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,fileBox,strategieBox,btnInvia);
 
 
         // scene intermedia1 e intermedia2 - Interrompi
