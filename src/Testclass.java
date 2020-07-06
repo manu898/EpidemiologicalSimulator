@@ -6,64 +6,21 @@ import java.util.ArrayList;
 
 public class Testclass {
     public static void main(String[] args){
-        Virus.setD(30);
-        Virus.setI(50);
-        Virus.setS(30);
-        Virus.setL(30);
-
-        Giorno giorno = new Giorno(1);
-
-        Governo gov = new Governo();
-
-        Arena arena = new Arena(1,1,1);
-
-        Persona p0 = new Persona(0, gov, giorno);
-
-        Persona p1 = new Persona(1, gov, giorno);
-        p1.setStato(StatoSalute.GIALLO);
-        p1.setVir(new Virus(giorno));
-        Persona p2 = new Persona(2, gov, giorno);
-        p2.setStato(StatoSalute.ROSSO);
-        p2.setVir(new Virus(giorno));
-        p2.setMovimento(false);
-        Persona p3 = new Persona(3, gov, giorno);
-        p3.setStato(StatoSalute.BLU);
-        p3.setVir(new Virus(giorno));
-        Persona p4 = new Persona(4, gov, giorno);
-        p4.setStato(StatoSalute.NERO);
-        p4.setVir(new Virus(giorno));
-        p4.setMovimento(false);
-
-        arena.getMatrice()[0][0].add(p0);
-        arena.getMatrice()[0][0].add(p1);
-        arena.getMatrice()[0][0].add(p2);
-        arena.getMatrice()[0][0].add(p3);
-        arena.getMatrice()[0][0].add(p4);
-
-        arena.check_incontri();
 
 
-
-
-
-
-
-
-
-        /*
         ParametriSimulazione par = new ParametriSimulazione();
-        par.setArenaH(100);
-        par.setArenaL(100);
+        par.setArenaH(1);
+        par.setArenaL(1);
         par.setSpostamentoMax(1);
         par.setDurata(36);
-        par.setInfettivita(50);
-        par.setSintomaticita(50);
-        par.setLetalita(30);
-        par.setPopolazione(1000);
+        par.setInfettivita(100);
+        par.setSintomaticita(100);
+        par.setLetalita(1);
+        par.setPopolazione(6);
         par.setCosto_tampone(3);
         par.setVelocita(0.1);
-        par.setRisorse(29999);
-        par.setStrategia(new Strategia4());
+        par.setRisorse(179);
+        par.setStrategia(new Strategia2());
         //Strategia3 str = new Strategia3();
         //Strategia4 str = new Strategia4();
         //par.setStrategia(str);
@@ -72,6 +29,7 @@ public class Testclass {
         Virus.r.setSeed(0);
         Arena.r.setSeed(0);
         Simulazione sim = new Simulazione(par);
+
 
 
         boolean ret = true;
@@ -115,6 +73,44 @@ public class Testclass {
         System.out.println(statistiche.risultato.get(giorno_passato - 1));
         System.out.println();
         System.out.println();
+
+
+                /*
+        Virus.setD(30);
+        Virus.setI(50);
+        Virus.setS(30);
+        Virus.setL(30);
+
+        Giorno giorno = new Giorno(1);
+
+        Governo gov = new Governo();
+
+        Arena arena = new Arena(1,1,1);
+
+        Persona p0 = new Persona(0, gov, giorno);
+
+        Persona p1 = new Persona(1, gov, giorno);
+        p1.setStato(StatoSalute.GIALLO);
+        p1.setVir(new Virus(giorno));
+        Persona p2 = new Persona(2, gov, giorno);
+        p2.setStato(StatoSalute.ROSSO);
+        p2.setVir(new Virus(giorno));
+        p2.setMovimento(false);
+        Persona p3 = new Persona(3, gov, giorno);
+        p3.setStato(StatoSalute.BLU);
+        p3.setVir(new Virus(giorno));
+        Persona p4 = new Persona(4, gov, giorno);
+        p4.setStato(StatoSalute.NERO);
+        p4.setVir(new Virus(giorno));
+        p4.setMovimento(false);
+
+        arena.getMatrice()[0][0].add(p0);
+        arena.getMatrice()[0][0].add(p1);
+        arena.getMatrice()[0][0].add(p2);
+        arena.getMatrice()[0][0].add(p3);
+        arena.getMatrice()[0][0].add(p4);
+
+        arena.check_incontri();
         */
 
     }

@@ -64,8 +64,10 @@ public class Arena {
 
 				int y = persona.getPosizione().getY();
 				int x = persona.getPosizione().getX();
+				//System.out.println("Persona " + persona.getID() + " e' in " + persona.getPosizione().getY() + "," + persona.getPosizione().getX());
 
 				matrice[y][x].remove(persona);
+				//System.out.println("rimuovo la persona dalla cella");
 
 				//calcoliamo la nuova y
 				if(y >= spostamentoMax){
@@ -105,6 +107,7 @@ public class Arena {
 					newX = r.nextInt(high - low + 1) + low + x;
 				}
 				matrice[newY][newX].add(persona);
+				//System.out.println("Aggiungo la persona " + persona.getID() + "alla cella " + newY + "," + newX);
 				persona.setPosizione(newY,newX);
 
 			}
@@ -115,18 +118,27 @@ public class Arena {
 	//verifica gli incontri che ci sono in ogni cella dell'arena
 	public int check_incontri(){  //TEST OK
 		int n_incontrate = 0;
+		//System.out.println("Incontrate in arena all'inizio: " + n_incontrate);
+
 		boolean res;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
 				Cella c = matrice[i][j];
 				if (c.size() > 1) {
+					//System.out.println(c.size());
+					//System.out.println("SONO NELLA CELLA " + i + "," + j);
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
+							//System.out.println("SONO NELLA CELLA " + i + "," + j);
 							Persona p1 = c.pos_get(k);
 							Persona p2 = c.pos_get(z);
+							//System.out.println("Incontro sta per esserci tra: " + p1.getID() + " e " + p2.getID());
+
 							if (p1.getMovimento() == true || p2.getMovimento() == true) {
 								res = incontra(p1, p2); // prendo le due persone scelte dalla fila e le faccio incontrare
 								if (res) {
+									//System.out.println("n_incontrate durante gli incontri: " + n_incontrate);
+									//System.out.println("Incontro tra: " + p1.getID() + " e " + p2.getID());
 									n_incontrate = n_incontrate + 2;
 								}
 							}
@@ -135,6 +147,7 @@ public class Arena {
 				}
 			}
 		}
+		System.out.println("Incontrate in arena: " + n_incontrate);
 		return n_incontrate;
 	}
 
