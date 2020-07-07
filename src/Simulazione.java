@@ -5,7 +5,7 @@ public class Simulazione {
     private Giorno giorno;  //TEST
 
     //la velocita delle persone (numero medio di incontri in un giorno)
-    private double velocita;
+    private double velocita_limite;
 
     //la lista di tutte le persone
     private ArrayList<Persona> persone;
@@ -19,7 +19,7 @@ public class Simulazione {
     //il fattore di contagiosita' R0
     private double R0;
 
-    //la percentuale di persone da incontrare rispettando il valore velocita, calcolata sulle persone in movimento
+    //la percentuale di persone da incontrare rispettando il valore velocita_limite, calcolata sulle persone in movimento
     private double perc_mov;
 
     //potrebbero essere solo variabili locali nel metodo run
@@ -66,9 +66,9 @@ public class Simulazione {
 
         arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
         arena.distribuisciPersone(persone);
-        velocita = par.getVelocita();
-        R0 = velocita * Virus.getD() * Virus.getI();
-        perc_mov = velocita * 100 / getPopolazione();
+        velocita_limite = par.getVelocita();
+        //R0 = velocita_limite * Virus.getD() * Virus.getI();
+        perc_mov = velocita_limite * 100 / getPopolazione();
 
     }
 
@@ -120,22 +120,25 @@ public class Simulazione {
             }
             System.out.println("Persone in movimento: " + in_movimento);  //CANCELLA
             System.out.println("Persone ferme: " + (getPopolazione() - in_movimento));
-            setVelocita(in_movimento * perc_mov / 100);
-            R0 = velocita * Virus.getD() * Virus.getI();
+            setVelocita_limite(in_movimento * perc_mov / 100);
+            //R0 = velocita_limite * Virus.getD() * Virus.getI();
             int n_incontrate = 0;
             //System.out.println("n_incontrate pre while " + n_incontrate);  //CANCELLA
-            while (n_incontrate / (double) in_movimento < velocita) {
+            //while (n_incontrate / (double) in_movimento < velocita_limite) {
+            //nota: il valore n_incontrate / getPopolazione() denota la velocita effettiva delle persone
+            while (n_incontrate / (double) getPopolazione() < velocita_limite) {
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
                 /*
                 System.out.println("n_incontrate: " + (n_incontrate)); //CANCELLA
-                System.out.println("Velocita effettiva: " + n_incontrate / (double )in_movimento);  //CANCELLA
-                System.out.println("Vd: " + velocita);  //CANCELLA
+                System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //CANCELLA
+                System.out.println("Vd_limite: " + velocita_limite);  //CANCELLA
                 */
             }
+            R0 = (n_incontrate / (double) getPopolazione()) * Virus.getD() * Virus.getI();
             System.out.println("n_incontrate: " + n_incontrate); //CANCELLA
-            System.out.println("Velocita effettiva: " + n_incontrate / (double )in_movimento);  //CANCELLA
-            System.out.println("Vd: " + velocita);  //CANCELLA
+            System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //CANCELLA
+            System.out.println("V_limite: " + velocita_limite);  //CANCELLA
             for (Persona p: persone) {
                 p.checkVirus();
                 check_stato(p);
@@ -199,8 +202,8 @@ public class Simulazione {
     //getter
     public Giorno getGiorno() { return giorno; }
 
-    public double getVelocita() {
-        return velocita;
+    public double getVelocita_limite() {
+        return velocita_limite;
     }
 
     public ArrayList<Persona> getPersone() { return persone; }
@@ -228,9 +231,9 @@ public class Simulazione {
     //setter
     public void setGiorno(Giorno giorno) { this.giorno = giorno; }
 
-    public void setVelocita(double velocita) {
-        if (velocita < 0) throw new IllegalArgumentException("La velocita' non puo' essere negativa");
-        this.velocita = velocita;
+    public void setVelocita_limite(double velocita_limite) {
+        if (velocita_limite < 0) throw new IllegalArgumentException("La velocita' non puo' essere negativa");
+        this.velocita_limite = velocita_limite;
     }
 
     public void setPersone(ArrayList<Persona> persone) { this.persone = persone; }

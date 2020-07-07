@@ -45,13 +45,19 @@ public class Persona {
     }
 
     //comunica al governo che si sono sviluppati i sintomi
-    public void comunicaSintomaticita() { gov.add_sintomatico(this); }
+    public void comunicaSintomaticita() { gov.add_sintomatico(this);
+        System.out.println("Sono " + getID() + " e comunico la sintomaticita'");
+    }
 
     //comunica al governo che si e' guariti
-    public void comunicaGuarigione() { gov.add_guarito(this); }
+    public void comunicaGuarigione() { gov.add_guarito(this);
+        System.out.println("Sono " + getID() + " e comunico la guarigione");
+    }
 
     //comunica al governo la propria morte
-    public void comunicaMorte() { gov.add_morto(this); }
+    public void comunicaMorte() { gov.add_morto(this);
+        System.out.println("Sono " + getID() + " e comunico la morte");
+    }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
     public void contatto(Virus v) {
@@ -70,6 +76,7 @@ public class Persona {
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
+                        System.out.println("Sono " + getID() + " e divento gialla");
                         vir.calcola_giornoDadoS();
                     }
                     else
@@ -79,6 +86,8 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
+                            System.out.println("Sono " + getID() + " e divento rossa");
+
                             vir.calcola_giornoDadoM();
                             comunicaSintomaticita();
                         }
@@ -94,6 +103,8 @@ public class Persona {
                         if (vir.dadoM()) {
                             //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
+                            System.out.println("Sono " + getID() + " e divento nera");
+
                             comunicaMorte();
                             //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova) (vedi Governo e DBGoverno)
                         }
@@ -110,6 +121,8 @@ public class Persona {
                     stato = StatoSalute.BLU;
                     comunicaGuarigione();
                 }
+                System.out.println("Sono " + getID() + " e divento blu");
+
                 stato = StatoSalute.BLU;
             }
             if (giornoComunicaGuarigione == giorno.getValore()) {
