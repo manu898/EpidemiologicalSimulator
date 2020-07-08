@@ -147,7 +147,7 @@ public class Arena {
 				}
 			}
 		}
-		System.out.println("Incontrate in arena: " + n_incontrate);
+		//System.out.println("Incontrate in arena: " + n_incontrate);
 		return n_incontrate;
 	}
 

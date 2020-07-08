@@ -13,20 +13,20 @@ public class Testclass {
         par.setArenaL(1);
         par.setSpostamentoMax(1);
         par.setDurata(36);
-        par.setInfettivita(30);
-        par.setSintomaticita(50);
-        par.setLetalita(1);
+        par.setInfettivita(50);
+        par.setSintomaticita(70);
+        par.setLetalita(50);
         par.setPopolazione(6);
         par.setCosto_tampone(3);
         par.setVelocita(0.1);
         par.setRisorse(17900);
-        par.setStrategia(new Strategia3());
+        par.setStrategia(new Strategia4());
         //Strategia3 str = new Strategia3();
         //Strategia4 str = new Strategia4();
         //par.setStrategia(str);
         DatiStatistici statistiche;
 
-        Virus.r.setSeed(50);
+        Virus.r.setSeed(800);
         Arena.r.setSeed(0);
         Simulazione sim = new Simulazione(par);
 

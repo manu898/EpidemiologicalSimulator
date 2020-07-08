@@ -120,7 +120,7 @@ public class Governo {
 
         int numeroSintomatici = database.getSintomatici().size();
         int numeroFermi = database.getPersoneFerme().size();
-        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
+        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi) + database.getMorti().size());  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
         for(Persona persona : nuovi_sintomatici){
             database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
         }
