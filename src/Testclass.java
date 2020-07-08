@@ -20,13 +20,13 @@ public class Testclass {
         par.setCosto_tampone(3);
         par.setVelocita(0.1);
         par.setRisorse(17900);
-        par.setStrategia(new Strategia4());
+        par.setStrategia(new Strategia1());
         //Strategia3 str = new Strategia3();
         //Strategia4 str = new Strategia4();
         //par.setStrategia(str);
         DatiStatistici statistiche;
 
-        Virus.r.setSeed(800);
+        //Virus.r.setSeed(800);
         Arena.r.setSeed(0);
         Simulazione sim = new Simulazione(par);
 

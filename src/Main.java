@@ -37,22 +37,25 @@ public class Main extends Application {
     private DatiStatistici statistiche = new DatiStatistici();
 
     //public? private?
-    boolean return_from_simulazione = true;
+    private boolean return_from_simulazione = true;
 
     //public? private?
-    String filecsv = "statistiche.csv";
+    private String filecsv = "statistiche.csv";
+
+    //public? private?
+    private File file_dest = null;
 
 
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
-    private TextField arenaH = new TextField();
-   private Label arenaLLabel = new Label("ArenaL");
+    private TextField arenaH = new TextField("300");  //TODO togli campo
 
-    private TextField arenaL = new TextField();
+    private Label arenaLLabel = new Label("ArenaL");
+    private TextField arenaL = new TextField("300");  //TODO togli campo
 
     private Label spostamentoLabel = new Label("Spostamento max");
-    private TextField spostamento = new TextField();
+    private TextField spostamento = new TextField("10");  //TODO togli campo
 
     private HBox arenaBox = new HBox(arenaHLabel,arenaH,arenaLLabel,arenaL,spostamentoLabel,spostamento);
 
@@ -60,43 +63,43 @@ public class Main extends Application {
 
 
     private Label popolazioneLabel = new Label("Popolazione");
-    private TextField popolazione = new TextField();
+    private TextField popolazione = new TextField("4000");  //TODO togli campo
     private HBox popolazioneBox = new HBox(popolazioneLabel,popolazione);
 
 
     private Label velocitaLabel = new Label("Velocita");
-    private TextField velocita = new TextField();
+    private TextField velocita = new TextField("0.4");  //TODO togli campo
     private HBox velocitaBox = new HBox(velocitaLabel,velocita);
 
 
     private Label durataLabel = new Label("Durata");
-    private TextField durata = new TextField();
+    private TextField durata = new TextField("15");  //TODO togli campo
     private HBox durataBox = new HBox(durataLabel,durata);
 
 
     private Label tamponeLabel = new Label("Tampone");
-    private TextField tampone = new TextField();
+    private TextField tampone = new TextField("4");  //TODO togli campo
     private HBox tamponeBox = new HBox(tamponeLabel,tampone);
 
 
     private Label risorseLabel = new Label("Risorse");
-    private TextField risorse = new TextField();
+    private TextField risorse = new TextField("59999");  //TODO togli campo
     private HBox risorseBox = new HBox(risorseLabel,risorse);
     private final Tooltip tooltipRisorse = new Tooltip("R < 10 * costoTampone * popolazione , R < popolazione * durataMalattia");
 
 
     private Label infettivitaLabel = new Label("Infettività");
-    private TextField infettivita = new TextField();
+    private TextField infettivita = new TextField("30");  //TODO togli campo
     private HBox infettivitaBox = new HBox(infettivitaLabel,infettivita);
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
-    private TextField sintomaticita = new TextField();
+    private TextField sintomaticita = new TextField("30");  //TODO togli campo
     private HBox sintomaticitaBox = new HBox(sintomaticitaLabel,sintomaticita);
 
 
     private Label letalitaLabel = new Label("Letalità");
-    private TextField letalita = new TextField();
+    private TextField letalita = new TextField("30");  //TODO togli campo
     private HBox letalitaBox = new HBox(letalitaLabel,letalita);
 
     private Label filecsvLabel = new Label("Nome file CSV");
@@ -174,6 +177,10 @@ public class Main extends Application {
         return selectedRadioButton;
     }
 
+    public static Strategia getStrategia() {
+        return strategia;
+    }
+
 
     // setter
 
@@ -195,11 +202,6 @@ public class Main extends Application {
         }
 
     }
-
-    public static Strategia getStrategia() {
-        return strategia;
-    }
-
 
 
     // scena intermedia - interrompi
@@ -344,6 +346,7 @@ public class Main extends Application {
             int sintomaticita_value = Integer.parseInt(getSintomaticita().getText());
             int letalita_value = Integer.parseInt(getLetalita().getText());
             filecsv = getFilecsvTf().getText();
+            file_dest = new File(filecsv);
 
             selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
 
@@ -358,25 +361,12 @@ public class Main extends Application {
             if(spostamento_value <= 0){
                 alert.setContentText("Lo spostamento massimo deve essere maggiore di 0");
                 alert.show();
+                return false;
             }
 
             //  vincoli sulla popolazione
             if(popolazione_value <= 0){
                 alert.setContentText("Almeno un abitante deve esistere ");
-                alert.show();
-                return false;
-            }
-
-            // vincoli sulle risorse
-            if(risorse_value < 0 || risorse_value >= 10 * tampone_value * popolazione_value || risorse_value >= popolazione_value * durata_value){
-                alert.setContentText("Le risorse non rispettano i vincoli, cambia il numero di risorse");
-                alert.show();
-                return false;
-            }
-
-            // vincoli sulla velocità
-            if(velocita_value <= 0){
-                alert.setContentText("La velocità deve essere maggiore di 0");
                 alert.show();
                 return false;
             }
@@ -388,32 +378,56 @@ public class Main extends Application {
                 return false;
             }
 
+            //vincoli sulla durata del virus
             if(durata_value <= 0){
                 alert.setContentText("Il virus deve durare almeno 1 giorno");
                 alert.show();
                 return false;
             }
 
+            // vincoli sulle risorse
+            if(risorse_value < 0 || risorse_value >= 10 * tampone_value * popolazione_value || risorse_value >= popolazione_value * durata_value){
+                alert.setContentText("Le risorse non rispettano i vincoli");
+                alert.show();
+                return false;
+            }
+
+            // vincoli sulla velocità
+            if(velocita_value <= 0){
+                alert.setContentText("La velocità deve essere maggiore di 0");
+                alert.show();
+                return false;
+            }
+
+            //vincoli sull'infettivita'
             if(infettivita_value <= 0 || infettivita_value > 100){
-                alert.setContentText("L'infettività non va bene");
+                alert.setContentText("L'infettività deve essere compresa tra 1 e 100");
                 alert.show();
                 return false;
             }
 
+            //vincoli sulla sintomaticita'
             if(sintomaticita_value <= 0 || sintomaticita_value > 100 ){
-                alert.setContentText("La sintomaticità non va bene");
+                alert.setContentText("La sintomaticità deve essere compresa tra 1 e 100");
                 alert.show();
                 return false;
             }
 
+            //vincoli sulla letalita'
             if(letalita_value <= 0 || letalita_value > 100){
-                alert.setContentText("La letalità non va bene");
+                alert.setContentText("La letalità deve essere compresa tra 1 e 100");
                 alert.show();
                 return false;
             }
 
-        }catch (NumberFormatException e){
+            file_dest.createNewFile();
+
+        } catch (NumberFormatException e){
             alert.setContentText("Devi inserire valori numerici !!!");
+            alert.show();
+            return false;
+        } catch (IOException ioe){
+            alert.setContentText("Nome del file non valido!");
             alert.show();
             return false;
         }
@@ -421,6 +435,7 @@ public class Main extends Application {
         if(selectedRadioButton == null){
             alert.setContentText("Devi selezionare una strategia");
             alert.show();
+            return false;
         }
 
         ps.setArenaH(Integer.parseInt(getArenaH().getText()));
@@ -681,11 +696,10 @@ public class Main extends Application {
                         // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
                         //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
 
-                        //creazione del fil csv
+                        //scrittura del fil csv
                         PrintWriter pw = null;
-                        File f = new File(filecsv);
                         try {
-                            pw = new PrintWriter(f);  //si mette a scrivere sul file troncandolo o lo crea
+                            pw = new PrintWriter(file_dest);  //si mette a scrivere sul file troncandolo o lo crea
                             pw.println(statistiche.dati);
                             pw.flush();
                             for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
