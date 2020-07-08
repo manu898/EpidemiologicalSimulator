@@ -69,13 +69,15 @@ public class Persona {
     }
 
     //controlla lo stato del virus e dunque se lo stato della persona deve cambiare
-    public void checkVirus() {
+    public boolean checkVirus() {
+        boolean ret = false;  //true se lo stato della persona e' cambiato
         if (mustcheckvirus) {
             switch (stato) {
                 case VERDE:
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
+                        ret = true;  //TEST
                         System.out.println("Sono " + getID() + " e divento gialla");
                         vir.calcola_giornoDadoS();
                     }
@@ -86,6 +88,7 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
+                            ret = true;  //TEST
                             System.out.println("Sono " + getID() + " e divento rossa");
 
                             vir.calcola_giornoDadoM();
@@ -103,6 +106,7 @@ public class Persona {
                         if (vir.dadoM()) {
                             //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
+                            ret = true;
                             System.out.println("Sono " + getID() + " e divento nera");
 
                             comunicaMorte();
@@ -124,12 +128,13 @@ public class Persona {
                 System.out.println("Sono " + getID() + " e divento blu");
 
                 stato = StatoSalute.BLU;
+                ret = true;
             }
             if (giornoComunicaGuarigione == giorno.getValore()) {
                 comunicaGuarigione();
             }
         }
-
+        return ret; //TEST
     }
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)

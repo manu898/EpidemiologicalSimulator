@@ -42,6 +42,12 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
+    //i nuovi asintomatici nella giornata, servono per le statistiche
+    private int nuovi_gialli;  //TEST
+
+    //i nuovi guariti nella giornata, servono per le statistiche
+    private int nuovi_blu;  //TEST
+
     //variabile contenente un oggetto con le statistiche della simulazione
     private DatiStatistici statistiche;
 
@@ -94,6 +100,13 @@ public class Simulazione {
         //AGGIUNTA NUOVA
         statistiche.verdiGoverno.add(verdiGov);
         statistiche.verdiSimulazione.add(verdi);
+        //DATI GIORNALIERI
+        statistiche.nuovi_morti.add(governo.getNuovi_morti().size());
+        statistiche.nuovi_sintomatici.add(governo.getNuovi_sintomatici().size());
+        statistiche.nuovi_guaritiGoverno.add(governo.getNuovi_guariti().size());
+        statistiche.nuovi_asintomaticiGoverno.add(governo.getNuovi_guariti().size());
+        statistiche.nuovi_guaritiSimulazione.add(nuovi_blu);
+        statistiche.nuovi_asintomaticiSimulazione.add(nuovi_gialli);
 
 
         String risultato = "Tutto bene";
@@ -113,6 +126,8 @@ public class Simulazione {
             rossi = 0;
             neri = 0;
             blu = 0;
+            nuovi_gialli = 0;  //TEST
+            nuovi_blu = 0;  //TEST
             int in_movimento = 0;
             for (Persona p : persone) {
                 if (p.getMovimento())
@@ -140,12 +155,13 @@ public class Simulazione {
             System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //CANCELLA
             System.out.println("V_limite: " + velocita_limite);  //CANCELLA
             for (Persona p: persone) {
-                p.checkVirus();
-                check_stato(p);
+                boolean ret = p.checkVirus();
+                check_stato(p, ret);  //TEST
             }
             governo.aggiornamento();
-            governo.pulisci(); //l'ideale e' fare questa cosa dopo aggiornaDati() cos' da inserire i dati solo del giorno tra le statistiche
             aggiornaDati();
+            governo.pulisci(); //l'ideale e' fare questa cosa dopo aggiornaDati() cos' da inserire i dati solo del giorno tra le statistiche
+            //aggiornaDati();
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )
                 return false;
             giorno.incrementa(1);
@@ -164,7 +180,7 @@ public class Simulazione {
     }
 
     //controlla lo StatoSalute di una persona e aumenta il contatore relativo
-    private void check_stato(Persona p) {
+    private void check_stato(Persona p, boolean ret) {  //TEST
         switch (p.getStato()) {
             case VERDE:
                 if (p.getVir() == null)
@@ -173,6 +189,9 @@ public class Simulazione {
                 break;
             case GIALLO:  //assume che le persone abbiano il virus
                 gialli++;
+                if (ret) {
+                    nuovi_gialli++;
+                }
                 break;
             case ROSSO:   //assume che le persone abbiano il virus
                 rossi++;
@@ -182,6 +201,9 @@ public class Simulazione {
                 break;
             case BLU:     //assume che le persone abbiano avuto il virus
                 blu++;
+                if (ret) {
+                    nuovi_blu++;
+                }
                 break;
         }
     }
