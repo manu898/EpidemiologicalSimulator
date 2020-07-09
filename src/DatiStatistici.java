@@ -16,13 +16,14 @@ public class DatiStatistici {  // TEST
     public ArrayList<Integer> guaritiSimulazione;
     public ArrayList<Integer> asintomaticiSimulazione;
     public ArrayList<Integer> verdiSimulazione;
-    public ArrayList<Integer> nuovi_guaritiSimulazione;  //??
-    public ArrayList<Integer> nuovi_asintomaticiSimulazione;  //??
+    public ArrayList<Integer> nuovi_guaritiSimulazione;
+    public ArrayList<Integer> nuovi_asintomaticiSimulazione;
+    public ArrayList<Integer> tamponi;
 
     public ArrayList<Integer> risorseRimaste;
     public ArrayList<String> risultato;
 
-    public String dati = "Giorno, risorseRimaste, nonMalatiGov, asintomaticiGov, guaritiGov, nonMalatiSim, asintomaticiSim, guaritiSim, nuovi_asintGov, nuovi_guaritiGov, nuovi_asintSim, nuovi_guaritiSim, sintomatici, morti, nuovi_sint, nuovi_morti";
+    public String dati = "Giorno, risorseRimaste, nonMalatiGov, asintomaticiGov, guaritiGov, nonMalatiSim, asintomaticiSim, guaritiSim, nuovi_asintGov, nuovi_guaritiGov, nuovi_asintSim, nuovi_guaritiSim, sintomatici, morti, nuovi_sint, nuovi_morti, tamponi";
 
     public DatiStatistici(){
         this.risorseRimaste = new ArrayList<>();
@@ -41,6 +42,7 @@ public class DatiStatistici {  // TEST
         this.nuovi_asintomaticiGoverno = new ArrayList<>();
         this.nuovi_guaritiSimulazione = new ArrayList<>();
         this.nuovi_asintomaticiSimulazione = new ArrayList<>();
+        this.tamponi = new ArrayList<>();
     }
 
     public String toCSV(int i) {
@@ -78,6 +80,8 @@ public class DatiStatistici {  // TEST
         stringa += Integer.toString(nuovi_sintomatici.get(i-1));
         stringa += ", ";
         stringa += Integer.toString(nuovi_morti.get(i-1));
+        stringa += ", ";
+        stringa += Integer.toString(tamponi.get(i-1));
 
         return stringa;
     }

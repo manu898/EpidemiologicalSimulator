@@ -657,18 +657,24 @@ public class Main extends Application {
 
                             if (return_from_simulazione){
                                 int giorno_passato = simulazione.getGiorno().getValore() - 1;
-                                //System.out.println("Giorno " + (giorno_passato));
                                 System.out.println("DATI FINE GIORNATA");
-                                System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato - 1));
-                                System.out.println("Morti: " + statistiche.morti.get(giorno_passato - 1));
-                                System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato - 1));
-                                System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato - 1));
-                                System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
-                                System.out.println("GuaritiGov: " + statistiche.guaritiGoverno.get(giorno_passato - 1));
-                                System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
-                                System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
-                                System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                                System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
+                                System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
+                                System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
+                                System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
                                 System.out.println("Verdi sani simulazione: " + simulazione.getVerdi_sani());
+                                System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                                System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
+                                System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
+                                System.out.println("Nuovi_asintGov: " + statistiche.nuovi_asintomaticiGoverno.get(giorno_passato - 1));
+                                System.out.println("Nuovi_guaritiGov: " + statistiche.nuovi_guaritiGoverno.get(giorno_passato - 1));
+                                System.out.println("Nuovi_asintSim: " + statistiche.nuovi_asintomaticiSimulazione.get(giorno_passato - 1));
+                                System.out.println("Nuovi_guaritiSim: " + statistiche.nuovi_guaritiSimulazione.get(giorno_passato - 1));
+                                System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
+                                System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
+                                System.out.println("Nuovi_sintomatici: " + statistiche.nuovi_sintomatici.get(giorno_passato - 1));
+                                System.out.println("Nuovi_morti: " + statistiche.nuovi_morti.get(giorno_passato - 1));
+                                System.out.println("Tamponi effettuati: " + statistiche.tamponi.get(giorno_passato-1));
                                 System.out.println(statistiche.risultato.get(giorno_passato - 1));
                                 System.out.println();
                                 System.out.println();
@@ -679,22 +685,25 @@ public class Main extends Application {
                         int giorno_passato = simulazione.getGiorno().getValore();
                         System.out.println("DATI FINE GIORNATA");
                         System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
-                        System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
-                        System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
-                        System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
-                        System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
-                        System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
-                        System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
                         System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
-                        System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                        System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(giorno_passato-1));
+                        System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(giorno_passato-1));
                         System.out.println("Verdi sani simulazione: " + simulazione.getVerdi_sani());
-
+                        System.out.println("Verdi simulazione: " + simulazione.getVerdi());
+                        System.out.println("Asintomatici simulazione: " + statistiche.asintomaticiSimulazione.get(giorno_passato - 1));
+                        System.out.println("Guariti simulazione: " + statistiche.guaritiSimulazione.get(giorno_passato - 1));
+                        System.out.println("Nuovi_asintGov: " + statistiche.nuovi_asintomaticiGoverno.get(giorno_passato - 1));
+                        System.out.println("Nuovi_guaritiGov: " + statistiche.nuovi_guaritiGoverno.get(giorno_passato - 1));
+                        System.out.println("Nuovi_asintSim: " + statistiche.nuovi_asintomaticiSimulazione.get(giorno_passato - 1));
+                        System.out.println("Nuovi_guaritiSim: " + statistiche.nuovi_guaritiSimulazione.get(giorno_passato - 1));
+                        System.out.println("Sintomatici: " + statistiche.sintomatici.get(giorno_passato-1));
+                        System.out.println("Morti: " + statistiche.morti.get(giorno_passato-1));
+                        System.out.println("Nuovi_sintomatici: " + statistiche.nuovi_sintomatici.get(giorno_passato - 1));
+                        System.out.println("Nuovi_morti: " + statistiche.nuovi_morti.get(giorno_passato - 1));
+                        System.out.println("Tamponi effettuati: " + statistiche.tamponi.get(giorno_passato-1));
                         System.out.println(statistiche.risultato.get(giorno_passato-1));
                         System.out.println();
                         System.out.println();
-
-                        // Mi serve sapere l'ultimo giorno della simulazione dato che in caso di interruzione è minore di giorniSimulazione : basta chiedere la lunghezza degli arraylist
-                        //statistiche = simulazione.getDati(); // TEST ritorna le statistiche della simulazione
 
                         //scrittura del fil csv
                         PrintWriter pw = null;
