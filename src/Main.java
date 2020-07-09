@@ -210,7 +210,7 @@ public class Main extends Application {
 
     private VBox vBoxMid = new VBox();
 
-    private Scene sceneMid = new Scene(vBoxMid,1000 ,800 );
+    private Scene sceneMid = new Scene(vBoxMid,1000 ,700 );
 
     private boolean interrompi = false;
 
@@ -219,7 +219,7 @@ public class Main extends Application {
 
     private VBox vBoxMid2 = new VBox();
 
-    private Scene sceneMid2 = new Scene(vBoxMid2,1000 ,800 ) ;
+    private Scene sceneMid2 = new Scene(vBoxMid2,1000 ,700 ) ;
 
     private Label fraseMid2 = new Label(" Sto interrompendo ... aspetta 5 ore dai !");
 
@@ -228,9 +228,11 @@ public class Main extends Application {
 
     private VBox vBoxFinale = new VBox();
 
-    private Scene sceneFinale = new Scene(vBoxFinale,1000 ,800 );
+    private Scene sceneFinale = new Scene(vBoxFinale,1000 ,700 );
 
     private Label fraseFinale = new Label("Simulazione terminata");
+
+    private Label fileLabel = new Label("Qui trovi il file");
 
     private Button btnFinale = new Button("Vedi statistiche");
 
@@ -239,7 +241,7 @@ public class Main extends Application {
 
     private VBox vBoxChart = new VBox();
 
-    private Scene sceneChart = new Scene(vBoxChart,1000 ,800 ) ;
+    private Scene sceneChart = new Scene(vBoxChart,1000 ,700 ) ;
 
     private Button btnNewSimulation = new Button("Nuova simulazione");
 
@@ -470,6 +472,7 @@ public class Main extends Application {
         fraseMid.getStyleClass().add("frase");
         fraseMid2.getStyleClass().add("frase");
         fraseFinale.getStyleClass().add("frase");
+        fileLabel.getStyleClass().add("frase");
         filecsvTf.setId("file");
         setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,filecsvTf);
 
@@ -530,7 +533,9 @@ public class Main extends Application {
 
         vBoxFinale.setAlignment(Pos.CENTER);
 
-        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
+        fileLabel.setText("Qui è presente il " + filecsv);
+
+        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale,fileLabel);
 
         btnNewSimulation.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -586,6 +591,8 @@ public class Main extends Application {
 
 
         lineChartGoverno.getData().addAll(mortiGoverno,asintomaticiGoverno,sintomaticiGoverno,guaritiGoverno,verdiGoverno);
+        lineChartGoverno.setCreateSymbols(false);
+
 
 
         // Chart Simulazione
@@ -622,6 +629,7 @@ public class Main extends Application {
         ArrayList<Coppia> verdiSimulazioneSeries = new ArrayList<>();
 
         lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione,verdiSimulazione);
+        lineChartSimulazione.setCreateSymbols(false);
 
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
