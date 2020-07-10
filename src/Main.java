@@ -90,17 +90,18 @@ public class Main extends Application {
 
     private Label infettivitaLabel = new Label("Infettività");
     private TextField infettivita = new TextField("30");  //TODO togli campo
-    private HBox infettivitaBox = new HBox(infettivitaLabel,infettivita);
+    //private HBox infettivitaBox = new HBox(infettivitaLabel,infettivita);
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
     private TextField sintomaticita = new TextField("30");  //TODO togli campo
-    private HBox sintomaticitaBox = new HBox(sintomaticitaLabel,sintomaticita);
+    //private HBox sintomaticitaBox = new HBox(sintomaticitaLabel,sintomaticita);
 
 
     private Label letalitaLabel = new Label("Letalità");
     private TextField letalita = new TextField("30");  //TODO togli campo
-    private HBox letalitaBox = new HBox(letalitaLabel,letalita);
+    //private HBox letalitaBox = new HBox(letalitaLabel,letalita);
+    private HBox parametriVirus = new HBox(infettivitaLabel,infettivita,sintomaticitaLabel,sintomaticita,letalitaLabel,letalita);
 
     private Label filecsvLabel = new Label("Nome file CSV");
     private TextField filecsvTf = new TextField("statistiche.csv");
@@ -508,7 +509,7 @@ public class Main extends Application {
 
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
-        setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,fileBox,strategieBox);
+        setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,parametriVirus,fileBox,strategieBox);
 
         //setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
@@ -519,7 +520,7 @@ public class Main extends Application {
         // scena iniziale
 
 
-        vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,fileBox,strategieBox,btnInvia);
+        vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,parametriVirus,fileBox,strategieBox,btnInvia);
 
 
         // scene intermedia1 e intermedia2 - Interrompi
