@@ -121,7 +121,7 @@ public class Main extends Application {
     // scena iniziale - parametri
 
     private VBox vBox = new VBox();
-    private Scene sceneIniziale = new Scene(vBox,1000,800);
+    private Scene sceneIniziale = new Scene(vBox,1000,700);
 
     // getter
 
