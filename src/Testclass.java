@@ -13,9 +13,9 @@ public class Testclass {
         par.setArenaL(1);
         par.setSpostamentoMax(1);
         par.setDurata(36);
-        par.setInfettivita(30);
-        par.setSintomaticita(50);
-        par.setLetalita(1);
+        par.setInfettivita(50);
+        par.setSintomaticita(70);
+        par.setLetalita(50);
         par.setPopolazione(6);
         par.setCosto_tampone(3);
         par.setVelocita(0.1);
@@ -26,7 +26,7 @@ public class Testclass {
         //par.setStrategia(str);
         DatiStatistici statistiche;
 
-        Virus.r.setSeed(50);
+        Virus.r.setSeed(800);
         Arena.r.setSeed(0);
         Simulazione sim = new Simulazione(par);
 
@@ -51,6 +51,13 @@ public class Testclass {
                 System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
                 System.out.println("Verdi simulazione: " + sim.getVerdi());
                 System.out.println("Verdi sani simulazione: " + sim.getVerdi_sani());
+                System.out.println("Nuovi_morti: " + statistiche.nuovi_morti.get(giorno_passato - 1));
+                System.out.println("Nuovi_sintomatici: " + statistiche.nuovi_sintomatici.get(giorno_passato - 1));
+                System.out.println("Nuovi_asintGov: " + statistiche.nuovi_asintomaticiGoverno.get(giorno_passato - 1));
+                System.out.println("Nuovi_guaritiGov: " + statistiche.nuovi_guaritiGoverno.get(giorno_passato - 1));
+                System.out.println("Nuovi_asintSim: " + statistiche.nuovi_asintomaticiSimulazione.get(giorno_passato - 1));
+                System.out.println("Nuovi_guaritiSim: " + statistiche.nuovi_guaritiSimulazione.get(giorno_passato - 1));
+                System.out.println("Tamponi effettuati: " + statistiche.tamponi.get(giorno_passato-1));
                 System.out.println(statistiche.risultato.get(giorno_passato - 1));
                 System.out.println();
                 System.out.println();
@@ -70,6 +77,13 @@ public class Testclass {
         System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato - 1));
         System.out.println("Verdi simulazione: " + sim.getVerdi());
         System.out.println("Verdi sani simulazione: " + sim.getVerdi_sani());
+        System.out.println("Nuovi_morti: " + statistiche.nuovi_morti.get(giorno_passato - 1));
+        System.out.println("Nuovi_sintomatici: " + statistiche.nuovi_sintomatici.get(giorno_passato - 1));
+        System.out.println("Nuovi_asintGov: " + statistiche.nuovi_asintomaticiGoverno.get(giorno_passato - 1));
+        System.out.println("Nuovi_guaritiGov: " + statistiche.nuovi_guaritiGoverno.get(giorno_passato - 1));
+        System.out.println("Nuovi_asintSim: " + statistiche.nuovi_asintomaticiSimulazione.get(giorno_passato - 1));
+        System.out.println("Nuovi_guaritiSim: " + statistiche.nuovi_guaritiSimulazione.get(giorno_passato - 1));
+        System.out.println("Tamponi effettuati: " + statistiche.tamponi.get(giorno_passato-1));
         System.out.println(statistiche.risultato.get(giorno_passato - 1));
         System.out.println();
         System.out.println();

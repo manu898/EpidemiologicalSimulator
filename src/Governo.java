@@ -120,7 +120,7 @@ public class Governo {
 
         int numeroSintomatici = database.getSintomatici().size();
         int numeroFermi = database.getPersoneFerme().size();
-        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi));  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
+        risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi) + database.getMorti().size());  // va tolto 1 R per ogni persona ferma +  0 R per quelle morte + 3C R per ogni persona rossa + costo tamponi fatto nel giorno
         for(Persona persona : nuovi_sintomatici){
             database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
         }
@@ -137,13 +137,13 @@ public class Governo {
         database.add_guariti(nuovi_guariti);
         database.add_morti(nuovi_morti);
 
-        System.out.println("Nuovi_sintomatici: " + nuovi_sintomatici.size());  //CANCELLA
-        System.out.println("nuovi_sintomatici: " + nuovi_sintomatici);
-        System.out.println("Nuovi_guariti: " + nuovi_guariti.size());  //CANCELLA
-        System.out.println("nuovi_guariti: " + nuovi_guariti);
+        //System.out.println("Nuovi_sintomatici: " + nuovi_sintomatici.size());  //CANCELLA
+        //System.out.println("nuovi_sintomatici: " + nuovi_sintomatici);
+        //System.out.println("Nuovi_guariti: " + nuovi_guariti.size());  //CANCELLA
+        //System.out.println("nuovi_guariti: " + nuovi_guariti);
 
-        System.out.println("Nuovi_morti: " + nuovi_morti.size());  //CANCELLA
-        System.out.println("nuovi_morti: " + nuovi_morti);
+        //System.out.println("Nuovi_morti: " + nuovi_morti.size());  //CANCELLA
+        //System.out.println("nuovi_morti: " + nuovi_morti);
         //FAI STA COSA ANCHE CON GLI ASINTOMATICI
 
 
@@ -160,19 +160,19 @@ public class Governo {
             // invoca la strategia scelta
             strategia.applica(database);   //la strategia calcola le persone su cui fare i tamponi e eventualmente alcune da fermare (v. strategia2)
             faiTampone(strategia.getNuovi_tamponi());   //vengono effettuati i tamponi sulle persone individuate dalla strategia
-            System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
-            System.out.println("Tamponi effettuati su: " + strategia.getNuovi_tamponi());  //CANCELLA
+            //System.out.println("Tamponi effettuati: " + strategia.getNuovi_tamponi().size());  //CANCELLA
+            //System.out.println("Tamponi effettuati su: " + strategia.getNuovi_tamponi());  //CANCELLA
             strategia.setPositivi(nuovi_asintomatici);   //si comunicano alla strategia le persone risultate positive al tampone
             risorse = risorse + (-1 * costo_tampone * strategia.getNuovi_tamponi().size());  //si sottraggono le spese effettuate per i tamponi del giorno
 
             database.add_asintomatici(nuovi_asintomatici);
-            System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
-            System.out.println("nuovi_asintomatici: " + nuovi_asintomatici);
+            //System.out.println("Nuovi asintomatici trovati: " + nuovi_asintomatici.size());
+            //System.out.println("nuovi_asintomatici: " + nuovi_asintomatici);
 
             fermaPersone(strategia.getNuovi_daFermare());  //ferma le persone selezionate dalla stategia tra: morte, sintomatiche, positive al tampone, altre selezionate dalla strategia
-            System.out.println("Persone da fermare : " + strategia.getNuovi_daFermare().size());
-            System.out.println("Persone fermate " + getNuove_personeFerme().size());
-            System.out.println("Persone fermate: " + getNuove_personeFerme());
+            //System.out.println("Persone da fermare : " + strategia.getNuovi_daFermare().size());
+            //System.out.println("Persone fermate " + getNuove_personeFerme().size());
+            //System.out.println("Persone fermate: " + getNuove_personeFerme());
             database.addPersoneFerme(nuove_personeFerme);
         }
 
@@ -180,8 +180,8 @@ public class Governo {
         for (Persona p: nuovi_guariti) {
            database.remove_personaFerma(p);
         }
-        System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
-        strategia.pulisci();
+        //System.out.println("Persone rimesse in movimento: " + nuovi_guariti.size());
+        //strategia.pulisci();
         //pulisci();
     }
 
