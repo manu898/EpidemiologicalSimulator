@@ -234,8 +234,6 @@ public class Main extends Application {
 
     private Label fraseFinale = new Label("Simulazione terminata");
 
-    private Label fileLabel = new Label("Qui trovi il file");
-
     private Button btnFinale = new Button("Vedi statistiche");
 
 
@@ -487,7 +485,6 @@ public class Main extends Application {
         fraseMid.getStyleClass().add("frase");
         fraseMid2.getStyleClass().add("frase");
         fraseFinale.getStyleClass().add("frase");
-        fileLabel.getStyleClass().add("frase");
         filecsvTf.setId("file");
         setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,filecsvTf);
 
@@ -548,9 +545,8 @@ public class Main extends Application {
 
         vBoxFinale.setAlignment(Pos.CENTER);
 
-        fileLabel.setText("Qui è presente il " + filecsv);
 
-        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale,fileLabel);
+        vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
 
         btnNewSimulation.setOnAction(new EventHandler<ActionEvent>() {
             @Override
