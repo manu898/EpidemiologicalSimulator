@@ -37,7 +37,7 @@ public class Governo {
     //le persone morte giorno per giorno
     private ArrayList<Persona> nuovi_morti;
 
-    public Governo() {} //CANCELLA
+    public Governo() {} //TODO:CANCELLA
 
     // devo passare al costruttore del governo l'oggetto relativo alla strategia che ha scelto l'utente
     public Governo(int risorse, int costo_tampone, Strategia strategia, ArrayList<Persona> persone, Giorno giorno) {
