@@ -3,7 +3,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.image.Image;
@@ -290,24 +289,6 @@ public class Main extends Application {
         }
     }
 
-    /*
-    public void setWidth(TextField... element){
-        for(TextField node : element){
-            node.setMaxWidth(100.0);
-            node.setFont(new Font(16));
-            node.setAlignment(Pos.CENTER);
-        }
-    }
-
-    public void setPosAndMargin(HBox... elements){
-        for(HBox element : elements){
-            element.setAlignment(Pos.CENTER);
-        }
-    }
-
-     */
-
-
     public void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
         for(Coppia coppia : coppie){
             series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
@@ -576,6 +557,7 @@ public class Main extends Application {
         xAxisGoverno.setLowerBound(1);
         xAxisGoverno.setTickUnit(1);
         xAxisGoverno.setMinorTickVisible(true);
+        xAxisGoverno.setTickLabelRotation(45.0);
 
         yAxisGoverno.setAutoRanging(false);
         yAxisGoverno.setLowerBound(0);
@@ -616,6 +598,7 @@ public class Main extends Application {
         xAxisSimulazione.setLowerBound(1);
         xAxisSimulazione.setTickUnit(1);
         xAxisSimulazione.setMinorTickVisible(false);
+        xAxisSimulazione.setTickLabelRotation(45.0);
 
         yAxisSimulazione.setAutoRanging(false);
         yAxisSimulazione.setLowerBound(0);
