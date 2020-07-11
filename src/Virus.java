@@ -17,7 +17,7 @@ public class Virus {
 
     //variabile di tipo random per determinare gli esiti dei lanci dei dadi del contagio, della sintomaticita', della mortalita'
     //e per stabilire i giorni in cui gli ultimi due vanno lanciati
-    //private static Random r = new Random();
+    //private static Random r = new Random(); TODO
     public static Random r = new Random();
     //campi dell'oggetto virus
 

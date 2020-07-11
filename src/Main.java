@@ -660,7 +660,7 @@ public class Main extends Application {
 
                             statistiche = simulazione.getDati();
 
-                            if (return_from_simulazione){
+                            if (return_from_simulazione && !interrompi){
                                 int giorno_passato = simulazione.getGiorno().getValore() - 1;
                                 System.out.println("DATI FINE GIORNATA");
                                 System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
@@ -687,7 +687,7 @@ public class Main extends Application {
 
                         }
 
-                        int giorno_passato = simulazione.getGiorno().getValore();
+                        int giorno_passato = (interrompi == false ? simulazione.getGiorno().getValore() : simulazione.getGiorno().getValore()-1);
                         System.out.println("DATI FINE GIORNATA");
                         System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(giorno_passato-1));
                         System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(giorno_passato-1));
@@ -716,7 +716,7 @@ public class Main extends Application {
                             pw = new PrintWriter(file_dest);  //si mette a scrivere sul file troncandolo o lo crea
                             pw.println(statistiche.dati);
                             pw.flush();
-                            for (int i = 1; i <= simulazione.getGiorno().getValore(); i++){
+                            for (int i = 1; i <= giorno_passato; i++){
                                 pw.println(statistiche.toCSV(i));
                                 pw.flush();
                             }
