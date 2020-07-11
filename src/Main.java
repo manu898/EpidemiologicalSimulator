@@ -90,17 +90,14 @@ public class Main extends Application {
 
     private Label infettivitaLabel = new Label("Infettività");
     private TextField infettivita = new TextField("30");  //TODO togli campo
-    //private HBox infettivitaBox = new HBox(infettivitaLabel,infettivita);
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
     private TextField sintomaticita = new TextField("30");  //TODO togli campo
-    //private HBox sintomaticitaBox = new HBox(sintomaticitaLabel,sintomaticita);
 
 
     private Label letalitaLabel = new Label("Letalità");
     private TextField letalita = new TextField("30");  //TODO togli campo
-    //private HBox letalitaBox = new HBox(letalitaLabel,letalita);
     private HBox parametriVirus = new HBox(infettivitaLabel,infettivita,sintomaticitaLabel,sintomaticita,letalitaLabel,letalita);
 
     private Label filecsvLabel = new Label("Nome file CSV");
