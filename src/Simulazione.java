@@ -138,7 +138,7 @@ public class Simulazione {
             //System.out.println("n_incontrate pre while " + n_incontrate);  //TODO:CANCELLA
             //while (n_incontrate / (double) in_movimento < velocita_limite) {  //TODO:CANCELLA
             //nota: il valore n_incontrate / getPopolazione() denota la velocita effettiva delle persone
-            while (n_incontrate / (double) getPopolazione() < velocita_limite) {
+            while (n_incontrate / (double) (getPopolazione()-governo.getDatabase().getMorti().size()) < velocita_limite) {
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
                 /*
@@ -147,7 +147,7 @@ public class Simulazione {
                 System.out.println("Vd_limite: " + velocita_limite);  //TODO:CANCELLA
                 */
             }
-            R0 = (n_incontrate / (double) getPopolazione()) * Virus.getD() * Virus.getI();
+            R0 = (n_incontrate / (double) (getPopolazione() - governo.getDatabase().getMorti().size())) * Virus.getD() * Virus.getI();
             //System.out.println("n_incontrate: " + n_incontrate); //TODO:CANCELLA
             //System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //TODO:CANCELLA
             //System.out.println("V_limite: " + velocita_limite);  //TODO:CANCELLA
