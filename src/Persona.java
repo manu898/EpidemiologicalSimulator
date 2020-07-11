@@ -19,7 +19,7 @@ public class Persona {
     private Virus vir;
 
     //variabile che permette di capire se vanno fatti i controlli sul virus per verificare se va cambiato lo stato della persona
-    private boolean mustcheckvirus; //dove la inizializzo? dove la modifico? (init: dentro contatto, mod: dentro checkvirus)
+    private boolean mustcheckvirus;
 
     //governo al quale appartiene la persona
     private Governo gov;
@@ -28,7 +28,7 @@ public class Persona {
     private Hashtable<Integer, ArrayList<Persona>> persone_incontrate;
 
     //riferimento al giorno attuale della simulazione
-    Giorno giorno;
+    private Giorno giorno;
 
     //giorno in cui la persona risultata positiva al virus deve comunicare la guarigione
     private int giornoComunicaGuarigione;
@@ -41,22 +41,22 @@ public class Persona {
         this.giorno = giorno;
 		inMovimento = true;
 		persone_incontrate = new Hashtable<Integer, ArrayList<Persona>>();
-		giornoComunicaGuarigione = 0;  //TEST OK
+		giornoComunicaGuarigione = 0;
     }
 
     //comunica al governo che si sono sviluppati i sintomi
     public void comunicaSintomaticita() { gov.add_sintomatico(this);
-        //System.out.println("Sono " + getID() + " e comunico la sintomaticita'");
+        //System.out.println("Sono " + getID() + " e comunico la sintomaticita'"); TODO:CANCELLA
     }
 
     //comunica al governo che si e' guariti
     public void comunicaGuarigione() { gov.add_guarito(this);
-        //System.out.println("Sono " + getID() + " e comunico la guarigione");
+        //System.out.println("Sono " + getID() + " e comunico la guarigione"); TODO:CANCELLA
     }
 
     //comunica al governo la propria morte
     public void comunicaMorte() { gov.add_morto(this);
-        //System.out.println("Sono " + getID() + " e comunico la morte");
+        //System.out.println("Sono " + getID() + " e comunico la morte"); TODO:CANCELLA
     }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
@@ -70,15 +70,15 @@ public class Persona {
 
     //controlla lo stato del virus e dunque se lo stato della persona deve cambiare
     public boolean checkVirus() {
-        boolean ret = false;  //true se lo stato della persona e' cambiato
+        boolean change_stato = false;  //true se lo stato della persona e' cambiato
         if (mustcheckvirus) {
             switch (stato) {
                 case VERDE:
                     if (vir.isIncubazioneFinita())
                     {
                         stato = StatoSalute.GIALLO;
-                        ret = true;  //TEST
-                        //System.out.println("Sono " + getID() + " e divento gialla");
+                        change_stato = true;
+                        //System.out.println("Sono " + getID() + " e divento gialla"); TODO:CANCELLA
                         vir.calcola_giornoDadoS();
                     }
                     else
@@ -88,9 +88,8 @@ public class Persona {
                     if (vir.isGiornoDadoS()) {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
-                            ret = true;  //TEST
-                            //System.out.println("Sono " + getID() + " e divento rossa");
-
+                            change_stato = true;
+                            //System.out.println("Sono " + getID() + " e divento rossa"); TODO:CANCELLA
                             vir.calcola_giornoDadoM();
                             comunicaSintomaticita();
                         }
@@ -106,11 +105,9 @@ public class Persona {
                         if (vir.dadoM()) {
                             //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
-                            ret = true;
-                            //System.out.println("Sono " + getID() + " e divento nera");
-
+                            change_stato = true;
+                            //System.out.println("Sono " + getID() + " e divento nera"); TODO:CANCELLA
                             comunicaMorte();
-                            //bisogna toglierla dalle varie liste in cui si trova? (se si ci trova) (vedi Governo e DBGoverno)
                         }
                         else {
                             mustcheckvirus = false;
@@ -125,16 +122,16 @@ public class Persona {
                     stato = StatoSalute.BLU;
                     comunicaGuarigione();
                 }
-                //System.out.println("Sono " + getID() + " e divento blu");
+                //System.out.println("Sono " + getID() + " e divento blu"); TODO:CANCELLA
 
                 stato = StatoSalute.BLU;
-                ret = true;
+                change_stato = true;
             }
             if (giornoComunicaGuarigione == giorno.getValore()) {
                 comunicaGuarigione();
             }
         }
-        return ret; //TEST
+        return change_stato;
     }
 
     //aggiungi una persona alla lista delle persone incontrate nel giorno corrente (assume che p non sia null)
@@ -149,9 +146,6 @@ public class Persona {
             persone_incontrate.put(giorno.getValore(), app);
         }
     }
-
-    //per prendere le persone dalla hastable controlliamo cosa serve nelle altre classi e facciamo dei metodi appositi
-    //così da non usare il metodo getPersone_incontrate e fornire dunque libero accesso alle altre classi
 
 
     //getter
