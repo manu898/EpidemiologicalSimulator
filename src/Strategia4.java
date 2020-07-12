@@ -20,8 +20,9 @@ public class Strategia4 extends Strategia{
         //assume che i primi positivi inseriti siano i nuovi_sintomatici
         for(Persona p : positivi){
             Hashtable<Integer,ArrayList<Persona>> personeIncontrate =  p.getPersone_incontrate();
-
-            for(int i = Math.max(dbGoverno.getGiorno().getValore() - Virus.getD(), 1); i < dbGoverno.getGiorno().getValore() + 1 ; i++ ){
+            int bound = (Virus.getD()/3) - (Virus.getD()/6) - 2; //in questo modo non considero il giorno in cui la persona è diventata asintomatica (in cui non può infettare difatti)
+            for(int i = Math.max(dbGoverno.getGiorno().getValore() - bound, 1); i < dbGoverno.getGiorno().getValore() + 1 ; i++ ){
+                //System.out.println("Controllo gli incontri del giorno " + i);  //TODO:CANCELLA
 
                 ArrayList<Persona> incontriGiornoI = personeIncontrate.get(i);
                 if (incontriGiornoI == null)  //si puo' verificare nel caso non ci sia un arraylist per quel giorno

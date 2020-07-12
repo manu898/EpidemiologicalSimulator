@@ -20,7 +20,7 @@ public class Testclass {
         par.setCosto_tampone(3);
         par.setVelocita(0.1);
         par.setRisorse(17900);
-        par.setStrategia(new Strategia3());
+        par.setStrategia(new Strategia4());
         //Strategia3 str = new Strategia3();
         //Strategia4 str = new Strategia4();
         //par.setStrategia(str);

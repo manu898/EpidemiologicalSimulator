@@ -48,10 +48,10 @@ public class Main extends Application {
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
-    private TextField arenaH = new TextField("300");  //TODO togli campo
+    private TextField arenaH = new TextField("100");  //TODO togli campo
 
     private Label arenaLLabel = new Label("ArenaL");
-    private TextField arenaL = new TextField("300");  //TODO togli campo
+    private TextField arenaL = new TextField("100");  //TODO togli campo
 
     private Label spostamentoLabel = new Label("Spostamento max");
     private TextField spostamento = new TextField("10");  //TODO togli campo
@@ -62,17 +62,17 @@ public class Main extends Application {
 
 
     private Label popolazioneLabel = new Label("Popolazione");
-    private TextField popolazione = new TextField("4000");  //TODO togli campo
+    private TextField popolazione = new TextField("250");  //TODO togli campo
     private HBox popolazioneBox = new HBox(popolazioneLabel,popolazione);
 
 
     private Label velocitaLabel = new Label("Velocita");
-    private TextField velocita = new TextField("0.4");  //TODO togli campo
+    private TextField velocita = new TextField("0.15");  //TODO togli campo
     private HBox velocitaBox = new HBox(velocitaLabel,velocita);
 
 
     private Label durataLabel = new Label("Durata");
-    private TextField durata = new TextField("15");  //TODO togli campo
+    private TextField durata = new TextField("40");  //TODO togli campo
     private HBox durataBox = new HBox(durataLabel,durata);
 
 
@@ -82,17 +82,17 @@ public class Main extends Application {
 
 
     private Label risorseLabel = new Label("Risorse");
-    private TextField risorse = new TextField("59999");  //TODO togli campo
+    private TextField risorse = new TextField("9999");  //TODO togli campo
     private HBox risorseBox = new HBox(risorseLabel,risorse);
     private final Tooltip tooltipRisorse = new Tooltip("R < 10 * costoTampone * popolazione , R < popolazione * durataMalattia");
 
 
     private Label infettivitaLabel = new Label("Infettività");
-    private TextField infettivita = new TextField("30");  //TODO togli campo
+    private TextField infettivita = new TextField("60");  //TODO togli campo
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
-    private TextField sintomaticita = new TextField("30");  //TODO togli campo
+    private TextField sintomaticita = new TextField("50");  //TODO togli campo
 
 
     private Label letalitaLabel = new Label("Letalità");
