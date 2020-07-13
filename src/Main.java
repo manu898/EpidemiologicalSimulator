@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
@@ -20,11 +19,11 @@ public class Main extends Application {
 
     // parametri dello stage
 
-    private Stage window;
+    public Stage window;
 
-    private BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
+    BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
 
-    private Alert alert = new Alert(Alert.AlertType.ERROR);
+    public Alert alert = new Alert(Alert.AlertType.ERROR);
 
     // parametri per  gestione/creazione della simulazione
 
@@ -34,13 +33,12 @@ public class Main extends Application {
 
     private static Strategia strategia = null;
 
-    
-    private DatiStatistici statistiche;
+    private DatiStatistici statistiche = new DatiStatistici();
 
     //public? private?
     private boolean return_from_simulazione = true;
 
-    //public? private? nome standard del file csv
+    //public? private?
     private String filecsv = "statistiche.csv";
 
     //public? private?
@@ -49,65 +47,63 @@ public class Main extends Application {
 
     // scena iniziale - Inserimento parametri
 
-    // altezza dell'arena
     private Label arenaHLabel = new Label("ArenaH");
-    private TextField arenaH = new TextField("200");  //TODO togli campo
+    private TextField arenaH = new TextField("300");  //TODO togli campo
 
-    // larghezza dell'arena
     private Label arenaLLabel = new Label("ArenaL");
-    private TextField arenaL = new TextField("200");  //TODO togli campo
+    private TextField arenaL = new TextField("300");  //TODO togli campo
 
-    // numero massimo di celle di cui si può spostare ogni persona ad ogni movimento sia in orizzontale che in verticale
     private Label spostamentoLabel = new Label("Spostamento max");
     private TextField spostamento = new TextField("10");  //TODO togli campo
 
     private HBox arenaBox = new HBox(arenaHLabel,arenaH,arenaLLabel,arenaL,spostamentoLabel,spostamento);
+
     private Button btnInvia = new Button("Inizia simulazione");
 
 
     private Label popolazioneLabel = new Label("Popolazione");
-    private TextField popolazione = new TextField("120000");  //TODO togli campo
+    private TextField popolazione = new TextField("4000");  //TODO togli campo
     private HBox popolazioneBox = new HBox(popolazioneLabel,popolazione);
 
 
     private Label velocitaLabel = new Label("Velocita");
-    private TextField velocita = new TextField("35");  //TODO togli campo
+    private TextField velocita = new TextField("0.4");  //TODO togli campo
     private HBox velocitaBox = new HBox(velocitaLabel,velocita);
 
 
     private Label durataLabel = new Label("Durata");
-    private TextField durata = new TextField("20");  //TODO togli campo
+    private TextField durata = new TextField("15");  //TODO togli campo
     private HBox durataBox = new HBox(durataLabel,durata);
 
 
     private Label tamponeLabel = new Label("Tampone");
-    private TextField tampone = new TextField("10");  //TODO togli campo
+    private TextField tampone = new TextField("4");  //TODO togli campo
     private HBox tamponeBox = new HBox(tamponeLabel,tampone);
 
 
     private Label risorseLabel = new Label("Risorse");
-    private TextField risorse = new TextField("3000000");  //TODO togli campo
+    private TextField risorse = new TextField("59999");  //TODO togli campo
     private HBox risorseBox = new HBox(risorseLabel,risorse);
     private final Tooltip tooltipRisorse = new Tooltip("R < 10 * costoTampone * popolazione , R < popolazione * durataMalattia");
 
 
     private Label infettivitaLabel = new Label("Infettività");
-    private TextField infettivita = new TextField("80");  //TODO togli campo
+    private TextField infettivita = new TextField("30");  //TODO togli campo
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
-    private TextField sintomaticita = new TextField("10");  //TODO togli campo
+    private TextField sintomaticita = new TextField("30");  //TODO togli campo
 
 
     private Label letalitaLabel = new Label("Letalità");
-    private TextField letalita = new TextField("10");  //TODO togli campo
+    private TextField letalita = new TextField("30");  //TODO togli campo
     private HBox parametriVirus = new HBox(infettivitaLabel,infettivita,sintomaticitaLabel,sintomaticita,letalitaLabel,letalita);
 
     private Label filecsvLabel = new Label("Nome file CSV");
-    private TextField filecsvTf = new TextField("prova_2.csv");
+    private TextField filecsvTf = new TextField("statistiche.csv");
     private HBox fileBox = new HBox(filecsvLabel,filecsvTf);
 
-    private ToggleGroup toggleGroup = new ToggleGroup();
+    ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
     private final Tooltip tooltip1 = new Tooltip("Non viene fatto alcun tampone e non viene fermato nessuno");
     private RadioButton strg2 = new RadioButton("Strategia 2");
@@ -126,66 +122,66 @@ public class Main extends Application {
 
     // getter
 
-    private TextField getArenaH() {
+    public TextField getArenaH() {
         return arenaH;
     }
 
-    private TextField getArenaL() {
+    public TextField getArenaL() {
         return arenaL;
     }
 
-    private TextField getSpostamento() {
+    public TextField getSpostamento() {
         return spostamento;
     }
 
-    private TextField getPopolazione() {
+    public TextField getPopolazione() {
         return popolazione;
     }
 
-    private TextField getDurata() {
+    public TextField getDurata() {
         return durata;
     }
 
-    private TextField getInfettivita() {
+    public TextField getInfettivita() {
         return infettivita;
     }
 
-    private TextField getSintomaticita() {
+    public TextField getSintomaticita() {
         return sintomaticita;
     }
 
-    private TextField getLetalita() {
+    public TextField getLetalita() {
         return letalita;
     }
 
-    private TextField getRisorse() {
+    public TextField getRisorse() {
         return risorse;
     }
 
-    private TextField getTampone() {
+    public TextField getTampone() {
         return tampone;
     }
 
-    private TextField getVelocita() {
+    public TextField getVelocita() {
         return velocita;
     }
 
-    private TextField getFilecsvTf() {
+    public TextField getFilecsvTf() {
         return filecsvTf;
     }
 
-    private RadioButton getSelectedRadioButton() {
+    public RadioButton getSelectedRadioButton() {
         return selectedRadioButton;
     }
 
-    private static Strategia getStrategia() {
+    public static Strategia getStrategia() {
         return strategia;
     }
 
 
     // setter
 
-    private void setStrategia(RadioButton r){
+    public void setStrategia(RadioButton r){
 
         switch (r.getId()){
             case "strategia1":
@@ -249,73 +245,69 @@ public class Main extends Application {
 
     // scena grafico - grafico Governo
 
-    private NumberAxis xAxisGoverno = new NumberAxis();
+    NumberAxis xAxisGoverno = new NumberAxis();
 
-    private NumberAxis yAxisGoverno = new NumberAxis();
+    NumberAxis yAxisGoverno = new NumberAxis();
 
-    private LineChart lineChartGoverno = new LineChart(xAxisGoverno, yAxisGoverno);
+    LineChart lineChartGoverno = new LineChart(xAxisGoverno, yAxisGoverno);
 
-    private XYChart.Series mortiGoverno = new XYChart.Series();
+    XYChart.Series mortiGoverno = new XYChart.Series();
 
-    private XYChart.Series asintomaticiGoverno = new XYChart.Series();
+    XYChart.Series asintomaticiGoverno = new XYChart.Series();
 
-    private XYChart.Series sintomaticiGoverno = new XYChart.Series();
+    XYChart.Series sintomaticiGoverno = new XYChart.Series();
 
-    private XYChart.Series guaritiGoverno = new XYChart.Series();
+    XYChart.Series guaritiGoverno = new XYChart.Series();
 
-    private XYChart.Series verdiGoverno = new XYChart.Series();
+    XYChart.Series verdiGoverno = new XYChart.Series();
 
 
     // scena grafico - grafico Simulazione
 
-    private NumberAxis xAxisSimulazione = new NumberAxis();
+    NumberAxis xAxisSimulazione = new NumberAxis();
 
-    private NumberAxis yAxisSimulazione = new NumberAxis();
+    NumberAxis yAxisSimulazione = new NumberAxis();
 
-    private LineChart lineChartSimulazione = new LineChart(xAxisSimulazione, yAxisSimulazione);
+    LineChart lineChartSimulazione = new LineChart(xAxisSimulazione, yAxisSimulazione);
 
-    private XYChart.Series mortiSimulazione = new XYChart.Series();
+    XYChart.Series mortiSimulazione = new XYChart.Series();
 
-    private XYChart.Series asintomaticiSimulazione = new XYChart.Series();
+    XYChart.Series asintomaticiSimulazione = new XYChart.Series();
 
-    private XYChart.Series sintomaticiSimulazione = new XYChart.Series();
+    XYChart.Series sintomaticiSimulazione = new XYChart.Series();
 
-    private XYChart.Series guaritiSimulazione = new XYChart.Series();
+    XYChart.Series guaritiSimulazione = new XYChart.Series();
 
-    private XYChart.Series verdiSimulazione = new XYChart.Series();
+    XYChart.Series verdiSimulazione = new XYChart.Series();
 
-    /*
-    private  void setFontAndPadding(double fontsize, Labeled... labels){
+
+    public  void setFontAndPadding(double fontsize, Labeled... labels){
         for(Labeled labeled : labels) {
             labeled.setFont(new Font(20.0));
             labeled.setPadding(new Insets(20.0));
             labeled.setTextFill(Color.WHITE);
         }
     }
-    */
 
-    private void setLabelClass(Labeled... labels){
-        for(Labeled label : labels)
-            label.getStyleClass().add("labels");
-    }
-
-    private void setTFClass(TextField... fields){
-        for(TextField tf : fields)
-            tf.getStyleClass().add("textFields");
-    }
-
-    private void setHboxClass(HBox... elements){
-        for(HBox element : elements)
-            element.getStyleClass().add("hbox");
-    }
-
-    private void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
+    public void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
         for(Coppia coppia : coppie){
             series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
         }
     }
 
-    private boolean inviaDati() throws NumberFormatException{
+    public void setTFClass(TextField... fields){
+        for(TextField tf : fields)
+            tf.getStyleClass().add("textFields");
+    }
+
+    public void setHboxClass(HBox... elements){
+        for(HBox element : elements)
+            element.getStyleClass().add("hbox");
+    }
+
+
+
+    public boolean inviaDati() throws NumberFormatException{
 
         alert.setTitle("ERRORE");
 
@@ -473,9 +465,11 @@ public class Main extends Application {
         fraseMid2.getStyleClass().add("frase");
         fraseFinale.getStyleClass().add("frase");
         filecsvTf.setId("file");
-
         setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,filecsvTf);
-        setLabelClass(arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,filecsvLabel,strg1,strg2,strg3,strg4);
+
+
+        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
+                velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,filecsvLabel,strg1,strg2,strg3,strg4);
 
         risorse.setTooltip(tooltipRisorse);
         strg1.setId("strategia1");
@@ -494,6 +488,8 @@ public class Main extends Application {
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
         setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,parametriVirus,fileBox,strategieBox);
+
+        //setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(bi));

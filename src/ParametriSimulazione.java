@@ -1,17 +1,18 @@
 public class ParametriSimulazione {
-    int popolazione;
-    double velocita;
-    int infettivita;
-    int sintomaticita;
-    int letalita;
-    int durata;
-    int risorse;
-    int costo_tampone;
-    int arenaH;
-    int arenaL;
-    int spostamentoMax;
-    Strategia strategia;
+    private int popolazione;
+    private double velocita;
+    private int infettivita;
+    private int sintomaticita;
+    private int letalita;
+    private int durata;
+    private int risorse;
+    private int costo_tampone;
+    private int arenaH;
+    private int arenaL;
+    private int spostamentoMax;
+    private Strategia strategia;
 
+    //getter
     public int getPopolazione() { return popolazione; }
 
     public double getVelocita() { return velocita; }
