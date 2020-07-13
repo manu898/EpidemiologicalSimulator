@@ -153,11 +153,7 @@ public class Persona {
 
     public Virus getVir() { return vir; }
 
-    public Governo getGoverno() { return gov; }
-
     public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
-
-    public Giorno getGiorno() { return giorno; }
 
     //setter
 
@@ -178,10 +174,6 @@ public class Persona {
     public void setVir(Virus v) { vir = v; }
 
     public void setMustcheckvirus(boolean b) { mustcheckvirus = b; }
-
-    public void setGoverno(Governo gov) { this.gov = gov; }
-
-    public void setGiorno(Giorno giorno) { this.giorno = giorno; }
 
     public void setGiornoComunicaGuarigione(int giornoComunicaGuarigione) { this.giornoComunicaGuarigione = giornoComunicaGuarigione; }
 }
