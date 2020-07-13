@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public abstract class Strategia {
+    //classe astratta che rappresenta in modo astratto una strategia e definisce metodi e variabili che
+    //le classi che la implementano devono sfruttare/implementare/sovrascrivere
 
     //le persone che risultano positive al tampone
     public ArrayList<Persona> positivi = new ArrayList<>();
@@ -33,7 +35,6 @@ public abstract class Strategia {
     }
 
     //applica la strategia per calcolare le persone su cui fare i tamponi e alcune da fermare
-    //public abstract boolean applica(DBGoverno dbGoverno);
     public abstract void applica(DBGoverno dbGoverno);
 
     //ritorna la lista delle persone su cui fare il tampone

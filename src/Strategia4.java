@@ -3,10 +3,17 @@ import java.util.Hashtable;
 import java.lang.Math.*;
 
 public class Strategia4 extends Strategia{
+    //in aggiunta alle persone rosse o nere, la strategia blocca le persone risultanti positive al tampone
+    //per effettuare i tamponi considera ogni giorno le persone incontrate dai nuovi_sintomatici nei giorni
+    //in cui questi potrebbero aver infettato qualcuno e prescrive loro un tampone da effettuare dopo il massimo tra
+    //il giorno attuale e il giorno del probabile contagio + D/6 giorni
 
+    //dizionario che tiene conto per ogni persona, i giorni per i quali le sono stati prescritti i tamponi
     private Hashtable<Persona, ArrayList<Integer>> futuriTamponi = new Hashtable<>();
 
-    @Override
+    @Override //aggiunge le persone passate come argomento alla lista da persone da fermare
+    //assume che le persone siano positive alla malattia e che dunque vadano fermate, quindi
+    //le toglie anche dall'hashtable, non avendo più la necessita' di far fare loro il tampone
     public void setPositivi(ArrayList<Persona> positivi) {
         super.setPositivi(positivi);
         for(Persona p : positivi){
@@ -17,15 +24,14 @@ public class Strategia4 extends Strategia{
 
 
     public void applica(DBGoverno dbGoverno) {
-        //assume che i primi positivi inseriti siano i nuovi_sintomatici
+        //assume che i positivi inseriti al momento della chiamata della funzione siano i nuovi_sintomatici
         for(Persona p : positivi){
             Hashtable<Integer,ArrayList<Persona>> personeIncontrate =  p.getPersone_incontrate();
-            int bound = (Virus.getD()/3) - (Virus.getD()/6) - 2; //in questo modo non considero il giorno in cui la persona è diventata asintomatica (in cui non può infettare difatti)
+            int bound = (Virus.getD()/3) - (Virus.getD()/6) - 2; //in questo modo non si considera il giorno in cui la persona è diventata asintomatica (in cui non può infettare difatti)
             for(int i = Math.max(dbGoverno.getGiorno().getValore() - bound, 1); i < dbGoverno.getGiorno().getValore() + 1 ; i++ ){
-                //System.out.println("Controllo gli incontri del giorno " + i);  //TODO:CANCELLA
 
                 ArrayList<Persona> incontriGiornoI = personeIncontrate.get(i);
-                if (incontriGiornoI == null)  //si puo' verificare nel caso non ci sia un arraylist per quel giorno
+                if (incontriGiornoI == null)  //si puo' verificare nel caso la persona sintomatica non abbia incontrato nessuno nel giorno selezionato
                     continue;
 
                 for(Persona p1 : incontriGiornoI){
@@ -64,7 +70,7 @@ public class Strategia4 extends Strategia{
         }
         for (Persona p: da_rimuovere) {
             futuriTamponi.get(p).remove(0);
-            if(futuriTamponi.get(p).size() == 0){  //in teoria la persona potrebbe rimanerci, viene eliminata nel momento in cui risulta positiva al tampone e aggiunta alle persone da fermare con setPositivi
+            if(futuriTamponi.get(p).size() == 0){
                 futuriTamponi.remove(p);
             }
         }
