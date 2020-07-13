@@ -12,13 +12,13 @@ public class Arena {
 	private Cella[][] matrice;
 
 	//variabile di tipo Random per calcolare lo spostamento
-	public static Random r = new Random(); //rendi private TODO
+	private static Random r = new Random();
 
 	//massimo spostamento di una persona nella matrice
 	private int spostamentoMax;
 
 	public Arena (int altezza, int larghezza, int spostamentoMax){
-		r = new Random();
+		//r.setSeed(); //TODO:CANCELLA
 		setSpostamentoMax(spostamentoMax);
 		this.altezza = altezza;
 		this.larghezza = larghezza;

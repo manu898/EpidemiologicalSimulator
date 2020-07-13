@@ -8,8 +8,6 @@ import javafx.scene.chart.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.io.*;
 
@@ -19,42 +17,39 @@ public class Main extends Application {
 
     // parametri dello stage
 
-    private Stage window;
+    private Stage window = null;
 
-    BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
+    private BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
 
     private Alert alert = new Alert(Alert.AlertType.ERROR);
 
     // parametri per  gestione/creazione della simulazione
 
-    ParametriSimulazione ps = new ParametriSimulazione();
+    private ParametriSimulazione ps = new ParametriSimulazione();
 
-    private static Simulazione simulazione = null;
+    private Simulazione simulazione = null;
 
-    private static Strategia strategia = null;
+    private Strategia strategia = null;
 
     private DatiStatistici statistiche;
 
-    //public? private?
     private boolean return_from_simulazione = true;
 
-    //public? private?
-    private String filecsv = "statistiche.csv";
+    private String filecsv = null;
 
-    //public? private?
     private File file_dest = null;
 
 
     // scena iniziale - Inserimento parametri
 
     private Label arenaHLabel = new Label("ArenaH");
-    private TextField arenaH = new TextField("300");  //TODO togli campo
+    private TextField arenaH = new TextField();
 
     private Label arenaLLabel = new Label("ArenaL");
-    private TextField arenaL = new TextField("300");  //TODO togli campo
+    private TextField arenaL = new TextField();
 
     private Label spostamentoLabel = new Label("Spostamento max");
-    private TextField spostamento = new TextField("10");  //TODO togli campo
+    private TextField spostamento = new TextField();
 
     private HBox arenaBox = new HBox(arenaHLabel,arenaH,arenaLLabel,arenaL,spostamentoLabel,spostamento);
 
@@ -62,48 +57,48 @@ public class Main extends Application {
 
 
     private Label popolazioneLabel = new Label("Popolazione");
-    private TextField popolazione = new TextField("4000");  //TODO togli campo
+    private TextField popolazione = new TextField();
     private HBox popolazioneBox = new HBox(popolazioneLabel,popolazione);
 
 
     private Label velocitaLabel = new Label("Velocita");
-    private TextField velocita = new TextField("0.4");  //TODO togli campo
+    private TextField velocita = new TextField();
     private HBox velocitaBox = new HBox(velocitaLabel,velocita);
 
 
     private Label durataLabel = new Label("Durata");
-    private TextField durata = new TextField("15");  //TODO togli campo
+    private TextField durata = new TextField();
     private HBox durataBox = new HBox(durataLabel,durata);
 
 
     private Label tamponeLabel = new Label("Tampone");
-    private TextField tampone = new TextField("4");  //TODO togli campo
+    private TextField tampone = new TextField();
     private HBox tamponeBox = new HBox(tamponeLabel,tampone);
 
 
     private Label risorseLabel = new Label("Risorse");
-    private TextField risorse = new TextField("59999");  //TODO togli campo
+    private TextField risorse = new TextField();
     private HBox risorseBox = new HBox(risorseLabel,risorse);
     private final Tooltip tooltipRisorse = new Tooltip("R < 10 * costoTampone * popolazione , R < popolazione * durataMalattia");
 
 
     private Label infettivitaLabel = new Label("Infettività");
-    private TextField infettivita = new TextField("30");  //TODO togli campo
+    private TextField infettivita = new TextField();
 
 
     private Label sintomaticitaLabel = new Label("Sintomaticità");
-    private TextField sintomaticita = new TextField("30");  //TODO togli campo
+    private TextField sintomaticita = new TextField();
 
 
     private Label letalitaLabel = new Label("Letalità");
-    private TextField letalita = new TextField("30");  //TODO togli campo
+    private TextField letalita = new TextField();
     private HBox parametriVirus = new HBox(infettivitaLabel,infettivita,sintomaticitaLabel,sintomaticita,letalitaLabel,letalita);
 
     private Label filecsvLabel = new Label("Nome file CSV");
     private TextField filecsvTf = new TextField("statistiche.csv");
     private HBox fileBox = new HBox(filecsvLabel,filecsvTf);
 
-    ToggleGroup toggleGroup = new ToggleGroup();
+    private ToggleGroup toggleGroup = new ToggleGroup();
     private RadioButton strg1 = new RadioButton("Strategia 1");
     private final Tooltip tooltip1 = new Tooltip("Non viene fatto alcun tampone e non viene fermato nessuno");
     private RadioButton strg2 = new RadioButton("Strategia 2");
@@ -168,14 +163,6 @@ public class Main extends Application {
 
     private TextField getFilecsvTf() {
         return filecsvTf;
-    }
-
-    private RadioButton getSelectedRadioButton() {
-        return selectedRadioButton;
-    }
-
-    private static Strategia getStrategia() {
-        return strategia;
     }
 
 
@@ -280,16 +267,6 @@ public class Main extends Application {
 
     private XYChart.Series verdiSimulazione = new XYChart.Series();
 
-
-    /*
-    private void setFontAndPadding(double fontsize, Labeled... labels){
-        for(Labeled labeled : labels) {
-            labeled.setFont(new Font(20.0));
-            labeled.setPadding(new Insets(20.0));
-            labeled.setTextFill(Color.WHITE);
-        }
-    }
-     */
 
     private void setLabelClass(Labeled... labels){
         for(Labeled label : labels)
@@ -501,12 +478,10 @@ public class Main extends Application {
 
         // scena iniziale
 
-
         vBox.getChildren().addAll(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,parametriVirus,fileBox,strategieBox,btnInvia);
 
 
         // scene intermedia1 e intermedia2 - Interrompi
-
 
         vBoxMid.setAlignment(Pos.CENTER);
         vBoxMid2.setAlignment(Pos.CENTER);
@@ -514,7 +489,9 @@ public class Main extends Application {
         vBoxMid.getChildren().addAll(fraseMid,btnInterrompi);
         vBoxMid2.getChildren().addAll(fraseMid2);
 
-
+        //alla pressione del tasto "interrompi simulazione" viene settata la variabile interrompi a true, in questo modo
+        //viene portato a termine il giorno della simulazione attualmente in esecuzione e viene fatta terminare la simulazione
+        //nell'attesa viene mostrata una scena in cui si chiede all'utente di aspettare
         btnInterrompi.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -528,9 +505,10 @@ public class Main extends Application {
 
         vBoxFinale.setAlignment(Pos.CENTER);
 
-
         vBoxFinale.getChildren().addAll(fraseFinale,btnFinale);
 
+        //alla pressione del tasto "nuova simulazione" viene mostrata di nuovo la scena di selezione dei parametri
+        //per avviare una nuova simulazione
         btnNewSimulation.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -627,6 +605,8 @@ public class Main extends Application {
         lineChartSimulazione.getData().addAll(mortiSimulazione,asintomaticiSimulazione,sintomaticiSimulazione,guaritiSimulazione,verdiSimulazione);
         lineChartSimulazione.setCreateSymbols(false);
 
+        //alla pressione del bottone "inizia simulazione" vengono raccolti i dati inseriti e viene avviata la simulazione
+        //su un thread separato, così da non interrompere il thread di gestione della GUI
         btnInvia.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -712,7 +692,7 @@ public class Main extends Application {
                             pw.close();
                         }
 
-
+                        //una volta terminata la simulazione comunica al thread di gestione della GUI di cambiare la scena
                         Platform.runLater(new Runnable() {
                             public void run() {
                                 String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
@@ -721,11 +701,9 @@ public class Main extends Application {
                             }
 
                         });
-                        //String risultato = statistiche.risultato.get(statistiche.risultato.size() - 1);
-                        //fraseFinale.setText(risultato);
                     }
                 };
-
+                //se i parametri inseriti rispettano i vincoli avvia la simulazione
                 if(bool){
                     window.setScene(sceneMid);
                     simula.start();
@@ -733,7 +711,7 @@ public class Main extends Application {
             }
 
         });
-
+        //alla pressione del bottone "vedi statistiche" vengono realizzati i grafici e mostrati nella scena finale
         btnFinale.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -748,18 +726,7 @@ public class Main extends Application {
                 yAxisSimulazione.setTickUnit(Double.parseDouble(getPopolazione().getText()) * 0.05);
 
                 for(int i = 0; i < statistiche.sintomatici.size(); i++){
-/*
-                    System.out.println("Giorno " + (i+1));
-                    System.out.println("Risorse rimaste: " + statistiche.risorseRimaste.get(i));
-                    System.out.println("Morti: " + statistiche.morti.get(i));
-                    System.out.println("Sintomatici: " + statistiche.sintomatici.get(i));
-                    System.out.println("AsintomaticiGov: " + statistiche.asintomaticiGoverno.get(i));
-                    System.out.println("GuaritiGov: " +  statistiche.guaritiGoverno.get(i));
-                    System.out.println("VerdiGov: " + statistiche.verdiGoverno.get(i));
-                    System.out.println(statistiche.risultato.get(i));
-                    System.out.println();
-                    System.out.println();
-*/
+
                     mortiGovernoSeries.add(new Coppia(i+1,statistiche.morti.get(i)));
                     sintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.sintomatici.get(i)));
                     asintomaticiGovernoSeries.add(new Coppia(i+1,statistiche.asintomaticiGoverno.get(i)));
@@ -802,7 +769,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args); // come termino launch()
+        launch(args);
     }
 
 }
