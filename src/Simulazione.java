@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 
 public class Simulazione {
+    //permette di aver un oggetto che rappresenta la simulazione dell'epidemia
+
     //il giorno della simulazione
     private Giorno giorno;
 
-    //la velocita delle persone (numero medio di incontri in un giorno)
+    //la velocita delle persone(numero medio di incontri in un giorno) che permette di gestire il passare dei giorni
     private double velocita_limite;
 
     //la lista di tutte le persone
@@ -21,8 +23,6 @@ public class Simulazione {
 
     //la percentuale di persone da incontrare rispettando il valore velocita_limite, calcolata sulle persone in movimento
     private double perc_mov;
-
-    //potrebbero essere solo variabili locali nel metodo run
 
     //il numero di persone verdi
     private int verdi;
@@ -42,11 +42,11 @@ public class Simulazione {
     //il numero di guariti
     private int blu;
 
-    //i nuovi asintomatici nella giornata, servono per le statistiche
-    private int nuovi_gialli;  //TEST OK
+    //i nuovi asintomatici nella giornata
+    private int nuovi_gialli;
 
-    //i nuovi guariti nella giornata, servono per le statistiche
-    private int nuovi_blu;  //TEST OK
+    //i nuovi guariti nella giornata
+    private int nuovi_blu;
 
     //variabile contenente un oggetto con le statistiche della simulazione
     private DatiStatistici statistiche;
@@ -73,15 +73,16 @@ public class Simulazione {
         arena = new Arena(par.getArenaH(), par.getArenaL(), par.getSpostamentoMax());
         arena.distribuisciPersone(persone);
         velocita_limite = par.getVelocita();
-        //R0 = velocita_limite * Virus.getD() * Virus.getI(); TODO:CANCELLA
         perc_mov = velocita_limite * 100 / getPopolazione();
 
     }
 
+    //fornisce le statistiche raccolte
     public DatiStatistici getDati(){
         return statistiche;
     }
 
+    //aggiorna i campi della variabile 'statistiche', ovvero aggiorna le statistiche
     public void aggiornaDati(){
 
         int asintomaticiGov = governo.getDatabase().getAsintomatici().size();
@@ -114,7 +115,8 @@ public class Simulazione {
         statistiche.risultato.add(risultato);
     }
 
-    //esegui la simulazione per 'giorni' giorni prima di fare return, a meno che non termina prima
+    //esegue la simulazione per 'giorni' giorni prima di fare return, a meno che non termina prima perche' si verifica
+    //una delle condizioni di terminazione della simulazione
     public boolean run(int giorni) {
         for (int i = 0; i < giorni ; i++) {
             verdi = 0;
@@ -130,39 +132,25 @@ public class Simulazione {
                 if (p.getMovimento())
                     in_movimento++;
             }
-            //System.out.println("Persone in movimento: " + in_movimento);  //TODO:CANCELLA
-            //System.out.println("Persone ferme: " + (getPopolazione() - in_movimento)); //TODO:CANCELLA
+
             setVelocita_limite(in_movimento * perc_mov / 100);
-            //R0 = velocita_limite * Virus.getD() * Virus.getI();
             int n_incontrate = 0;
-            //System.out.println("n_incontrate pre while " + n_incontrate);  //TODO:CANCELLA
-            //while (n_incontrate / (double) in_movimento < velocita_limite) {  //TODO:CANCELLA
+
             //nota: il valore n_incontrate / getPopolazione() denota la velocita effettiva delle persone
             while (n_incontrate / (double) (getPopolazione()-governo.getDatabase().getMorti().size()) < velocita_limite) {
                 arena.move(persone);
                 n_incontrate += arena.check_incontri();
-                /*
-                System.out.println("n_incontrate: " + (n_incontrate)); //TODO:CANCELLA
-                System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //TODO:CANCELLA
-                System.out.println("Vd_limite: " + velocita_limite);  //TODO:CANCELLA
-                */
             }
             R0 = (n_incontrate / (double) (getPopolazione() - governo.getDatabase().getMorti().size())) * Virus.getD() * Virus.getI();
-            //System.out.println("n_incontrate: " + n_incontrate); //TODO:CANCELLA
-            //System.out.println("Velocita effettiva(Vd): " + n_incontrate / (double)getPopolazione());  //TODO:CANCELLA
-            //System.out.println("V_limite: " + velocita_limite);  //TODO:CANCELLA
             for (Persona p: persone) {
                 boolean ret = p.checkVirus();
                 check_stato(p, ret);
             }
             governo.aggiornamento();
-            //System.out.println("nuovi_guaritiSim: " + nuovi_blu);  //TODO:CANCELLA
-            //System.out.println("nuovi_asintSimulazione: " + nuovi_gialli);  //TODO:CANCELLA
-            //System.out.println("nuovi_guaritiGov: " + governo.getNuovi_guariti());  //TODO:CANCELLA
-            //System.out.println("nuovi_asintGov: " + governo.getNuovi_asintomatici());  //TODO:CANCELLA
             aggiornaDati();
             governo.getStrategia().pulisci();
             governo.pulisci();
+            //controlla se si cerifica una delle condizioni di terminazione della simulazione
             if (risorse_finite() || vittoria_malattia() || (verdi_sani + blu + neri == getPopolazione()) )
                 return false;
             giorno.incrementa(1);
