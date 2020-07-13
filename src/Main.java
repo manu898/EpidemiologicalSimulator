@@ -19,11 +19,11 @@ public class Main extends Application {
 
     // parametri dello stage
 
-    public Stage window;
+    private Stage window;
 
     BackgroundImage bi = new BackgroundImage(new Image("coronavirus.jpg"),null,null,null,new BackgroundSize(1000, 800, false, false, false, false));
 
-    public Alert alert = new Alert(Alert.AlertType.ERROR);
+    private Alert alert = new Alert(Alert.AlertType.ERROR);
 
     // parametri per  gestione/creazione della simulazione
 
@@ -122,59 +122,59 @@ public class Main extends Application {
 
     // getter
 
-    public TextField getArenaH() {
+    private TextField getArenaH() {
         return arenaH;
     }
 
-    public TextField getArenaL() {
+    private TextField getArenaL() {
         return arenaL;
     }
 
-    public TextField getSpostamento() {
+    private TextField getSpostamento() {
         return spostamento;
     }
 
-    public TextField getPopolazione() {
+    private TextField getPopolazione() {
         return popolazione;
     }
 
-    public TextField getDurata() {
+    private TextField getDurata() {
         return durata;
     }
 
-    public TextField getInfettivita() {
+    private TextField getInfettivita() {
         return infettivita;
     }
 
-    public TextField getSintomaticita() {
+    private TextField getSintomaticita() {
         return sintomaticita;
     }
 
-    public TextField getLetalita() {
+    private TextField getLetalita() {
         return letalita;
     }
 
-    public TextField getRisorse() {
+    private TextField getRisorse() {
         return risorse;
     }
 
-    public TextField getTampone() {
+    private TextField getTampone() {
         return tampone;
     }
 
-    public TextField getVelocita() {
+    private TextField getVelocita() {
         return velocita;
     }
 
-    public TextField getFilecsvTf() {
+    private TextField getFilecsvTf() {
         return filecsvTf;
     }
 
-    public RadioButton getSelectedRadioButton() {
+    private RadioButton getSelectedRadioButton() {
         return selectedRadioButton;
     }
 
-    public static Strategia getStrategia() {
+    private static Strategia getStrategia() {
         return strategia;
     }
 
@@ -245,43 +245,43 @@ public class Main extends Application {
 
     // scena grafico - grafico Governo
 
-    NumberAxis xAxisGoverno = new NumberAxis();
+    private NumberAxis xAxisGoverno = new NumberAxis();
 
-    NumberAxis yAxisGoverno = new NumberAxis();
+    private NumberAxis yAxisGoverno = new NumberAxis();
 
-    LineChart lineChartGoverno = new LineChart(xAxisGoverno, yAxisGoverno);
+    private LineChart lineChartGoverno = new LineChart(xAxisGoverno, yAxisGoverno);
 
-    XYChart.Series mortiGoverno = new XYChart.Series();
+    private XYChart.Series mortiGoverno = new XYChart.Series();
 
-    XYChart.Series asintomaticiGoverno = new XYChart.Series();
+    private XYChart.Series asintomaticiGoverno = new XYChart.Series();
 
-    XYChart.Series sintomaticiGoverno = new XYChart.Series();
+    private XYChart.Series sintomaticiGoverno = new XYChart.Series();
 
-    XYChart.Series guaritiGoverno = new XYChart.Series();
+    private XYChart.Series guaritiGoverno = new XYChart.Series();
 
-    XYChart.Series verdiGoverno = new XYChart.Series();
+    private XYChart.Series verdiGoverno = new XYChart.Series();
 
 
     // scena grafico - grafico Simulazione
 
-    NumberAxis xAxisSimulazione = new NumberAxis();
+    private NumberAxis xAxisSimulazione = new NumberAxis();
 
-    NumberAxis yAxisSimulazione = new NumberAxis();
+    private NumberAxis yAxisSimulazione = new NumberAxis();
 
-    LineChart lineChartSimulazione = new LineChart(xAxisSimulazione, yAxisSimulazione);
+    private LineChart lineChartSimulazione = new LineChart(xAxisSimulazione, yAxisSimulazione);
 
-    XYChart.Series mortiSimulazione = new XYChart.Series();
+    private XYChart.Series mortiSimulazione = new XYChart.Series();
 
-    XYChart.Series asintomaticiSimulazione = new XYChart.Series();
+    private XYChart.Series asintomaticiSimulazione = new XYChart.Series();
 
-    XYChart.Series sintomaticiSimulazione = new XYChart.Series();
+    private XYChart.Series sintomaticiSimulazione = new XYChart.Series();
 
-    XYChart.Series guaritiSimulazione = new XYChart.Series();
+    private XYChart.Series guaritiSimulazione = new XYChart.Series();
 
-    XYChart.Series verdiSimulazione = new XYChart.Series();
+    private XYChart.Series verdiSimulazione = new XYChart.Series();
 
 
-    public  void setFontAndPadding(double fontsize, Labeled... labels){
+    private void setFontAndPadding(double fontsize, Labeled... labels){
         for(Labeled labeled : labels) {
             labeled.setFont(new Font(20.0));
             labeled.setPadding(new Insets(20.0));
@@ -289,25 +289,30 @@ public class Main extends Application {
         }
     }
 
-    public void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
+    private void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
         for(Coppia coppia : coppie){
             series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
         }
     }
 
-    public void setTFClass(TextField... fields){
+    private void setLabelClass(Labeled... labels){
+        for(Labeled label : labels)
+            label.getStyleClass().add("labels");
+    }
+
+    private void setTFClass(TextField... fields){
         for(TextField tf : fields)
             tf.getStyleClass().add("textFields");
     }
 
-    public void setHboxClass(HBox... elements){
+    private void setHboxClass(HBox... elements){
         for(HBox element : elements)
             element.getStyleClass().add("hbox");
     }
 
 
 
-    public boolean inviaDati() throws NumberFormatException{
+    private boolean inviaDati() throws NumberFormatException{
 
         alert.setTitle("ERRORE");
 
@@ -467,8 +472,7 @@ public class Main extends Application {
         filecsvTf.setId("file");
         setTFClass(arenaH,arenaL,spostamento,popolazione,risorse,velocita,durata,tampone,infettivita,sintomaticita,letalita,filecsvTf);
 
-
-        setFontAndPadding(20.0, arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
+        setLabelClass(arenaHLabel,arenaLLabel,spostamentoLabel,popolazioneLabel,
                 velocitaLabel,risorseLabel,durataLabel,tamponeLabel,infettivitaLabel,sintomaticitaLabel,letalitaLabel,filecsvLabel,strg1,strg2,strg3,strg4);
 
         risorse.setTooltip(tooltipRisorse);
@@ -488,8 +492,6 @@ public class Main extends Application {
         strategieBox.getChildren().addAll(strg1,strg2,strg3,strg4);
 
         setHboxClass(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,parametriVirus,fileBox,strategieBox);
-
-        //setPosAndMargin(arenaBox,popolazioneBox,risorseBox,velocitaBox,tamponeBox,durataBox,infettivitaBox,sintomaticitaBox,letalitaBox,strategieBox);
 
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(bi));
