@@ -1,0 +1,80 @@
+statistiche1.csv
+Giorni:  214
+risorse rimaste: 4374
+casi totali governo: 10
+casi totali simulazione: 18
+tamponi totali 103
+------------------------------------------------
+
+statistiche2.csv
+Giorni:  326
+risorse rimaste: 2044
+casi totali governo: 22
+casi totali simulazione: 67
+tamponi totali 103
+------------------------------------------------
+
+statistiche3.csv
+Giorni:  314
+risorse rimaste: 3664
+casi totali governo: 14
+casi totali simulazione: 67
+tamponi totali 103
+------------------------------------------------
+
+statistiche4.csv
+Giorni:  60
+risorse rimaste: 6709
+casi totali governo: 3
+casi totali simulazione: 3
+tamponi totali 103
+------------------------------------------------
+
+statistiche5.csv
+Giorni:  247
+risorse rimaste: -12
+casi totali governo: 24
+casi totali simulazione: 67
+tamponi totali 103
+------------------------------------------------
+
+statistiche6.csv
+Giorni:  260
+risorse rimaste: -18
+casi totali governo: 26
+casi totali simulazione: 55
+tamponi totali 103
+------------------------------------------------
+
+statistiche7.csv
+Giorni:  271
+risorse rimaste: 5773
+casi totali governo: 5
+casi totali simulazione: 15
+tamponi totali 103
+------------------------------------------------
+
+statistiche8.csv
+Giorni:  253
+risorse rimaste: -25
+casi totali governo: 29
+casi totali simulazione: 57
+tamponi totali 103
+------------------------------------------------
+
+statistiche9.csv
+Giorni:  316
+risorse rimaste: -12
+casi totali governo: 21
+casi totali simulazione: 64
+tamponi totali 103
+------------------------------------------------
+
+Dati complessivi
+Media durata: 107.66666666666667
+Media risorse rimaste: 1071.2857142857142
+Media casi governo: 7.333333333333333
+Media casi simulazione: 19.666666666666668
+Media tamponi effettuati: 44.142857142857146
+
+OK: 5 FR: 4
