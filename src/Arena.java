@@ -1,5 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
+
+
 public class Arena {
 
 	//altezza della matrice
@@ -17,13 +19,12 @@ public class Arena {
 	//massimo spostamento di una persona nella matrice
 	private int spostamentoMax;
 
+	//costruttore
 	public Arena (int altezza, int larghezza, int spostamentoMax){
-		//r.setSeed(); //TODO:CANCELLA
-		setSpostamentoMax(spostamentoMax);
+		this.spostamentoMax = spostamentoMax;
 		this.altezza = altezza;
 		this.larghezza = larghezza;
-		matrice = new Cella[altezza][larghezza];  // creo la matrice
-		
+		matrice = new Cella[altezza][larghezza];  // viene creata la matrice
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
 				matrice[i][j] = new Cella();
@@ -48,8 +49,8 @@ public class Arena {
 
 	}
 
-	//fai spostare le persone all'interno dell'arena
-	public void move(ArrayList<Persona> persone) {  //TEST sembra OK, si puo' snellire il codice
+	//fa spostare le persone all'interno dell'arena
+	public void move(ArrayList<Persona> persone) {
 
 		for(Persona persona : persone ){
 			if(persona.getMovimento()){
@@ -64,10 +65,8 @@ public class Arena {
 
 				int y = persona.getPosizione().getY();
 				int x = persona.getPosizione().getX();
-				//System.out.println("Persona " + persona.getID() + " e' in " + persona.getPosizione().getY() + "," + persona.getPosizione().getX());
 
 				matrice[y][x].remove(persona);
-				//System.out.println("rimuovo la persona dalla cella");
 
 				//calcoliamo la nuova y
 				if(y >= spostamentoMax){
@@ -107,7 +106,6 @@ public class Arena {
 					newX = r.nextInt(high - low + 1) + low + x;
 				}
 				matrice[newY][newX].add(persona);
-				//System.out.println("Aggiungo la persona " + persona.getID() + "alla cella " + newY + "," + newX);
 				persona.setPosizione(newY,newX);
 
 			}
@@ -116,29 +114,25 @@ public class Arena {
 
 
 	//verifica gli incontri che ci sono in ogni cella dell'arena
-	public int check_incontri(){  //TEST OK
+	public int check_incontri(){
+		//il numero totale di persone incontrate (nota: se due persone si incontrano allora le persone
+		//incontrate in totale aumentano di 2)
 		int n_incontrate = 0;
-		//System.out.println("Incontrate in arena all'inizio: " + n_incontrate);
 
 		boolean res;
 		for (int i = 0; i < altezza; i++) {
 			for (int j = 0; j < larghezza; j++) {
 				Cella c = matrice[i][j];
 				if (c.size() > 1) {
-					//System.out.println(c.size());
-					//System.out.println("SONO NELLA CELLA " + i + "," + j);
+					//ogni persona può incontrare le persone che vengono dopo di lei nella cella (ovvero in posizioni
+					//superiori all'interno della lista delle persone nella cella)
 					for (int k = 0; k < c.size(); k++) {
 						for (int z = k+1; z < c.size();z++) {
-							//System.out.println("SONO NELLA CELLA " + i + "," + j);
 							Persona p1 = c.pos_get(k);
 							Persona p2 = c.pos_get(z);
-							//System.out.println("Incontro sta per esserci tra: " + p1.getID() + " e " + p2.getID());
-
 							if (p1.getMovimento() == true || p2.getMovimento() == true) {
 								res = incontra(p1, p2); // prendo le due persone scelte dalla fila e le faccio incontrare
 								if (res) {
-									//System.out.println("n_incontrate durante gli incontri: " + n_incontrate);
-									//System.out.println("Incontro tra: " + p1.getID() + " e " + p2.getID());
 									n_incontrate = n_incontrate + 2;
 								}
 							}
@@ -147,11 +141,11 @@ public class Arena {
 				}
 			}
 		}
-		//System.out.println("Incontrate in arena: " + n_incontrate);
 		return n_incontrate;
 	}
 
-	// fa incontrare due persone
+	//fa incontrare due persone se nessuna delle due e' nera, fa avvenire un contatto con potenziale contagio nel caso
+	//in cui una delle due e' gialla o rossa e l'altra verde
 	public boolean incontra(Persona p1, Persona p2) {
 		StatoSalute s1 = p1.getStato();
 		StatoSalute s2 = p2.getStato();
@@ -167,42 +161,6 @@ public class Arena {
 		p1.addPersona_incontrata(p2);
 		p2.addPersona_incontrata(p1);
 		return true;
-	}
-
-
-	// getter
-
-	public Cella[][] getMatrice() {
-		return matrice;
-	}
-
-	public int getAltezza() {
-		return altezza;
-	}
-
-	public int getLarghezza() {
-		return larghezza;
-	}
-
-	public int getSpostamentoMax() { return spostamentoMax; }
-
-	// setter
-
-	public void setAltezza(int altezza) {
-		this.altezza = altezza;
-	}
-
-	public void setLarghezza(int larghezza) {
-		this.larghezza = larghezza;
-	}
-
-	public void setMatrice(Cella[][] matrice) {
-		this.matrice = matrice;
-	}
-
-	public void setSpostamentoMax(int spostamentoMax) {
-		if ( spostamentoMax < 1) throw new IllegalArgumentException("Lo spostamento deve essere almeno di 1");
-		this.spostamentoMax = spostamentoMax;
 	}
 
 }
