@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
-public class DatiStatistici {  // TEST
+public class DatiStatistici {
+    //classe che serve per immagazzinare i dati generati dalla simulazione
 
     public ArrayList<Integer> morti;
     public ArrayList<Integer> sintomatici;
@@ -25,6 +26,7 @@ public class DatiStatistici {  // TEST
 
     public String dati = "Giorno, risorseRimaste, nonMalatiGov, asintomaticiGov, guaritiGov, nonMalatiSim, asintomaticiSim, guaritiSim, nuovi_asintGov, nuovi_guaritiGov, nuovi_asintSim, nuovi_guaritiSim, sintomatici, morti, nuovi_sint, nuovi_morti, tamponi";
 
+    //costruttore
     public DatiStatistici(){
         this.risorseRimaste = new ArrayList<>();
         this.risultato = new ArrayList<>();

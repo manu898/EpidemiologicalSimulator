@@ -1,4 +1,7 @@
 public class ParametriSimulazione {
+    //si può creare un oggetto in cui inserire tutti i parametri della simulazione, da passare come argomento
+    //al costruttore di un oggetto di tipo Simulazione
+
     private int popolazione;
     private double velocita;
     private int infettivita;
