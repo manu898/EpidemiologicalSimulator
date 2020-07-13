@@ -2,17 +2,18 @@ import java.util.Hashtable;  //questa e non HashMap poiche' non puo' contenere v
 import java.util.ArrayList;
 
 public class Persona {
+    //permette di avere un oggetto che rappresenta una Persona
 
-    //ID della persona, non può essere negativo
+    //ID della persona
     private int ID;
 
-    //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
+    //posizione della persona nell'arena
     private Coppia posizione;
 
     //variabile che ci dice se una persona e' in movimento o e' ferma
     private boolean inMovimento;
 
-    //stato della persona
+    //stato di salute della persona
     private StatoSalute stato = StatoSalute.VERDE;
 
     //il virus presente nella persona
@@ -35,7 +36,6 @@ public class Persona {
 
 
     public Persona(int ID, Governo gov, Giorno giorno){
-        //ID della persona, non può essere negativo
         this.ID = ID;
         this.gov = gov;
         this.giorno = giorno;
@@ -46,17 +46,14 @@ public class Persona {
 
     //comunica al governo che si sono sviluppati i sintomi
     public void comunicaSintomaticita() { gov.add_sintomatico(this);
-        //System.out.println("Sono " + getID() + " e comunico la sintomaticita'"); TODO:CANCELLA
     }
 
     //comunica al governo che si e' guariti
     public void comunicaGuarigione() { gov.add_guarito(this);
-        //System.out.println("Sono " + getID() + " e comunico la guarigione"); TODO:CANCELLA
     }
 
     //comunica al governo la propria morte
     public void comunicaMorte() { gov.add_morto(this);
-        //System.out.println("Sono " + getID() + " e comunico la morte"); TODO:CANCELLA
     }
 
     //effettua un contatto con un'altra persona e dunque un eventuale trasmissione del virus a this
@@ -68,7 +65,7 @@ public class Persona {
         }
     }
 
-    //controlla lo stato del virus e dunque se lo stato della persona deve cambiare
+    //controlla lo stato del virus e dunque se lo stato di salute della persona deve cambiare
     public boolean checkVirus() {
         boolean change_stato = false;  //true se lo stato della persona e' cambiato
         if (mustcheckvirus) {
@@ -78,7 +75,6 @@ public class Persona {
                     {
                         stato = StatoSalute.GIALLO;
                         change_stato = true;
-                        //System.out.println("Sono " + getID() + " e divento gialla"); TODO:CANCELLA
                         vir.calcola_giornoDadoS();
                     }
                     else
@@ -89,7 +85,6 @@ public class Persona {
                         if (vir.dadoS()) {
                             stato = StatoSalute.ROSSO;
                             change_stato = true;
-                            //System.out.println("Sono " + getID() + " e divento rossa"); TODO:CANCELLA
                             vir.calcola_giornoDadoM();
                             comunicaSintomaticita();
                         }
@@ -100,13 +95,14 @@ public class Persona {
                     else
                         break;
                     //va in case ROSSO se e' ROSSO, se e' appena diventato ROSSO o se lanciando il dadoS non e' diventato ROSSO
+                    //(nel qual caso il controllo vir.isGiornoDadoM() tornera' false, poiche' giornoDadoM del virus non e'
+                    //stato settato e quindi avra' valore di default 0 (che non puo' mai essere un giorno della simulazione, partendo questi da 1)
                 case ROSSO:
                     if (vir.isGiornoDadoM()) {
                         if (vir.dadoM()) {
                             //una persona morta diventa nera, non scompare
                             stato = StatoSalute.NERO;
                             change_stato = true;
-                            //System.out.println("Sono " + getID() + " e divento nera"); TODO:CANCELLA
                             comunicaMorte();
                         }
                         else {
@@ -122,8 +118,6 @@ public class Persona {
                     stato = StatoSalute.BLU;
                     comunicaGuarigione();
                 }
-                //System.out.println("Sono " + getID() + " e divento blu"); TODO:CANCELLA
-
                 stato = StatoSalute.BLU;
                 change_stato = true;
             }
@@ -159,19 +153,13 @@ public class Persona {
 
     public Virus getVir() { return vir; }
 
-    public boolean getMustcheckvirus() { return mustcheckvirus; }
-
     public Governo getGoverno() { return gov; }
 
     public Hashtable<Integer, ArrayList<Persona>> getPersone_incontrate() { return persone_incontrate; }
 
     public Giorno getGiorno() { return giorno; }
 
-    public int getGiornoComunicaGuarigione() { return giornoComunicaGuarigione; }
-
     //setter
-    //ID della persona, non può essere negativo
-    public void setID(int id) { this.ID = id; }
 
     //posizione della persona nell'arena, non può avere valori al di fuori dell'arena
     public void setPosizione(int y, int x) {
@@ -192,10 +180,6 @@ public class Persona {
     public void setMustcheckvirus(boolean b) { mustcheckvirus = b; }
 
     public void setGoverno(Governo gov) { this.gov = gov; }
-
-    public void setPersone_incontrate(Hashtable<Integer, ArrayList<Persona>> persone_incontrate) {
-        this.persone_incontrate = persone_incontrate;
-    }
 
     public void setGiorno(Giorno giorno) { this.giorno = giorno; }
 
