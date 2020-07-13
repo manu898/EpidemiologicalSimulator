@@ -33,7 +33,7 @@ public class Main extends Application {
 
     private static Strategia strategia = null;
 
-    private DatiStatistici statistiche = new DatiStatistici();
+    private DatiStatistici statistiche;
 
     //public? private?
     private boolean return_from_simulazione = true;
@@ -281,6 +281,7 @@ public class Main extends Application {
     private XYChart.Series verdiSimulazione = new XYChart.Series();
 
 
+    /*
     private void setFontAndPadding(double fontsize, Labeled... labels){
         for(Labeled labeled : labels) {
             labeled.setFont(new Font(20.0));
@@ -288,12 +289,7 @@ public class Main extends Application {
             labeled.setTextFill(Color.WHITE);
         }
     }
-
-    private void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
-        for(Coppia coppia : coppie){
-            series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
-        }
-    }
+     */
 
     private void setLabelClass(Labeled... labels){
         for(Labeled label : labels)
@@ -308,6 +304,12 @@ public class Main extends Application {
     private void setHboxClass(HBox... elements){
         for(HBox element : elements)
             element.getStyleClass().add("hbox");
+    }
+
+    private void addSeries(XYChart.Series series, ArrayList<Coppia> coppie){
+        for(Coppia coppia : coppie){
+            series.getData().add(new XYChart.Data(coppia.getY(),coppia.getX()));
+        }
     }
 
 
