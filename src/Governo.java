@@ -116,15 +116,15 @@ public class Governo {
         risorse = risorse + (numeroSintomatici  * ( -3 * costo_tampone ) + ( -1 * numeroFermi) + database.getMorti().size());
 
         for(Persona persona : nuovi_sintomatici){
-            database.remove_asintomatico(persona);   //la persona potrebbe non essere tra gli asintomatici
+            database.remove_asintomatico(persona);   //la persona non si trova tra gli asintomatici se non e' stata rilevata dal governo
         }
         for(Persona persona : nuovi_guariti){
-            database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici
-            database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici
+            database.remove_asintomatico(persona);  //la persona non si trova tra gli asintomatici se non e' stata rilevata dal governo, si ci trova se e' stata rilevata ed e' guarita lo stesso giorno in cui ha sviluppato i sintomi
+            database.remove_sintomatico(persona);   //la persona non e' tra i sintomatici nel caso in cui si trova tra gli asintomatici
         }
         for(Persona persona : nuovi_morti){
-            database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici (c'è se aveva fatto il tampone e in uno stesso giorno e' diventata sintomatica ed è morta
-            database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici (se si trova negli asintomatici o se e' diventata sintomatica ed e' morta lo stesso giorno)
+            database.remove_asintomatico(persona);  //la persona potrebbe non essere tra gli asintomatici (c'è se aveva fatto il tampone e in uno stesso giorno e' diventata sintomatica ed è morta)
+            database.remove_sintomatico(persona);   //la persona potrebbe non essere tra i sintomatici (se si trova negli asintomatici e quindi se e' diventata sintomatica ed e' morta lo stesso giorno)
         }
 
         database.add_sintomatici(nuovi_sintomatici);

@@ -68,6 +68,8 @@ public class Persona {
     //controlla lo stato del virus e dunque se lo stato di salute della persona deve cambiare
     public boolean checkVirus() {
         boolean change_stato = false;  //true se lo stato della persona e' cambiato
+        //mustcheckvirus diventa false nel momento in cui bisogna controllare solo se la persona deve guarire, quindi
+        //se da gialla non diventa rossa o se da rossa non diventa nera
         if (mustcheckvirus) {
             switch (stato) {
                 case VERDE:
