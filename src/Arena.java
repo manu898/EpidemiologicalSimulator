@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 
 public class Arena {
+	//permette di creare un oggetto che rappresenta l'arena, ovvero lo spazio in cui smuovono le persone
 
 	//altezza della matrice
 	private int altezza;

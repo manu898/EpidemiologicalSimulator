@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Cella {
+	//permette di creare un oggetto che rappresenta una cella, ovvero uno spazio in cui possono stazionare più persone
 
 	//la lista effettiva delle persone in una cella
 	private ArrayList<Persona> fila = new ArrayList<Persona>();
